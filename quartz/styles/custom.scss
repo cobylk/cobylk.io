@@ -1,3 +1,180 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+// Add CSS variables for colors with RGB values for the glowing effect
+:root {
+  --secondary-rgb: 40, 75, 99; /* #284b63 */
+  --tertiary-rgb: 132, 165, 157; /* #84a59d */
+}
+
+// Explorer list with connected dots and cursor highlight effect
+.explorer-content {
+  // Base styling
+  position: relative;
+  overflow: hidden;
+  
+  // Custom light effect for hover
+  &::before {
+    content: "";
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+      rgba(var(--tertiary-rgb), 0.15) 0%, 
+      rgba(var(--tertiary-rgb), 0.05) 50%, 
+      transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease; // Slower fade in/out
+    z-index: 0;
+    transform: translate(-50%, -50%);
+  }
+  
+  // Hover effect for the main container
+  &:hover::before {
+    opacity: 1;
+  }
+  
+  // Each list in the explorer
+  ul {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    // Create the line connections
+    li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.05rem; // Reduced gap between items
+      
+      // The vertical connecting line
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0.425rem; // Adjusted to center with larger dot
+        top: 0;
+        height: calc(100% + 0.05rem); // Extend line to connect with next item
+        width: 1.5px; // Thicker line
+        background-color: var(--lightgray);
+        z-index: 1;
+      }
+      
+      // The dot
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0.25rem;
+        top: 0.6rem;
+        height: 0.45rem; // Bigger dot (1.5x)
+        width: 0.45rem; // Bigger dot (1.5x)
+        border-radius: 50%;
+        background-color: var(--gray);
+        z-index: 2;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        cursor: pointer; // Show pointer cursor on dots
+      }
+      
+      // Remove the vertical line for the last item
+      &:last-child::before {
+        height: 0.65rem; // Just enough to reach the dot center
+      }
+      
+      // Fix: Prevent extra dot below the last item by ensuring
+      // no generated content for pseudo-elements on .folder-outer:empty
+      .folder-outer:empty::before,
+      .folder-outer:empty::after {
+        display: none;
+      }
+      
+      // Hover effect for the dots and links
+      &:hover::after {
+        background-color: var(--tertiary);
+        transform: scale(1.5);
+      }
+      
+      // When hovering over a list item, move the glow effect to that location
+      &:hover {
+        ~ .explorer-content::before {
+          opacity: 1;
+        }
+      }
+      
+      // Make the cursor effect follow each item when hovered
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}):hover ~ .explorer-content::before {
+          left: 1rem;
+          top: calc(#{$i} * 1.5rem - 0.5rem);
+        }
+      }
+    }
+  }
+  
+  // Special styling for folder items
+  .folder-outer > ul {
+    border-left: none !important; // Remove default border
+    padding-left: 0.5rem; // Adjust padding
+  }
+  
+  // Folder button styling
+  .folder-container {
+    margin-left: 0.3rem;
+  }
+  
+  // Make file links more interactive
+  ul li > a {
+    position: relative;
+    z-index: 3;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: var(--tertiary) !important;
+    }
+  }
+}
+
+// Alternative approach with event listeners via custom properties
+// This will be added to the page's CSS and doesn't require JavaScript
+html {
+  --mouse-x: 0;
+  --mouse-y: 0;
+}
+
+// Add a custom interactive cursor highlight using a wrapper div
+.sidebar.left {
+  position: relative;
+  
+  &:hover .explorer::after {
+    content: "";
+    position: fixed;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+      rgba(var(--tertiary-rgb), 0.1) 0%, 
+      rgba(var(--tertiary-rgb), 0.05) 50%, 
+      transparent 70%);
+    pointer-events: none;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    left: var(--mouse-x, 0);
+    top: var(--mouse-y, 0);
+    transition: 
+      left 0.05s ease, 
+      top 0.05s ease,
+      opacity 0.5s ease; // Add fade transition
+    opacity: 0; // Start transparent
+  }
+  
+  // Add fade-in effect when hovering on the sidebar
+  &:hover .explorer::after {
+    opacity: 1; // Fade in when hovering
+  }
+}
+
+// Make dots clickable by adding wrapper over the dots
+.explorer-content ul li::after {
+  pointer-events: auto; // Make the dot clickable
+}

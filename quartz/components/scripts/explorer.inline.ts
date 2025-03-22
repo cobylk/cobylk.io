@@ -279,3 +279,42 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 function setFolderState(folderElement: HTMLElement, collapsed: boolean) {
   return collapsed ? folderElement.classList.remove("open") : folderElement.classList.add("open")
 }
+
+// Add cursor tracking for the explorer highlight effect
+document.addEventListener("nav", () => {
+  const sidebar = document.querySelector(".sidebar.left")
+  
+  if (sidebar) {
+    sidebar.addEventListener("mousemove", (e) => {
+      const mouseEvent = e as MouseEvent
+      const x = mouseEvent.clientX
+      const y = mouseEvent.clientY
+      
+      document.documentElement.style.setProperty("--mouse-x", `${x}px`)
+      document.documentElement.style.setProperty("--mouse-y", `${y}px`)
+    })
+    
+    // Make dots clickable - add click handler for the dots
+    setTimeout(() => {
+      const items = document.querySelectorAll(".explorer-content ul li")
+      items.forEach(item => {
+        // Get the link from this list item
+        const link = item.querySelector("a")
+        if (link) {
+          const href = link.getAttribute("href")
+          
+          // Add click handler to the pseudo-element (the dot)
+          item.addEventListener("click", (e) => {
+            const target = e.target as HTMLElement
+            
+            // If we're clicking the actual li element (near the dot) and not a child element
+            if (target === item) {
+              // Navigate to the link
+              window.location.href = href || "#"
+            }
+          })
+        }
+      })
+    }, 500) // Add a slight delay to ensure DOM is ready
+  }
+})
