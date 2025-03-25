@@ -35,11 +35,16 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      filterFn: (node) => {
+        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
+        return node.slugSegment !== "tags"
+      }
+    }),
   ],
   right: [
-    // Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
+    Component.Graph(),
     Component.Backlinks(),
   ],
 }
@@ -47,9 +52,9 @@ export const defaultContentPageLayout: PageLayout = {
 // Custom layout for the index page - no title or meta
 export const indexContentPageLayout: PageLayout = {
   beforeBody: [
-    // Component.Breadcrumbs(),
+    Component.Breadcrumbs(),
     // Removed ArticleTitle and ContentMeta
-    // Component.TagList(),
+    Component.TagList(),
   ],
   left: [
     Component.PageTitle(),
@@ -63,11 +68,17 @@ export const indexContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      filterFn: (node) => {
+        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
+        return node.slugSegment !== "tags" && 
+               (node.isFolder || !node.slug.includes("tooltips"))
+      }
+    }),
   ],
   right: [
-    // Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
+    Component.Graph(),
     Component.Backlinks(),
   ],
 }
@@ -87,7 +98,13 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      filterFn: (node) => {
+        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
+        return node.slugSegment !== "tags" && 
+               (node.isFolder || !node.slug.includes("tooltips"))
+      }
+    }),
   ],
   right: [],
 }

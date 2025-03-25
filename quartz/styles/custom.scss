@@ -42,6 +42,34 @@ body[data-slug="index"] {
   }
 }
 
+// Responsive image container for side-by-side images
+.image-container {
+  margin: 2rem 0;
+  
+  img {
+    object-fit: contain;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  // Adjust layout for smaller screens
+  @media (max-width: 768px) {
+    flex-direction: column;
+    
+    img {
+      max-width: 100% !important;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
 // Explorer list with connected dots and cursor highlight effect
 .explorer-content {
   // Base styling
