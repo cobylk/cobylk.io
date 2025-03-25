@@ -8,8 +8,9 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      GitHub: "https://github.com/cobylk",
+      LinkedIn: "https://www.linkedin.com/in/cobylk/",
+      Email: "mailto:cobylkassner@gmail.com",
     },
   }),
 }
@@ -37,7 +38,35 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Explorer(),
   ],
   right: [
-    Component.Graph(),
+    // Component.Graph(),
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.Backlinks(),
+  ],
+}
+
+// Custom layout for the index page - no title or meta
+export const indexContentPageLayout: PageLayout = {
+  beforeBody: [
+    // Component.Breadcrumbs(),
+    // Removed ArticleTitle and ContentMeta
+    // Component.TagList(),
+  ],
+  left: [
+    Component.PageTitle(),
+    Component.MobileOnly(Component.Spacer()),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Search(),
+          grow: true,
+        },
+        { Component: Component.Darkmode() },
+      ],
+    }),
+    Component.Explorer(),
+  ],
+  right: [
+    // Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],

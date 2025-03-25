@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Quartz 4",
+    pageTitle: "cobylk.io",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -23,7 +23,7 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Ubuntu",
+        header: "EB Garamond",
         body: "Alegreya",
         code: "IBM Plex Mono",
       },

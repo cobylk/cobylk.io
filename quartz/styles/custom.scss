@@ -4,32 +4,68 @@
 
 // Add CSS variables for colors with RGB values for the glowing effect
 :root {
-  --secondary-rgb: 40, 75, 99; /* #284b63 */
-  --tertiary-rgb: 132, 165, 157; /* #84a59d */
+  // Updated colors with purple scheme
+  --purple-primary: #6a4c93; // Deep purple
+  --purple-secondary: #8675a9; // Medium purple
+  --purple-tertiary: #c3b1e1; // Light purple
+  --purple-highlight: #42275a; // Dark purple
+  
+  // RGB versions for gradient effects
+  --purple-primary-rgb: 106, 76, 147;
+  --purple-secondary-rgb: 134, 117, 169;
+  --purple-tertiary-rgb: 195, 177, 225;
+  
+  // Override the Quartz theme colors with our purple scheme
+  --secondary: var(--purple-primary) !important;
+  --tertiary: var(--purple-secondary) !important;
+  --highlight: rgba(var(--purple-tertiary-rgb), 0.15) !important;
+  
+  // Original colors kept for reference
+  --secondary-rgb: var(--purple-primary-rgb); /* #6a4c93 replaced #284b63 */
+  --tertiary-rgb: var(--purple-secondary-rgb); /* #8675a9 replaced #84a59d */
+}
+
+// Hide specific elements based on CSS classes
+.hide-title .article-title {
+  display: none !important;
+}
+
+.hide-meta .content-meta {
+  display: none !important;
+}
+
+// Hide title and metadata on the index page
+body[data-slug="index"] {
+  .article-title, 
+  .content-meta {
+    display: none !important;
+  }
 }
 
 // Explorer list with connected dots and cursor highlight effect
 .explorer-content {
   // Base styling
   position: relative;
-  overflow: hidden;
+  overflow: visible !important; // Change from hidden to prevent scrollbar
   
   // Custom light effect for hover
   &::before {
     content: "";
     position: absolute;
-    width: 5rem;
-    height: 5rem;
+    width: 12rem; // Much larger
+    height: 12rem; // Much larger
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(var(--tertiary-rgb), 0.15) 0%, 
-      rgba(var(--tertiary-rgb), 0.05) 50%, 
-      transparent 70%);
+      rgba(var(--purple-tertiary-rgb), 0.1) 0%, // Less opaque
+      rgba(var(--purple-tertiary-rgb), 0.06) 40%, // Less opaque
+      rgba(var(--purple-tertiary-rgb), 0.03) 60%, // Added middle layer
+      transparent 80%); // Wider fade
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.5s ease; // Slower fade in/out
+    transition: opacity 0.8s ease; // Slower fade transition
     z-index: 0;
     transform: translate(-50%, -50%);
+    filter: blur(8px); // Add blur for softer edges
   }
   
   // Hover effect for the main container
@@ -58,7 +94,7 @@
         top: 0;
         height: calc(100% + 0.05rem); // Extend line to connect with next item
         width: 1.5px; // Thicker line
-        background-color: var(--lightgray);
+        background-color: rgba(var(--purple-primary-rgb), 0.3);
         z-index: 1;
       }
       
@@ -71,7 +107,7 @@
         height: 0.45rem; // Bigger dot (1.5x)
         width: 0.45rem; // Bigger dot (1.5x)
         border-radius: 50%;
-        background-color: var(--gray);
+        background-color: var(--purple-primary);
         z-index: 2;
         transition: background-color 0.2s ease, transform 0.2s ease;
         cursor: pointer; // Show pointer cursor on dots
@@ -91,7 +127,7 @@
       
       // Hover effect for the dots and links
       &:hover::after {
-        background-color: var(--tertiary);
+        background-color: var(--purple-secondary);
         transform: scale(1.5);
       }
       
@@ -120,7 +156,27 @@
   
   // Folder button styling
   .folder-container {
-    margin-left: 0.3rem;
+    margin-left: 0 !important; // Override the default margin
+    padding-left: 0 !important;
+  }
+  
+  // Adjust the button inside folder containers to align with file links
+  .folder-container div {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  // Make folder buttons align perfectly with file links
+  .folder-container div button.folder-button {
+    padding-left: 0;
+    margin-left: 0;
+  }
+  
+  // Give file links and folder titles the same indentation
+  .explorer-content ul li > a,
+  .explorer-content .folder-container div button span.folder-title {
+    margin-left: 0;
+    padding-left: 0;
   }
   
   // Make file links more interactive
@@ -128,11 +184,62 @@
     position: relative;
     z-index: 3;
     transition: color 0.2s ease;
+    color: var(--dark) !important;
     
     &:hover {
-      color: var(--tertiary) !important;
+      color: var(--purple-secondary) !important;
+    }
+    
+    &.active {
+      color: var(--purple-primary) !important;
+      font-weight: 600;
     }
   }
+  
+  // Fix: Target all the potential causes of extra dots
+  div:empty::before,
+  div:empty::after,
+  ul:empty::before,
+  ul:empty::after,
+  .folder-outer:empty::before,
+  .folder-outer:empty::after,
+  .content:empty::before,
+  .content:empty::after {
+    display: none !important;
+  }
+  
+  // Fix dots that appear in nested folder structures
+  li:not(:has(> a)):not(:has(.folder-container))::after {
+    display: none !important;
+  }
+  
+  // Fix connecting lines in nested structures
+  li:not(:has(> a)):not(:has(.folder-container))::before {
+    display: none !important;
+  }
+  
+  // Fix the line heights for the last items in nested lists
+  ul li:last-child {
+    &::before {
+      height: 0.65rem !important;
+    }
+  }
+}
+
+// Fix for persistent extra dots
+.explorer-content .folder-outer {
+  position: relative;
+  
+  // If this is an empty folder, don't show any pseudo-elements 
+  &:empty::before, &:empty::after {
+    display: none !important;
+  }
+}
+
+// Fix for the last item in any nested folder
+.explorer-content ul li:last-child .folder-outer::before {
+  height: auto !important;
+  bottom: 0.65rem;
 }
 
 // Alternative approach with event listeners via custom properties
@@ -149,13 +256,14 @@ html {
   &:hover .explorer::after {
     content: "";
     position: fixed;
-    width: 8rem;
-    height: 8rem;
+    width: 16rem; // Much larger size
+    height: 16rem; // Much larger size
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(var(--tertiary-rgb), 0.1) 0%, 
-      rgba(var(--tertiary-rgb), 0.05) 50%, 
-      transparent 70%);
+      rgba(var(--purple-tertiary-rgb), 0.12) 0%, // Less opaque
+      rgba(var(--purple-tertiary-rgb), 0.08) 30%, // Less opaque
+      rgba(var(--purple-tertiary-rgb), 0.05) 60%, // Added middle layer
+      transparent 85%); // Wider fade
     pointer-events: none;
     z-index: 10;
     transform: translate(-50%, -50%);
@@ -164,8 +272,9 @@ html {
     transition: 
       left 0.05s ease, 
       top 0.05s ease,
-      opacity 0.5s ease; // Add fade transition
+      opacity 0.8s ease; // Slower fade for smoother transition
     opacity: 0; // Start transparent
+    filter: blur(10px); // Add blur effect for softer edges
   }
   
   // Add fade-in effect when hovering on the sidebar
@@ -177,4 +286,20 @@ html {
 // Make dots clickable by adding wrapper over the dots
 .explorer-content ul li::after {
   pointer-events: auto; // Make the dot clickable
+}
+
+// Remove any scrollbars caused by our fixes
+.explorer-content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+  
+  // Remove scrollbar for WebKit browsers (Chrome, Safari)
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Hide the chevron/arrow in front of folder names
+.folder-container svg.folder-icon {
+  display: none !important;
 }
