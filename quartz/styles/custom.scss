@@ -331,3 +331,49 @@ html {
 .folder-container svg.folder-icon {
   display: none !important;
 }
+
+// Minimal CSS for Feather icons
+.social-icons {
+  display: flex;
+  gap: 0.8rem; // Reduced from 1rem
+  margin: 1rem 0;
+  
+  a {
+    color: var(--purple-primary);
+    transition: color 0.2s ease;
+    display: flex; // Ensure icon is centered within its container
+    align-items: center; // Center vertically
+    justify-content: center; // Center horizontally
+    
+    &:hover {
+      color: var(--purple-secondary);
+    }
+    
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      stroke-width: 2;
+    }
+  }
+}
+
+// Cursor-following tooltip styling
+.tooltip-text {
+  position: fixed;
+  background: var(--purple-primary);
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

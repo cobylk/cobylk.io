@@ -6,9 +6,76 @@ cssclasses:
 ---
 
 ### Hey there!
-My name is Coby, and I'm a student researcher with interest in mechanistic interpretability and a broader interest in most things related to technical AI safety and alignment. In my free time I love composing and performing classical music, hiking, and skiing.
+My name is Coby, and I'm a student researcher with interest in mechanistic interpretability and a broader interest in most things related to technical AI safety and alignment. In my free time, I love composing and performing classical music, hiking, and skiing.
 
 I'm starting my undergrad this fall at (((coming soon))). 
+
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+  function initializeIcons() {
+    feather.replace();
+    
+    // Tooltip cursor follow functionality
+    const tooltipElements = document.querySelectorAll('.tooltip');
+    const tooltips = new Map(); // Store tooltip elements by their parent
+    
+    tooltipElements.forEach(element => {
+      const tooltipText = element.getAttribute('data-tooltip');
+      if (!tooltipText) return;
+      
+      // Create tooltip element
+      const tooltipEl = document.createElement('div');
+      tooltipEl.className = 'tooltip-text';
+      tooltipEl.textContent = tooltipText;
+      document.body.appendChild(tooltipEl);
+      
+      // Store reference to tooltip element
+      tooltips.set(element, tooltipEl);
+      
+      // Show tooltip on hover and initial position
+      element.addEventListener('mouseenter', function(e) {
+        const tooltip = tooltips.get(this);
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+        tooltip.classList.add('visible');
+      });
+      
+      // Update tooltip position as cursor moves
+      element.addEventListener('mousemove', function(e) {
+        const tooltip = tooltips.get(this);
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+      });
+      
+      // Hide tooltip when not hovering
+      element.addEventListener('mouseleave', function() {
+        const tooltip = tooltips.get(this);
+        tooltip.classList.remove('visible');
+      });
+    });
+  }
+
+  // Initialize on first load
+  document.addEventListener('DOMContentLoaded', initializeIcons);
+  
+  // Re-initialize on page navigation
+  document.addEventListener('nav', initializeIcons);
+</script>
+
+<div class="social-icons">
+  <a href="https://cobylk.pages.dev/curriculum_vitae.pdf" target="_blank" class="tooltip" data-tooltip="Curriculum Vitae">
+    <i data-feather="file-text"></i>
+  </a>
+  <a href="https://github.com/cobylk" target="_blank" class="tooltip" data-tooltip="GitHub Profile">
+    <i data-feather="github"></i>
+  </a>
+  <a href="https://www.linkedin.com/in/cobylk" target="_blank" class="tooltip" data-tooltip="LinkedIn Profile">
+    <i data-feather="linkedin"></i>
+  </a>
+  <a href="mailto:cobylkassner@gmail.com" class="tooltip" data-tooltip="Email">
+    <i data-feather="mail"></i>
+  </a>
+</div>
 
 ### Construction zone!
 This website is very much in progress, and I plan to write much more and flesh things out in the somewhat near future. In the meantime, check out (what I have added so far) of my [research](Research), [music](Music), or personal [thoughts](Personal).
