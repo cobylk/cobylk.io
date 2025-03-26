@@ -52,7 +52,7 @@ function setupTooltips() {
         
         // Position tooltip under the element
         const rect = element.getBoundingClientRect();
-        tooltip.style.top = `${rect.bottom + window.scrollY}px`;
+        tooltip.style.top = `${rect.bottom + window.pageYOffset}px`;
         tooltip.style.left = `${rect.left + (rect.width / 2)}px`;
       });
     } else {
@@ -106,22 +106,22 @@ function positionTooltip(tooltip: HTMLElement, event: MouseEvent) {
   const vpHeight = window.innerHeight;
   
   // Calculate position
-  let left = event.pageX + margin;
-  let top = event.pageY + margin;
+  let left = event.clientX + margin;
+  let top = event.clientY + margin;
   
   // Check right edge
   if (left + tooltipWidth > vpWidth - margin) {
-    left = event.pageX - tooltipWidth - margin;
+    left = event.clientX - tooltipWidth - margin;
   }
   
   // Check bottom edge
-  if (top + tooltipHeight > window.scrollY + vpHeight - margin) {
-    top = event.pageY - tooltipHeight - margin;
+  if (top + tooltipHeight > vpHeight - margin) {
+    top = event.clientY - tooltipHeight - margin;
   }
   
   // Apply position
   tooltip.style.left = `${left}px`;
-  tooltip.style.top = `${top}px`;
+  tooltip.style.top = `${top + window.pageYOffset}px`;
 }
 
 document.addEventListener('nav', setupTooltips);
