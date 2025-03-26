@@ -63,7 +63,7 @@ I'm starting my undergrad this fall at (((coming soon))).
 </script>
 
 <div class="social-icons">
-  <a href="https://cobylk.pages.dev/curriculum_vitae.pdf" target="_blank" class="tooltip" data-tooltip="Curriculum Vitae">
+  <a href="https://cobylk.io/curriculum_vitae.pdf" target="_blank" class="tooltip" data-tooltip="Curriculum Vitae">
     <i data-feather="file-text"></i>
   </a>
   <a href="https://github.com/cobylk" target="_blank" class="tooltip" data-tooltip="GitHub Profile">
