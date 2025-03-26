@@ -91,3 +91,6 @@ Here is a panoramic view I captured from the top of [Quandary Peak](https://en.w
 
 This is the best animal. Because of their diet, bamboo lemurs are practically immune to cyanide.
 ![bamboo lemur](bamboo_lemur.png)
+
+I challenge you to reverse-engineer what happened here
+![mystery](frontflip.png)
