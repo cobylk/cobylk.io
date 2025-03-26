@@ -37,10 +37,12 @@ export const defaultContentPageLayout: PageLayout = {
     }),
     // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Graph(),
+    Component.DesktopOnly(Component.Graph()),
     Component.Backlinks(),
   ],
-  right: [],
+  right: [
+    Component.MobileOnly(Component.Graph()),
+  ],
 }
 
 // Custom layout for the index page - no title or meta
@@ -64,10 +66,12 @@ export const indexContentPageLayout: PageLayout = {
     }),
     // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Graph(),
+    Component.DesktopOnly(Component.Graph()),
     Component.Backlinks(),
   ],
-  right: [],
+  right: [
+    Component.MobileOnly(Component.Graph()),
+  ],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
