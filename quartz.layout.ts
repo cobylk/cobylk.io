@@ -68,13 +68,7 @@ export const indexContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      filterFn: (node) => {
-        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
-        return node.slugSegment !== "tags" && 
-               (node.isFolder || !node.slug.includes("tooltips"))
-      }
-    }),
+    Component.Explorer(),
   ],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
@@ -98,13 +92,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      filterFn: (node) => {
-        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
-        return node.slugSegment !== "tags" && 
-               (node.isFolder || !node.slug.includes("tooltips"))
-      }
-    }),
+    Component.Explorer(),
   ],
   right: [],
 }
