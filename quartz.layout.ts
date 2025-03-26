@@ -35,18 +35,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      filterFn: (node) => {
-        // Default filter (exclude tags) plus exclude any paths containing "tooltips"
-        return node.slugSegment !== "tags"
-      }
-    }),
-  ],
-  right: [
+    // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Graph(),
     Component.Backlinks(),
   ],
+  right: [],
 }
 
 // Custom layout for the index page - no title or meta
@@ -68,13 +62,12 @@ export const indexContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
-  ],
-  right: [
+    // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Graph(),
     Component.Backlinks(),
   ],
+  right: [],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
@@ -92,7 +85,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    // Component.Explorer(),
   ],
   right: [],
 }
