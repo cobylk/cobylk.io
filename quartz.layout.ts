@@ -41,6 +41,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Backlinks(),
   ],
   right: [
+    Component.Tooltip(),
     Component.MobileOnly(Component.Graph()),
   ],
 }
@@ -89,6 +90,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
+    Component.DesktopOnly(Component.Graph()),
     // Component.Explorer(),
   ],
   right: [],

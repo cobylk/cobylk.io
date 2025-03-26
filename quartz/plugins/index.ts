@@ -54,3 +54,11 @@ declare module "vfile" {
     relativePath: FilePath
   }
 }
+
+// Transformers
+export { GitHubFlavoredMarkdown } from "./transformers/gfm"
+export { ObsidianFlavoredMarkdown } from "./transformers/ofm"
+export { OxHugoFlavouredMarkdown } from "./transformers/oxhugofm"
+export { TooltipMarkdown } from "./transformers/tooltips"
+export { RoamFlavoredMarkdown } from "./transformers/roam"
+export { FrontMatter } from "./transformers/frontmatter"
