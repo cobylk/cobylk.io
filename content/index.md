@@ -59,16 +59,16 @@ cssclasses:
 </script>
 
 <div class="social-icons">
-  <a href="https://cobylk.io/curriculum_vitae.pdf" target="_blank" class="tooltip" data-tooltip="Curriculum Vitae">
+  <a href="https://cobylk.io/curriculum_vitae.pdf" target="_blank" class="tooltip" data-tooltip="Curriculum Vitae" data-cursor="pointer">
     <i data-feather="file-text"></i>
   </a>
-  <a href="https://github.com/cobylk" target="_blank" class="tooltip" data-tooltip="GitHub Profile">
+  <a href="https://github.com/cobylk" target="_blank" class="tooltip" data-tooltip="GitHub Profile" data-cursor="pointer">
     <i data-feather="github"></i>
   </a>
-  <a href="https://www.linkedin.com/in/cobylk" target="_blank" class="tooltip" data-tooltip="LinkedIn Profile">
+  <a href="https://www.linkedin.com/in/cobylk" target="_blank" class="tooltip" data-tooltip="LinkedIn Profile" data-cursor="pointer">
     <i data-feather="linkedin"></i>
   </a>
-  <a href="mailto:cobylkassner@gmail.com" class="tooltip" data-tooltip="Email">
+  <a href="mailto:cobylkassner@gmail.com" class="tooltip" data-tooltip="Email" data-cursor="pointer">
     <i data-feather="mail"></i>
   </a>
 </div>

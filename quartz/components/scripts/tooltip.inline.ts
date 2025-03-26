@@ -1,30 +1,28 @@
 function setupTooltips() {
+  // Remove any existing tooltips first
+  document.querySelectorAll('.tooltip-text').forEach(el => el.remove());
+  
   const tooltipElements = document.querySelectorAll('.tooltip');
-  const tooltips = new Map<Element, HTMLDivElement>(); // Store tooltip elements by their parent
+  const tooltips = new Map<Element, HTMLDivElement>();
   let tooltipCounter = 1;
+  let activeTooltip: Element | null = null;
   
   tooltipElements.forEach(element => {
     const tooltipText = element.getAttribute('data-tooltip');
     if (!tooltipText) return;
     
-    // Set the number as a data attribute (will be displayed via CSS)
     element.setAttribute('data-number', tooltipCounter.toString());
     tooltipCounter++;
     
-    // Create tooltip element
     const tooltipEl = document.createElement('div');
     tooltipEl.className = 'tooltip-text';
     tooltipEl.textContent = tooltipText;
     document.body.appendChild(tooltipEl);
-    
-    // Store reference to tooltip element
     tooltips.set(element, tooltipEl);
     
-    // Check if we're on mobile
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     
     if (isMobile) {
-      // Handle click events for mobile
       element.addEventListener('click', (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
@@ -32,36 +30,30 @@ function setupTooltips() {
         const tooltip = tooltips.get(element);
         if (!tooltip) return;
         
-        // Toggle active state
-        const isActive = element.classList.contains('active');
-        
-        // Hide all tooltips first
-        tooltipElements.forEach(el => {
-          el.classList.remove('active');
-          const tt = tooltips.get(el);
-          if (tt) tt.classList.remove('visible');
-        });
-        
-        if (!isActive) {
-          element.classList.add('active');
-          tooltip.classList.add('visible');
-          
-          // Position tooltip
-          const rect = element.getBoundingClientRect();
-          tooltip.style.left = rect.left + (rect.width / 2) + 'px';
-          tooltip.style.top = (rect.bottom + window.scrollY) + 'px';
+        // If this tooltip is already active, hide it
+        if (activeTooltip === element) {
+          element.classList.remove('active');
+          tooltip.classList.remove('visible');
+          activeTooltip = null;
+          return;
         }
-      });
-      
-      // Close tooltip when clicking outside
-      document.addEventListener('click', (e: Event) => {
-        if (!e.target || !(e.target as Element).closest('.tooltip')) {
-          tooltipElements.forEach(el => {
-            el.classList.remove('active');
-            const tt = tooltips.get(el);
-            if (tt) tt.classList.remove('visible');
-          });
+        
+        // Hide any active tooltip
+        if (activeTooltip) {
+          activeTooltip.classList.remove('active');
+          const activeTooltipEl = tooltips.get(activeTooltip);
+          if (activeTooltipEl) activeTooltipEl.classList.remove('visible');
         }
+        
+        // Show this tooltip
+        element.classList.add('active');
+        tooltip.classList.add('visible');
+        activeTooltip = element;
+        
+        // Position tooltip under the element
+        const rect = element.getBoundingClientRect();
+        tooltip.style.top = `${rect.bottom + window.scrollY}px`;
+        tooltip.style.left = `${rect.left + (rect.width / 2)}px`;
       });
     } else {
       // Desktop hover behavior
@@ -69,8 +61,7 @@ function setupTooltips() {
         const tooltip = tooltips.get(element);
         if (!tooltip) return;
         const mouseEvent = e as MouseEvent;
-        tooltip.style.left = (mouseEvent.clientX + 15) + 'px';
-        tooltip.style.top = (mouseEvent.clientY + 15) + 'px';
+        positionTooltip(tooltip, mouseEvent);
         tooltip.classList.add('visible');
       });
       
@@ -78,8 +69,7 @@ function setupTooltips() {
         const tooltip = tooltips.get(element);
         if (!tooltip) return;
         const mouseEvent = e as MouseEvent;
-        tooltip.style.left = (mouseEvent.clientX + 15) + 'px';
-        tooltip.style.top = (mouseEvent.clientY + 15) + 'px';
+        positionTooltip(tooltip, mouseEvent);
       });
       
       element.addEventListener('mouseleave', () => {
@@ -89,7 +79,50 @@ function setupTooltips() {
       });
     }
   });
+  
+  // Handle clicks outside tooltips on mobile
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    document.addEventListener('click', (e: Event) => {
+      if (!e.target || !(e.target as Element).closest('.tooltip')) {
+        if (activeTooltip) {
+          activeTooltip.classList.remove('active');
+          const tooltip = tooltips.get(activeTooltip);
+          if (tooltip) tooltip.classList.remove('visible');
+          activeTooltip = null;
+        }
+      }
+    });
+  }
 }
 
-// Run setup on initial load and after navigation
-document.addEventListener("nav", setupTooltips); 
+// Helper function to position tooltip relative to mouse
+function positionTooltip(tooltip: HTMLElement, event: MouseEvent) {
+  const margin = 10;
+  const tooltipWidth = tooltip.offsetWidth;
+  const tooltipHeight = tooltip.offsetHeight;
+  
+  // Get viewport dimensions
+  const vpWidth = window.innerWidth;
+  const vpHeight = window.innerHeight;
+  
+  // Calculate position
+  let left = event.pageX + margin;
+  let top = event.pageY + margin;
+  
+  // Check right edge
+  if (left + tooltipWidth > vpWidth - margin) {
+    left = event.pageX - tooltipWidth - margin;
+  }
+  
+  // Check bottom edge
+  if (top + tooltipHeight > window.scrollY + vpHeight - margin) {
+    top = event.pageY - tooltipHeight - margin;
+  }
+  
+  // Apply position
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
+document.addEventListener('nav', setupTooltips);
+window.addEventListener('load', setupTooltips); 
