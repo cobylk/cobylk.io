@@ -25,6 +25,54 @@
   --tertiary-rgb: var(--purple-secondary-rgb); /* #8675a9 replaced #84a59d */
 }
 
+// Page title hover effect
+.page-title a {
+  position: relative;
+  text-decoration: none;
+  border: 1px solid var(--purple-primary);
+  padding: 0.5rem 1.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, font-size 0.3s ease;
+  display: inline-block;
+  white-space: nowrap; // Prevent wrapping
+  
+  &:hover {
+    box-shadow: 1px 1px 25px 10px rgba(var(--purple-primary-rgb), 0.4);
+  }
+  
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(var(--purple-primary-rgb), 0.4),
+      transparent
+    );
+    transition: all 650ms;
+    z-index: 1;
+  }
+  
+  &:hover:before {
+    left: 100%;
+  }
+  
+  // Responsive scaling for smaller screens
+  @media (max-width: 768px) {
+    font-size: 0.85em;
+    padding: 0.4rem 1.2rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.75em;
+    padding: 0.3rem 1rem;
+  }
+}
+
 // Hide specific elements based on CSS classes
 .hide-title .article-title {
   display: none !important;

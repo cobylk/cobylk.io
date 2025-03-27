@@ -1,3 +1,26 @@
+/* Remove all color transitions to prevent cross-fade */
+/* Root theme transitions to enable fading between themes */
+:root {
+  /* No transitions for immediate theme change */
+  transition: none;
+  
+  /* Remove transitions from all elements */
+  & * {
+    transition: none;
+  }
+  
+  /* Specifically exempt animations we do want */
+  & .theme-transition-mask,
+  & .theme-transition-mask * {
+    transition: opacity 500ms ease-out;
+  }
+}
+
+/* Make sure SVG elements transition smoothly */
+svg * {
+  transition: fill 500ms ease, stroke 500ms ease;
+}
+
 .darkmode {
   cursor: pointer;
   padding: 0;
@@ -16,7 +39,81 @@
     height: 20px;
     top: calc(50% - 10px);
     fill: var(--darkgray);
-    transition: opacity 0.1s ease;
+    transition: opacity 0.1s ease; /* Keep only the opacity transition */
+  }
+}
+
+/* Theme transition mask for the radial sweep effect */
+.theme-transition-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+  background-color: transparent;
+  will-change: opacity;
+  
+  /* The actual mask */
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--mask-color);
+    /* Position centered on the origin point */
+    top: var(--click-y);
+    left: var(--click-x);
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    will-change: width, height, opacity;
+  }
+}
+
+/* Set the right background colors based on target theme */
+.theme-transition-mask.to-dark::after {
+  --mask-color: #161618; /* Dark theme background - hardcoded */
+}
+
+.theme-transition-mask.to-light::after {
+  --mask-color: #faf8f8; /* Light theme background - hardcoded */
+}
+
+/* Animation states */
+.theme-transition-mask.expanding::after {
+  animation: expand-mask 500ms cubic-bezier(0.9, 0.1, 0.1, 0.1) forwards;
+}
+
+/* Apply fade to the entire mask element */
+.theme-transition-mask.fading {
+  /* Keep the element visible, only fade the ::after */
+  &::after {
+    width: var(--final-size); /* Ensure the width/height are maintained during fade */
+    height: var(--final-size);
+    animation: fade-out 300ms ease-out forwards;
+  }
+}
+
+@keyframes expand-mask {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: var(--final-size);
+    height: var(--final-size);
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

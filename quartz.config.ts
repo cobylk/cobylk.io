@@ -23,6 +23,7 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
+        title: "Oranienbaum",
         header: "Playfair Display",
         body: "Alegreya",
         code: "IBM Plex Mono",
