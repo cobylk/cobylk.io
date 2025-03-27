@@ -10,45 +10,6 @@ cssclasses:
 <script>
   function initializeIcons() {
     feather.replace();
-    
-    // Tooltip cursor follow functionality
-    const tooltipElements = document.querySelectorAll('.tooltip');
-    const tooltips = new Map(); // Store tooltip elements by their parent
-    
-    tooltipElements.forEach(element => {
-      const tooltipText = element.getAttribute('data-tooltip');
-      if (!tooltipText) return;
-      
-      // Create tooltip element
-      const tooltipEl = document.createElement('div');
-      tooltipEl.className = 'tooltip-text';
-      tooltipEl.textContent = tooltipText;
-      document.body.appendChild(tooltipEl);
-      
-      // Store reference to tooltip element
-      tooltips.set(element, tooltipEl);
-      
-      // Show tooltip on hover and initial position
-      element.addEventListener('mouseenter', function(e) {
-        const tooltip = tooltips.get(this);
-        tooltip.style.left = (e.clientX + 15) + 'px';
-        tooltip.style.top = (e.clientY + 15) + 'px';
-        tooltip.classList.add('visible');
-      });
-      
-      // Update tooltip position as cursor moves
-      element.addEventListener('mousemove', function(e) {
-        const tooltip = tooltips.get(this);
-        tooltip.style.left = (e.clientX + 15) + 'px';
-        tooltip.style.top = (e.clientY + 15) + 'px';
-      });
-      
-      // Hide tooltip when not hovering
-      element.addEventListener('mouseleave', function() {
-        const tooltip = tooltips.get(this);
-        tooltip.classList.remove('visible');
-      });
-    });
   }
 
   // Initialize on first load
