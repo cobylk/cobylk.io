@@ -52,7 +52,7 @@ Check out my...
 ***
 ### News
 - *February 2025* — I was accepted to the [SPAR](https://sparai.org) program under Dr. Ronak Mehta to research models that are inherently interpretable.
-- *November 2024* — Our [[CAA Data Extraction]] project placed 7th in the [LLM Privacy Contest](https://llm-pc.github.io/) at NeurIPS
+- *November 2024* — Our [activation steering data extraction](Research/caa_data_extraction) project placed 7th in the [LLM Privacy Contest](https://llm-pc.github.io/) at NeurIPS
 - *May 2015* — I am very excited to announce that I have graduated 2nd grade.
 ### Random stuff
 In lieu of [actual content](tooltip:Which would take lots of time and effort to produce) (for the time being), I decided that the below would be better than more blankness. 
