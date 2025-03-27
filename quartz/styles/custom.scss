@@ -478,7 +478,7 @@ html {
     box-sizing: border-box;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transform: translateX(-50%);
-    left: 50% !important;
+    left: auto;
     margin-top: 0.5rem;
   }
 }
