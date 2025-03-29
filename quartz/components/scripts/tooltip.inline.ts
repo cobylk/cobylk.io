@@ -52,8 +52,33 @@ function setupTooltips() {
         
         // Position tooltip under the element
         const rect = element.getBoundingClientRect();
-        tooltip.style.top = `${rect.bottom + window.scrollY}px`;
-        tooltip.style.left = `${rect.left + (rect.width / 2)}px`;
+        const tooltipWidth = tooltip.offsetWidth;
+        const tooltipHeight = tooltip.offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const margin = 10; // Safety margin from screen edges
+
+        // Calculate initial centered position
+        let left = rect.left + (rect.width / 2);
+        const top = rect.bottom + window.scrollY + 5; // 5px gap below the element
+        
+        // Calculate potential overflows
+        const tooltipLeftEdge = left - tooltipWidth / 2;
+        const tooltipRightEdge = left + tooltipWidth / 2;
+        
+        let offsetX = 0; // The offset needed to keep tooltip within bounds
+
+        if (tooltipLeftEdge < margin) {
+          // Too far left
+          offsetX = margin - tooltipLeftEdge;
+        } else if (tooltipRightEdge > viewportWidth - margin) {
+          // Too far right
+          offsetX = (viewportWidth - margin) - tooltipRightEdge;
+        }
+        
+        // Apply position and adjust transform if needed
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`; // Still set left for CSS transform origin
+        tooltip.style.transform = `translateX(calc(-50% + ${offsetX}px))`;
       });
     } else {
       // Desktop hover behavior

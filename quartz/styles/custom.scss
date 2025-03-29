@@ -409,7 +409,8 @@ html {
 .tooltip {
   display: inline;
   position: relative;
-  padding: 0.1rem 0.3rem;
+  /* Extremely tight padding */
+  padding: 0.03rem 0.06rem;
   background: rgba(var(--purple-tertiary-rgb), 0.15);
   border: 1px solid rgba(var(--purple-primary-rgb), 0.2);
   border-radius: 3px;
