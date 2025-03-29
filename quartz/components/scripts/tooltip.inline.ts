@@ -24,9 +24,21 @@ function setupTooltips() {
     
     if (isMobile) {
       element.addEventListener('click', (e: Event) => {
-        e.preventDefault();
+        // Check if the element is a link (has an href attribute)
+        const isLink = element.hasAttribute('href');
+
+        // Only prevent default for non-links
+        if (!isLink) {
+          e.preventDefault();
+        }
+        // Stop propagation regardless to avoid closing tooltip immediately
         e.stopPropagation();
         
+        // If it is a link, allow default navigation and do nothing else
+        if (isLink) {
+          return;
+        }
+
         const tooltip = tooltips.get(element);
         if (!tooltip) return;
         
