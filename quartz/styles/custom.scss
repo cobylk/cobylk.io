@@ -483,3 +483,14 @@ html {
     margin-top: 0.5rem;
   }
 }
+
+// Global line-height bump (~25%)
+p,
+li,
+tbody {
+  line-height: 2rem;
+}
+
+figure[data-rehype-pretty-code-figure] {
+  line-height: 2rem;
+}
