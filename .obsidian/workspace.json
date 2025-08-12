@@ -1,0 +1,277 @@
+{
+  "main": {
+    "id": "daeb52ed3f54ed0e",
+    "type": "split",
+    "children": [
+      {
+        "id": "5321d81585a9cba5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2206f27020372908",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "terminal:terminal",
+              "state": {
+                "terminal:terminal": {
+                  "cwd": "/Users/cobylk/Documents/Project Files/quartz-website/quartz",
+                  "focus": false,
+                  "profile": {
+                    "args": [],
+                    "executable": "/bin/zsh",
+                    "name": "",
+                    "platforms": {
+                      "darwin": true
+                    },
+                    "pythonExecutable": "python3",
+                    "restoreHistory": true,
+                    "successExitCodes": [
+                      "0",
+                      "SIGINT",
+                      "SIGTERM"
+                    ],
+                    "terminalOptions": {
+                      "documentOverride": null
+                    },
+                    "type": "integrated",
+                    "useWin32Conhost": true
+                  },
+                  "serial": {
+                    "columns": 149,
+                    "data": "\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gaa\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gcam \"cleanup\"\r\n[v4 b999b9c] cleanup\r\n 5 files changed, 120 deletions(-)\r\n delete mode 100644 content/Personal/fav_animals.md\r\n delete mode 100644 content/Personal/index 1 copy.md\r\n delete mode 100644 content/index copy.md\r\n delete mode 100644 content/mountains.jpg\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gp\r\nEnumerating objects: 7, done.\r\nCounting objects: 100% (7/7), done.\r\nDelta compression using up to 12 threads\r\nCompressing objects: 100% (4/4), done.\r\nWriting objects: 100% (4/4), 93.33 KiB | 31.11 MiB/s, done.\r\nTotal 4 (delta 3), reused 0 (delta 0), pack-reused 0\r\nremote: Resolving deltas: 100% (3/3), completed with 3 local objects.\r\nTo https://github.com/cobylk/cobylk.io.git\r\n   a39cd59..b999b9c  v4 -> v4\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gaa\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gcam \"personal index, test blog\"\r\n[v4 df8b788] personal index, test blog\r\n 7 files changed, 11 insertions(+), 3 deletions(-)\r\n create mode 100644 content/Personal/Test Blog.md\r\n create mode 100644 content/Personal/index.md\r\n delete mode 100644 content/bamboo_lemur.png\r\n delete mode 100644 content/frontflip.png\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gp\r\nEnumerating objects: 16, done.\r\nCounting objects: 100% (16/16), done.\r\nDelta compression using up to 12 threads\r\nCompressing objects: 100% (10/10), done.\r\nWriting objects: 100% (10/10), 940 bytes | 940.00 KiB/s, done.\r\nTotal 10 (delta 6), reused 0 (delta 0), pack-reused 0\r\nremote: Resolving deltas: 100% (6/6), completed with 6 local objects.\r\nTo https://github.com/cobylk/cobylk.io.git\r\n   e19a399..df8b788  v4 -> v4\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gaa\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gcam \"add indices and update main page\"\r\n[v4 d18d1fd] add indices and update main page\r\n 3 files changed, 11 insertions(+), 1 deletion(-)\r\n create mode 100644 content/Research/index.md\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gp\r\nEnumerating objects: 14, done.\r\nCounting objects: 100% (14/14), done.\r\nDelta compression using up to 12 threads\r\nCompressing objects: 100% (8/8), done.\r\nWriting objects: 100% (8/8), 976 bytes | 976.00 KiB/s, done.\r\nTotal 8 (delta 4), reused 0 (delta 0), pack-reused 0\r\nremote: Resolving deltas: 100% (4/4), completed with 4 local objects.\r\nTo https://github.com/cobylk/cobylk.io.git\r\n   df8b788..d18d1fd  v4 -> v4\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m npx quartz sync\r\n\r\n\u001b[30;42m Quartz v4.5.1 \u001b[0m\r\n\r\nBacking up your content\r\n[v4 de05525] Quartz sync: Aug 12, 2025, 12:45 PM\r\n 2 files changed, 4 insertions(+), 1 deletion(-)\r\n delete mode 100644 content/Personal/Test Blog.md\r\n create mode 100644 content/Personal/Why I am pursuing a career in AI safety research.md\r\nPulling updates from your repository. You may need to resolve some `git` conflicts if you've made changes to components or plugins.\r\nFrom https://github.com/cobylk/cobylk.io\r\n * branch            v4         -> FETCH_HEAD\r\nAlready up to date.\r\nPushing your changes\r\nEnumerating objects: 8, done.\r\nCounting objects: 100% (8/8), done.\r\nDelta compression using up to 12 threads\r\nCompressing objects: 100% (5/5), done.\r\nWriting objects: 100% (5/5), 541 bytes | 541.00 KiB/s, done.\r\nTotal 5 (delta 2), reused 0 (delta 0), pack-reused 0\r\nremote: Resolving deltas: 100% (2/2), completed with 2 local objects.\r\nTo https://github.com/cobylk/cobylk.io.git\r\n   8e970ff..de05525  v4 -> v4\r\nbranch 'v4' set up to track 'origin/v4'.\r\n\u001b[32mDone!\r\n\u001b[1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m ",
+                    "rows": 56
+                  }
+                }
+              },
+              "pinned": true,
+              "icon": "terminal",
+              "title": "Terminal: cobylk@Cobys-MacBook-Pro:~/Documents/Project Files/quartz-website/quartz"
+            }
+          },
+          {
+            "id": "a460e7d2ba1abce8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/Personal/Why I am pursuing a career in AI safety research.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Why I am pursuing a career in AI safety research"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "badf408711e2dd01",
+    "type": "split",
+    "children": [
+      {
+        "id": "4f0fa892a8ac3bfe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3ab51626aa19deb6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "d55ca4313cdd4266",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3eda970de8539d31",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8373bce8d7d6d290",
+    "type": "split",
+    "children": [
+      {
+        "id": "fcb00986d520abac",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8f5f8a3014bb45ae",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "content/index.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for index"
+            }
+          },
+          {
+            "id": "8cfc8be1f9a49e28",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "content/index.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from index"
+            }
+          },
+          {
+            "id": "2d84ca37fef1a937",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5edab816e904176f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "content/index.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of index"
+            }
+          },
+          {
+            "id": "46ebe6a23280ee14",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "templater-obsidian:Templater": false,
+      "terminal:Open terminal": false
+    }
+  },
+  "active": "a460e7d2ba1abce8",
+  "lastOpenFiles": [
+    "content/assets/icons",
+    "content/Research/text-figure.png",
+    "content/Research/methodology.png",
+    "content/Research/index.md",
+    "content/Research/caa_data_extraction.md",
+    "content/Personal/index.md",
+    "content/Music/juvenalia.md",
+    "content/Personal/Why I am pursuing a career in AI safety research.md",
+    "content/Music/tidal disruption event.md",
+    "content/index.md",
+    "content/curriculum_vitae.pdf",
+    "content/assets",
+    "content/Research",
+    "content/Personal",
+    "content/Music",
+    "content",
+    "public/index-og-image.webp",
+    "public/Research/index-og-image.webp",
+    "public/Research/caa_data_extraction-og-image.webp",
+    "public/Personal/index-og-image.webp",
+    "public/Personal/Test-Blog-og-image.webp",
+    "public/Music/tidal-disruption-event-og-image.webp",
+    "public/postscript.js",
+    "public/prescript.js",
+    "public/index.css",
+    "public/index.html",
+    "public/Research/text-figure.png",
+    "public/Music/juvenalia-og-image.webp",
+    "node_modules/satori/node_modules/emoji-regex-xs/README.md",
+    "node_modules/@isaacs/brace-expansion/README.md",
+    "node_modules/@emnapi/runtime/README.md",
+    "node_modules/yoga-layout/README.md",
+    "node_modules/get-east-asian-width/readme.md",
+    "node_modules/@isaacs/balanced-match/README.md",
+    "node_modules/@isaacs/balanced-match/LICENSE.md",
+    "docs/plugins/Favicon.md",
+    "docs/features/reader mode.md",
+    "node_modules/mathjax-full/README.md",
+    "node_modules/mathjax-full/CONTRIBUTING.md",
+    "node_modules/pixi.js/README.md",
+    "node_modules/rxjs/README.md",
+    "node_modules/rxjs/CODE_OF_CONDUCT.md",
+    "node_modules/rxjs/CHANGELOG.md",
+    "node_modules/typescript/SECURITY.md",
+    "node_modules/typescript/README.md",
+    "node_modules/colorjs.io/README.md"
+  ]
+}
