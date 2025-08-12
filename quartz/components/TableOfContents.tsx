@@ -17,7 +17,6 @@ const defaultOptions: Options = {
   layout: "modern",
 }
 
-let numTocs = 0
 export default ((opts?: Partial<Options>) => {
   const layout = opts?.layout ?? defaultOptions.layout
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory()
@@ -30,21 +29,18 @@ export default ((opts?: Partial<Options>) => {
       return null
     }
 
-    const id = `toc-${numTocs++}`
     return (
       <div class={classNames(displayClass, "toc")}>
         <h3>{i18n(cfg.locale).components.tableOfContents.title}</h3>
-        <div class="toc-content">
-          <OverflowList>
-            {fileData.toc.map((tocEntry) => (
-              <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-                <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                  {tocEntry.text}
-                </a>
-              </li>
-            ))}
-          </OverflowList>
-        </div>
+        <OverflowList class="toc-content">
+          {fileData.toc.map((tocEntry) => (
+            <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
+              <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+                {tocEntry.text}
+              </a>
+            </li>
+          ))}
+        </OverflowList>
       </div>
     )
   }

@@ -128,9 +128,9 @@
 
 .callout-title {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
-  padding: 1rem 0;
+  padding: 0.75rem 0 0;
   color: var(--color);
 
   --icon-size: 18px;
@@ -161,7 +161,7 @@
     mask-size: var(--icon-size) var(--icon-size);
     mask-position: center;
     mask-repeat: no-repeat;
-    padding: 0.2rem 0;
+    padding: 0;
   }
 
   .callout-title-inner {

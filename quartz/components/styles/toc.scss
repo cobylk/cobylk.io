@@ -54,99 +54,92 @@ ul.toc-content.overflow {
   margin: 0;
   padding: 0;
 
-  ul {
-    list-style: none;
+  li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.05rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0.425rem;
+      top: 0;
+      height: calc(100% + 0.05rem);
+      width: 1.5px;
+      background-color: rgba(var(--purple-primary-rgb), 0.3);
+      z-index: 1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0.25rem;
+      top: 50%;
+      height: 0.45rem;
+      width: 0.45rem;
+      border-radius: 50%;
+      background-color: var(--purple-primary);
+      z-index: 2;
+      transform: translateY(-50%);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    &:last-child::before {
+      height: 100%;
+    }
+
+    &:hover::after {
+      background-color: var(--purple-secondary);
+      transform: translateY(-50%) scale(1.5);
+    }
+
+    & > a {
+      color: var(--dark);
+      opacity: 0.35;
+      transition: 0.5s ease opacity, 0.3s ease color;
+      display: block;
+      padding: 0.2rem 0;
+      position: relative;
+      z-index: 3;
+
+      &:hover {
+        color: var(--purple-secondary);
+        opacity: 0.75;
+      }
+
+      &.in-view {
+        opacity: 0.75;
+        color: var(--purple-primary);
+      }
+    }
+  }
+
+  // Suppress artifacts from overflow sentinel and empties
+  li.overflow-end {
+    height: 0;
     margin: 0;
     padding: 0;
-    position: relative;
+  }
 
-    li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: 0.05rem;
+  div:empty::before,
+  div:empty::after,
+  ul:empty::before,
+  ul:empty::after {
+    display: none !important;
+  }
 
-      // The vertical connecting line
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0.425rem;
-        top: 0;
-        height: calc(100% + 0.05rem);
-        width: 1.5px;
-        background-color: rgba(var(--purple-primary-rgb), 0.3);
-        z-index: 1;
-      }
+  li:not(:has(> a))::after,
+  li:not(:has(> a))::before {
+    display: none !important;
+  }
 
-      // The dot
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0.25rem;
-        top: 0.6rem;
-        height: 0.45rem;
-        width: 0.45rem;
-        border-radius: 50%;
-        background-color: var(--purple-primary);
-        z-index: 2;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-      }
+  li:last-child::before {
+    height: 100% !important;
+  }
 
-      // Remove the vertical line for the last item
-      &:last-child::before {
-        height: 0.65rem;
-      }
-
-      // Hover effect for the dots
-      &:hover::after {
-        background-color: var(--purple-secondary);
-        transform: scale(1.5);
-      }
-
-      & > a {
-        color: var(--dark);
-        opacity: 0.35;
-        transition: 0.5s ease opacity, 0.3s ease color;
-        display: block;
-        padding: 0.2rem 0;
-        position: relative;
-        z-index: 3;
-
-        &:hover {
-          color: var(--purple-secondary);
-          opacity: 0.75;
-        }
-
-        &.in-view {
-          opacity: 0.75;
-          color: var(--purple-primary);
-        }
-      }
-    }
-
-    // Fix: Target all the potential causes of extra dots
-    div:empty::before,
-    div:empty::after,
-    ul:empty::before,
-    ul:empty::after {
-      display: none !important;
-    }
-
-    // Fix dots that appear in nested structures
-    li:not(:has(> a))::after {
-      display: none !important;
-    }
-
-    // Fix connecting lines in nested structures
-    li:not(:has(> a))::before {
-      display: none !important;
-    }
-
-    // Fix the line heights for the last items in nested lists
-    li:last-child {
-      &::before {
-        height: 0.65rem !important;
-      }
-    }
+  // Ensure the last real item before the sentinel extends fully
+  li:has(+ .overflow-end)::before {
+    height: 100% !important;
   }
 
   @for $i from 0 through 6 {

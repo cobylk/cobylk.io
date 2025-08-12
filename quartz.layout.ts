@@ -5,7 +5,7 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [Component.MobileOnly(Component.Backlinks())],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/cobylk",
@@ -42,7 +42,7 @@ export const defaultContentPageLayout: PageLayout = {
     // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.DesktopOnly(Component.Graph()),
-    Component.Backlinks(),
+    Component.DesktopOnly(Component.Backlinks()),
   ],
   right: [
     Component.Tooltip(),
@@ -72,7 +72,7 @@ export const indexContentPageLayout: PageLayout = {
     // Component.Explorer(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.DesktopOnly(Component.Graph()),
-    Component.Backlinks(),
+    Component.DesktopOnly(Component.Backlinks()),
   ],
   right: [
     Component.MobileOnly(Component.Graph()),
