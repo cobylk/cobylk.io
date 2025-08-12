@@ -48,6 +48,23 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Tooltip(),
     Component.MobileOnly(Component.Graph()),
   ],
+  afterBody: [
+  Component.Comments({
+    provider: 'giscus',
+    options: {
+      // from data-repo
+      repo: 'cobylk/cobylk.io',
+      // from data-repo-id
+      repoId: 'R_kgDOOOnN8w',
+      // from data-category
+      category: 'Announcements',
+      // from data-category-id
+      categoryId: 'DIC_kwDOOOnN884CuE3e',
+      // from data-lang
+      lang: 'en'
+    }
+  }),
+  ],
 }
 
 // Custom layout for the index page - no title or meta
