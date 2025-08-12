@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/Music/tidal disruption event.md",
+                "file": "content/Personal/Why I am pursuing a career in AI safety research.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "tidal disruption event"
+              "title": "Why I am pursuing a career in AI safety research"
             }
           }
         ]
@@ -168,9 +168,17 @@
   },
   "active": "ff2762ccf7914b33",
   "lastOpenFiles": [
+    "content/Music/tidal disruption event.md",
+    "/content/index.md",
+    "/content/Personal/index.md",
+    "/content/Personal",
+    "/content/Music/tidal disruption event.md",
+    "/content/Music/index.md",
+    "content/Music/index.md",
+    "/content/Music",
+    "/content",
     "content/Music/juvenalia.md",
     "content/Music/TDE_score.pdf",
-    "content/Music/tidal disruption event.md",
     "Kassner_TDE.md",
     "content/index.md"
   ]
