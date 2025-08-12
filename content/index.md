@@ -40,7 +40,7 @@ My name is Coby, and I'm a student researcher with interest in mechanistic inter
 
 See my [research](Research/index) or [personal writing](Personal/index).
 
-> [!danger]  Danger: Construction Zone!
+> [!danger]  Construction Zone!
 > This website is very much so in progress. I plan to write much more, flesh things out, and fix things in the near future. Forgive me if you encounter anything that is buggy, incomplete, or unprofessional.
 
 ***
