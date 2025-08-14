@@ -25,7 +25,7 @@ const config: QuartzConfig = {
       typography: {
         title: "Oranienbaum",
         header: "Playfair Display",
-        body: "Alegreya",
+         body: { name: "Libertinus Serif", weights: [400, 600, 700], includeItalic: true },
         code: "IBM Plex Mono",
       },
       colors: {
