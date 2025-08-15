@@ -2,26 +2,49 @@
 title: Why I am pursuing a career in AI safety research
 draft: true
 ---
-A child is dawdling along a street when a man—visibly intoxicated on rationalist literature—approaches. He is a doctor. He studies the child and begins defending an intricate thesis. Startled but curious, the child listens. The man dissects his priors, enumerates biases, outlines the Bayesian update process (of course), and continues muttering about Boltzmann brains, meta-contrarian equilibria, anthropic shadow bias, counterfactual mugging, coherent extrapolated volition, the Löbian obstacle, acausal trade with Omega, and whether utility functions over Tegmark Level IV multiverses require renormalization. Eventually, his obviously coherent reasoning and greedy adherence to Occam’s Razor *compel* him to conclude— the child will die of cancer within a few years. 
+### TL;DR
+meow meow
+meow meow
+
+---
+#### Glossary
+superintelligence
+
+---
+
+A little kid is dawdling along a street when a man—visibly intoxicated on rationalist literature—approaches. He is a doctor. He studies the child and begins coughing up an argument for an intricate thesis. The child listens. The man dissects his priors, enumerates biases, outlines the Bayesian update process (of course), and continues muttering about Boltzmann brains, meta-contrarian equilibria, anthropic shadow bias, counterfactual mugging, coherent extrapolated volition, the Löbian obstacle, acausal trade with Omega, and whether utility functions over Tegmark Level IV multiverses require renormalization. Eventually, his obviously coherent reasoning and greedy adherence to Occam’s razor *compel* him to conclude— the child will die of cancer within a couple of years. 
 
  The child absorbs this and after an uncomfortable silence, proclaims: “I will become a cancer researcher and cure it myself!”
 
-In this blog, I will (hopefully) try to show that this child is not me.
+In this article, I will (hopefully) try to show that this child is not me.
 ### AI timelines and outcomes
-The question of the usefulness of a career dedicated to AI safety is modulated by a few questions surrounding whether the continued development of AI will actually create risks (existential or otherwise) that will impact many people, and when such risks may come into play.
-#### Feasibility of vast superintelligence
+The question of the usefulness of a career dedicated to AI safety is modulated by a few questions surrounding whether the continued development of AI will actually create risks (existential or otherwise) that will impact many people, and when such risks may come into play. To start, one question we can ask is whether or not things smarter than humans can actually exist in the first place.
+#### Feasibility of superintelligence
 
-(I need to define superintelligence somewhere)
+Humans evolved in an environment with a lot of conflicting pressures. Every extra cubic centimeter of brain volume increases the difficulty and risk of childbirth, because the human birth canal can't become very wide without compromising mobility and making our bipedalism impractical. Every extra molecule of glucose consumed by our brain is one that can't be put to use somewhere else. Larger, more complicated brains increase the length of childhood, increase dependence, and increase mortality before reproductive age. Larger brains have more genetic "moving parts" that can be disrupted, creating [higher rates of developmental disorders](tooltip: i should note: we lack counterfactual small-brain humans, wild animal disorder rate measurements are noisy, and comparisons are speculative, so we only have pretty weak evidence for this; in any case, i think this is still reasonable and mostly stands to intuition). In general, humans were only selected for intelligence insofar as it had instrumental value for reproduction. Evolution of animals on Earth, specifically as a mechanism for producing intelligence, is not particularly optimal.
 
-Humans evolved in an environment with many opposing pressures. Every additional cubic centimeter of brain volume increases the difficulty and risk of childbirth; the human birth canal cannot become arbitrarily wide without stifling mobility and making impractical our bipedalism. Every additional molecule of glucose consumed by our brain is one that cannot not be put to use elsewhere. Larger, more complicated brains increase the length of childhood, increase dependence, and thus heighten mortality before reproductive age. Larger brains have more genetic "moving parts" that can be disrupted, creating higher rates of developmental disorders. In general, humans were only selected for intelligence insofar as it had instrumental value for reproduction. Evolution, as a mechanism for producing intelligence, does not seem particularly optimal.
+In fact, our intelligence and agency have enabled us to *beat* evolution, again and again, at the task of design in service of some objective. Our designs aren't constrained by opposing evolutionary pressures or the requirement to implement designs as cell-based things encoded by DNA, nor are they hampered by the fact that evolution just doesn't optimize for the characteristics that we can optimize for. The billions of years of selection that created aerodynamic falcon bodies that dive faster than any other animal didn't create the scramjets we designed that hurtle the X-43 at [ten times](tooltip: to be precise, only Mach 9.6 :() the speed of sound. We also designed Saturn V rocket engines that carry a 310,000 pound payload outside Earth's atmosphere by generating the force of 160 million horses, neutrino detectors that register uncharged, nigh massless particles passing through [eight hundred miles](tooltip: the DUNE far detector... very cool stuff) more rock than any biological sensor can do anything with, and transistors that switch states ten million times faster than human neurons fire. Now, in the 21st century, we have started seriously looking at the task of recreating the characteristic that has enabled all of our innovations.
 
-Indeed, our intelligence and agency have enabled us to *beat* evolution, again and again, at the task of design in service of some objective. Our designs are not constrained by confounding evolutionary pressures or the requirement to implement designs as multicellular organisms encoded with DNA, nor are they hampered by the fact that evolution simply does not optimize for the characteristics that we can optimize for. The billions of years of selection that yielded aerodynamic falcon bodies that dive faster than any other animal did not yield the scramjets we designed that propel the X-43 at [ten times](tooltip: to be precise, only Mach 9.6 :() the speed of sound. We also designed Saturn V rocket engines that carry a 310,000 pound payload beyond Earth's atmosphere by generating the force of 160 million horses, neutrino detectors that register uncharged, nigh massless particles passing through eight hundred miles more rock than any biological detector can do anything with, and transistors that switch states ten million times faster than human neurons fire. Now, in the 21st century, we have taken seriously to the task of recreating the characteristic that has enabled all of our innovations.
+ Imagine a factory that, in cycles, grows enormous numbers of disembodied brains in vats. Each cycle, they present every brain with an extremely broad, shifting battery of cognitive tasks (basically, idealized IQ tests on steroids, or something). For the next cycle, the factory keeps only a small fraction of the best-performing brains, spawns many [slightly mutated](tooltip: if it matters, i'm not really thinking about this in very biological terms, so if you have objections related to e.g., genetics, i'm unconvinced they're relevant) descendants from those survivors, discards the rest, and iterates. This factory applies selection pressure with intelligence as the sole objective of optimization, as opposed to trying to find the Pareto frontier of intelligence/energy use/size/developmental risk/etc. given biophysical limits. Because so many conflicting pressures were involved in its upbringing, the human brain is a suboptimal intelligence compared to an alternative engineered with focus and fewer constraints: the brains grown in the factory would drastically outperform human brains at most intelligence-related tasks after sufficiently many generations, unless we assume *a priori* that [humans are the pinnacle of intelligence](tooltip: if you're aware of any serious arguments as to why this may be the case, i would love to hear them. otherwise, i classify this kind of objection as "nu uh!"). 
 
-The biological implementation of intelligence is a single point in a vast design space. Again, because so many conflicting pressures were involved, human brains are probably very suboptimal intelligences compared to an alternative engineered with fewer constraints and with the sole objective of intelligence. We have no current [strong evidence](tooltip: besides that, well, we haven't figured it out yet) that creating (superior) non-biological implementations of intelligence is a particularly intractable problem. We do have [evidence](tooltip: the subject of the following sections of this article) that we have already created systems with many aspects of biological intelligence, and that these may lead to superintelligences.
+That human brains exist and can be created is itself evidence for the feasibility of some types of superintelligences. Many human brains working together can outperform a single brain; for example, markets are superintelligences. If no alternative approaches pan out, barring specific [defeat conditions](tooltip: e.g., incorporeal sources of intelligence, non-computable neural microphysics, or indispensable quantum effects at cognitive scales, for which we have no evidence), it could be [possible](tooltip: we already have an entire fruit fly connectome and a rudimentary simulation of its activity; the researchers "fully expect" to be able to extend their work to more complex connectomes, including the human brain; it seems plausible that this could lead to a full human brain simulation within the next few hundred years; this is a weak standard of evidence) to simulate an ensemble of human brains collaborating at a faster than real-time pace, and this would yield something that can do every intellectual task that a human could, but quicker and better. This would be an example of a superintelligence.
 
-That human brains exist and can be created is itself evidence for the feasibility of superintelligence—if no alternative approaches pan out, barring specific [defeat conditions](tooltip: e.g., incorporeal sources of intelligence, non-computable neural microphysics, or indispensable quantum effects at cognitive scales, for which we have no evidence), it could be [possible](tooltip: we already have an entire fruit fly connectome and a rudimentary simulation of its activity; the researchers "fully expect" to be able to extend their work to more complex connectomes, including the human brain; it seems plausible that this could lead to a full human brain simulation within the next few hundred years; this is a weak standard of evidence) to simulate an ensemble of human brains collaborating at a faster than real-time pace, and this would yield something that can do every intellectual task that a human could, but quicker and better. This is a superintelligence.
+Not only are smarter-than-human things plausible, but we also have no current [strong evidence](tooltip: besides that, well, we haven't figured it out yet) that creating [*non-biological*](tooltip: i am mostly referring to something descendent from today's AI paradigms, not brain simulations) implementations of intelligence is a particularly intractable problem. We do have evidence that we have already created systems with many aspects of biological intelligence, and that these may lead to superintelligences; this is the subject of much of the remainder of this article.
+
+
 
 https://news.berkeley.edu/2024/10/02/researchers-simulate-an-entire-fly-brain-on-a-laptop-is-a-human-brain-next/
+
+#### What does the result of raw scaling look like over the next several years?
+Over
+- Scenario timings
+		- Scaling
+			- METR
+				- https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/
+			- Epoch
+				- https://epoch.ai/trends
+		- Plateau scenarios
+		- Alternatives to scaling LMs; alternative timelines
 #### Capability of LLMs for novel research
  - Surface level vs. deep generality
  - Stochastic parrots
@@ -35,16 +58,13 @@ https://news.berkeley.edu/2024/10/02/researchers-simulate-an-entire-fly-brain-on
 			- No, "brute-forcing" research isn't the only path
 				- https://arxiv.org/abs/2406.14546
 				- https://arxiv.org/abs/2408.09503
+			- Chollet is silly; arc is hard because of tokenization and stuff
 			- Anecdotes, other weak evidence
 				- https://arxiv.org/abs/2404.04326
 				- https://arxiv.org/abs/2409.04109
 				- https://www.lesswrong.com/posts/GADJFwHzNZKg2Ndti/have-llms-generated-novel-insights
 				- CLR/ILR transformers
 			- These capabilities will continue to scale, and OpenAI etc. are specifically pursuing a singularity by focusing on AI research capability in their models.
-	- Scenario timings
-		- Scaling
-		- Plateau scenarios
-		- Alternatives to scaling LMs; alternative timelines
 	- **An enumeration of scenarios including timing and capability, weighted by probability**
 - Outcomes by capability
 	- Takeover
