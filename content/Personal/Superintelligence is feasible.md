@@ -1,6 +1,6 @@
 ---
 title: Superintelligence is feasible
-draft: false
+draft: true
 ---
 *Note: this is the first part in a series of blogs I am writing related to why I am pursuing a career in AI safety research.*
 

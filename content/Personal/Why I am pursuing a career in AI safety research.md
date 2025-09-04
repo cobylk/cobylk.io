@@ -36,7 +36,7 @@ Not only are smarter-than-human things plausible, but we also have no current [s
 https://news.berkeley.edu/2024/10/02/researchers-simulate-an-entire-fly-brain-on-a-laptop-is-a-human-brain-next/
 
 #### What does the result of raw scaling look like over the next several years?
-Over
+Over the past six years, LLMs have gone 
 - Scenario timings
 		- Scaling
 			- METR
@@ -45,6 +45,7 @@ Over
 				- https://epoch.ai/trends
 		- Plateau scenarios
 		- Alternatives to scaling LMs; alternative timelines
+- https://www.lesswrong.com/posts/Gc9FGtdXhK9sCSEYu/what-a-compute-centric-framework-says-about-ai-takeoff
 #### Capability of LLMs for novel research
  - Surface level vs. deep generality
  - Stochastic parrots
