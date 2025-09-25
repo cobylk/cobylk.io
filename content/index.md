@@ -45,7 +45,6 @@ See my [research](Research/index) or [personal writing](Personal/index).
 
 ***
 ### News
-- *August 2025* — I completed the Yale Effective Altruism introductory fellowship.
 - *May 2025* — I finished SPAR and presented our findings (so far) at the poster session. We are continuing to work on the project beyond the program
 - *February 2025* — I was accepted to the [SPAR](https://sparai.org) program under Dr. Ronak Mehta to research models that are inherently interpretable.
 - *November 2024* — Our [activation steering data extraction](Research/caa_data_extraction) project placed 7th in the [LLM Privacy Contest](https://llm-pc.github.io/) at NeurIPS
