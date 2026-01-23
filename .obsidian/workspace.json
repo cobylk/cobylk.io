@@ -39,7 +39,7 @@
                   },
                   "serial": {
                     "columns": 106,
-                    "data": "[oh-my-zsh] Would you like to update? [Y/n] U\r\n[oh-my-zsh] You can update manually by running `omz update`\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m git add -a\r\nerror: unknown switch `a'\r\nusage: git add [<options>] [--] <pathspec>...\r\n\r\n    -n, --dry-run         dry run\r\n    -v, --verbose         be verbose\r\n\r\n    -i, --interactive     interactive picking\r\n    -p, --patch           select hunks interactively\r\n    -e, --edit            edit current diff and apply\r\n    -f, --force           allow adding otherwise ignored files\r\n    -u, --update          update tracked files\r\n    --renormalize         renormalize EOL of tracked files (implies -u)\r\n    -N, --intent-to-add   record only the fact that the path will be added later\r\n    -A, --all             add changes from all tracked and untracked files\r\n    --ignore-removal      ignore paths removed in the working tree (same as --no-all)\r\n    --refresh             don't add, only refresh the index\r\n    --ignore-errors       just skip files which cannot be added because of errors\r\n    --ignore-missing      check if - even missing - files are ignored in dry run\r\n    --sparse              allow updating entries outside of the sparse-checkout cone\r\n    --chmod (+|-)x        override the executable bit of the listed files\r\n    --pathspec-from-file <file>\r\n                          read pathspec from file\r\n    --pathspec-file-nul   with --pathspec-from-file, pathspec elements are separated with NUL character\r\n\r\n\u001b[31;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gaa\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gcam \"update cv",
+                    "data": "[oh-my-zsh] Would you like to update? [Y/n] U\r\n[oh-my-zsh] You can update manually by running `omz update`\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m git add -a\r\nerror: unknown switch `a'\r\nusage: git add [<options>] [--] <pathspec>...\r\n\r\n    -n, --dry-run         dry run\r\n    -v, --verbose         be verbose\r\n\r\n    -i, --interactive     interactive picking\r\n    -p, --patch           select hunks interactively\r\n    -e, --edit            edit current diff and apply\r\n    -f, --force           allow adding otherwise ignored files\r\n    -u, --update          update tracked files\r\n    --renormalize         renormalize EOL of tracked files (implies -u)\r\n    -N, --intent-to-add   record only the fact that the path will be added later\r\n    -A, --all             add changes from all tracked and untracked files\r\n    --ignore-removal      ignore paths removed in the working tree (same as --no-all)\r\n    --refresh             don't add, only refresh the index\r\n    --ignore-errors       just skip files which cannot be added because of errors\r\n    --ignore-missing      check if - even missing - files are ignored in dry run\r\n    --sparse              allow updating entries outside of the sparse-checkout cone\r\n    --chmod (+|-)x        override the executable bit of the listed files\r\n    --pathspec-from-file <file>\r\n                          read pathspec from file\r\n    --pathspec-file-nul   with --pathspec-from-file, pathspec elements are separated with NUL character\r\n\r\n\u001b[31;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gaa\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m gcam \"update cv\"\r\n[v4 48799dc] update cv\r\n 2 files changed, 10 insertions(+), 12 deletions(-)\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m)\u001b[0m gp\r\nEnumerating objects: 17, done.\r\nCounting objects: 100% (17/17), done.\r\nDelta compression using up to 12 threads\r\nCompressing objects: 100% (11/11), done.\r\nWriting objects: 100% (11/11), 240.28 KiB | 48.06 MiB/s, done.\r\nTotal 11 (delta 7), reused 0 (delta 0), pack-reused 0\r\nremote: Resolving deltas: 100% (7/7), completed with 4 local objects.\r\nremote: \r\nremote: GitHub found 1 vulnerability on cobylk/cobylk.io's default branch (1 low). To find out more, visit:\r\nremote:      https://github.com/cobylk/cobylk.io/security/dependabot/1\r\nremote: \r\nTo https://github.com/cobylk/cobylk.io.git\r\n   9b3ce36..48799dc  v4 -> v4\r\n\u001b[32;1m➜  \u001b[36mquartz\u001b[0m \u001b[34;1mgit:(\u001b[31mv4\u001b[34m) \u001b[33m✗\u001b[0m ",
                     "rows": 40
                   }
                 }
@@ -75,7 +75,8 @@
               "title": "curriculum_vitae"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -237,9 +238,11 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "2206f27020372908",
+  "active": "3ab51626aa19deb6",
   "lastOpenFiles": [
     "content/curriculum_vitae.pdf",
+    "content/Coby_Kassner_CV (5).pdf",
+    "Coby_Kassner_CV (5).pdf",
     "content/Personal/Why I am pursuing a career in AI safety research.md",
     "content/Coby_Kassner_CV (1).pdf",
     "content/Personal/Superintelligence is feasible.md",
@@ -260,7 +263,6 @@
     "content/Music",
     "content",
     "public/Research/text-figure.png",
-    "public/index.html",
     "public/Research/methodology.png",
     "public/static/og-image.png",
     "public/Music/index-og-image.webp",
