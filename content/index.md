@@ -45,6 +45,13 @@ See my [research](Research/index) or [personal writing](Personal/index).
 
 ***
 ### News
-- *May 2025* — I finished SPAR and presented our findings (so far) at the poster session. We are continuing to work on the project beyond the program
+- *February 2026* — We have started work on a research project hacing to do with emergent misalignment.
+- *January 2026* — I'm now on the board and an intro fellowship facilitator for Yale AI Alignment, and I am the intro fellowship manager for YEA.
+- *December 2025* — We finished our [privacy neuron editing](Research/privacy_neuron_editing) project, comparing inference-time interventions for suppressing PII leakage from LLMs
+- *October 2025* — I am now on the board for Yale Effective Altruism (YEA), and I am a facilitator for our intro fellowship.
+- *August 2025* — We wrapped up extensions of our SPAR project, producing a [manifold neural block](Research/manifold_neural_block) with differentiable Betti numbers and a [simplex-constrained transformer](Research/aitchison_transformer)
+- *May 2025* — I finished SPAR and presented [our findings](Research/spar_simplicial_networks) (so far) at the poster session. We are continuing to work on the project beyond the program
 - *February 2025* — I was accepted to the [SPAR](https://sparai.org) program under Dr. Ronak Mehta to research models that are inherently interpretable.
 - *November 2024* — Our [activation steering data extraction](Research/caa_data_extraction) project placed 7th in the [LLM Privacy Contest](https://llm-pc.github.io/) at NeurIPS
+— *May 2016* — I have graduated the third grade; I could not have achieved this momentous milestone without the support of my beloved family and friends.
+- *February 2009* — I am enormously excited to share that I have just turned two years old
