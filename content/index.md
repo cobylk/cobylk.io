@@ -45,7 +45,7 @@ See my [research](Research/index) or [personal writing](Personal/index).
 
 ***
 ### News
-- *February 2026* — We have started work on a research project hacing to do with emergent misalignment.
+- *February 2026* — We have started work on a research project having to do with emergent misalignment.
 - *January 2026* — I'm now on the board and an intro fellowship facilitator for Yale AI Alignment, and I am the intro fellowship manager for YEA.
 - *December 2025* — We finished our [privacy neuron editing](Research/privacy_neuron_editing) project, comparing inference-time interventions for suppressing PII leakage from LLMs
 - *October 2025* — I am now on the board for Yale Effective Altruism (YEA), and I am a facilitator for our intro fellowship.
