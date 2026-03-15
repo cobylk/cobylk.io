@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/Research/caa_data_extraction.md",
+                "file": "content/Research/aitchison_transformer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "caa_data_extraction"
+              "title": "aitchison_transformer"
             }
           },
           {
@@ -240,6 +240,10 @@
   },
   "active": "b761b3ca4a4c838b",
   "lastOpenFiles": [
+    "content/curriculum_vitae.pdf",
+    "content/c.pdf",
+    "content/Coby_Kassner_CV (6).pdf",
+    "content/Research/caa_data_extraction.md",
     "content/Research/spar_simplicial_networks.md",
     "content/Research/aitchison_transformer.md",
     "content/Research/manifold_neural_block.md",
@@ -247,7 +251,6 @@
     "content/Research/projects.md",
     "content/index.md",
     "content/Personal/Why I am pursuing a career in AI safety research.md",
-    "content/curriculum_vitae.pdf",
     "content/Coby_Kassner_CV (5).pdf",
     "Coby_Kassner_CV (5).pdf",
     "content/Coby_Kassner_CV (1).pdf",
@@ -257,7 +260,6 @@
     "content/Research/text-figure.png",
     "content/Research/methodology.png",
     "content/Research/index.md",
-    "content/Research/caa_data_extraction.md",
     "content/Music/tidal disruption event.md",
     "content/Music/juvenalia.md",
     "content/Music/index.md",
@@ -265,7 +267,6 @@
     "content/assets",
     "content/Research",
     "content/Personal",
-    "content/Music",
     "public/Research/text-figure.png",
     "public/Research/methodology.png",
     "public/static/og-image.png",
@@ -284,7 +285,6 @@
     "docs/plugins/Favicon.md",
     "docs/features/reader mode.md",
     "node_modules/mathjax-full/README.md",
-    "node_modules/mathjax-full/CONTRIBUTING.md",
-    "node_modules/pixi.js/README.md"
+    "node_modules/mathjax-full/CONTRIBUTING.md"
   ]
 }
