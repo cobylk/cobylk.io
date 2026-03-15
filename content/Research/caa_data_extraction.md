@@ -1,5 +1,6 @@
 ---
 title: CAA Data Extraction
+date: 2024-11-09
 ---
 I think working on this was probably ~1.5x as useful as the counterfactual use of my time. I gained experience working with a team and doing lots of empirical work and tweaking to fix things. 
 ### Paper and Code
