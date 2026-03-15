@@ -36,7 +36,7 @@ cssclasses:
 
 
 ### Hey there!
-My name is Coby, and I'm a student researcher with interest in mechanistic interpretability and a broader interest in most things related to technical AI safety and alignment. In my free time, I love composing and [performing classical music](tooltip:My primary instrument is the piano, though I played saxophone somewhat well and have unsuccessfully tried to learn the violin on several ocassions.), hiking, and skiing. I'm currently doing my [undergrad](tooltip:Class of 2029) at Yale.
+My name is Coby, and I'm an AI safety researcher with interest in interpretability, model psychology, and model organisms of misalignment. I have a broader interest in most things related to AI ethics, analytical philosophy, math, and biosafety. In my free time, I love composing and [performing music](tooltip:I play the piano, alto saxophone, and am learning the accordion.), dancing Argentine tango, and (ski) mountaineering. I'm currently doing my [undergrad](tooltip:Class of 2029) at Yale.
 
 See my [research](Research/index) or [personal writing](Personal/index).
 

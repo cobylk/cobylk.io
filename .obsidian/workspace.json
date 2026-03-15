@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/Personal/Why I am pursuing a career in AI safety research.md",
+                "file": "content/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Why I am pursuing a career in AI safety research"
+              "title": "index"
             }
           },
           {
@@ -238,12 +238,12 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "3ab51626aa19deb6",
+  "active": "b761b3ca4a4c838b",
   "lastOpenFiles": [
+    "content/Personal/Why I am pursuing a career in AI safety research.md",
     "content/curriculum_vitae.pdf",
     "content/Coby_Kassner_CV (5).pdf",
     "Coby_Kassner_CV (5).pdf",
-    "content/Personal/Why I am pursuing a career in AI safety research.md",
     "content/Coby_Kassner_CV (1).pdf",
     "content/Personal/Superintelligence is feasible.md",
     "content/Personal/index.md",
@@ -261,7 +261,6 @@
     "content/Research",
     "content/Personal",
     "content/Music",
-    "content",
     "public/Research/text-figure.png",
     "public/Research/methodology.png",
     "public/static/og-image.png",
