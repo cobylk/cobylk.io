@@ -40,9 +40,6 @@ My name is Coby, and I'm an AI safety researcher with interest in interpretabili
 
 See my [research](Research/index) or [personal writing](Personal/index).
 
-> [!danger]  Construction Zone!
-> This website is very much so in progress. I plan to write much more, flesh things out, and fix things in the near future. Forgive me if you encounter anything that is buggy, incomplete, or unprofessional.
-
 ***
 ### News
 - *February 2026* — We have started work on a research project having to do with emergent misalignment.
