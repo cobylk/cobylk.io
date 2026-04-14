@@ -38,7 +38,7 @@ cssclasses:
 ### Hey there!
 My name is Coby, and I'm an AI safety researcher with interest in interpretability, model psychology, and model organisms of misalignment. I have a broader interest in most things related to AI ethics, analytical philosophy, math, and biosafety. In my free time, I love composing and [performing music](tooltip:I play the piano, alto saxophone, and am learning the accordion.), dancing Argentine tango, and (ski) mountaineering. I'm currently doing my [undergrad](tooltip:Class of 2029) at Yale.
 
-See my [research](Research/index) or [personal writing](Personal/index).
+See my [research](Research/index) or [personal writing](Personal/index). If you're at Yale, I'd love to [grab a meal](meal).
 
 ***
 ### News
