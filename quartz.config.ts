@@ -24,7 +24,7 @@ const config: QuartzConfig = {
       cdnCaching: true,
       typography: {
         title: "Oranienbaum",
-        header: "Playfair Display",
+        header: "Libertinus Serif",
          body: { name: "Libertinus Serif", weights: [400, 600, 700], includeItalic: true },
         code: "IBM Plex Mono",
       },
@@ -41,7 +41,7 @@ const config: QuartzConfig = {
           textHighlight: "#fff23688",
         },
         darkMode: {
-          light: "#161618",
+          light: "#1e1e1e",
           lightgray: "#393639",
           gray: "#646464",
           darkgray: "#d4d4d4",

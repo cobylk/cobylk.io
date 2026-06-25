@@ -1,6 +1,6 @@
 ---
 title: Why I am pursuing a career in AI safety research
-draft: true
+draft: true 
 ---
 ### TL;DR
 meow meow
@@ -90,3 +90,48 @@ In fact, our intelligence and agency have enabled us to *beat* evolution, again 
 That human brains exist and can be created is itself evidence for the feasibility of some types of superintelligences. Many human brains working together can outperform a single brain; for example, markets can make superhuman predictions. If no alternative approaches pan out, barring specific [defeat conditions](tooltip: e.g., incorporeal sources of intelligence, non-computable neural microphysics, or indispensable quantum effects at cognitive scales, for which we have no evidence), it could be [possible](tooltip: we already have an entire fruit fly connectome and a rudimentary simulation of its activity; the researchers "fully expect" to be able to extend their work to more complex connectomes, including the human brain; it seems plausible that this could lead to a full human brain simulation within the next few hundred years; this is a weak standard of evidence) to simulate an ensemble of human brains collaborating at a faster than real-time pace, and this would yield something that can do every intellectual task that a human could, but quicker and better. This would be an example of a superintelligence.
 
 Not only are smarter-than-human things plausible, but we also have no current [strong evidence](tooltip: besides that, well, we haven't figured it out yet) that creating [non-biological](tooltip: i am mostly referring to something descendent from today's AI paradigms, not brain simulations) implementations of intelligence is a particularly intractable problem. We do have evidence that we have already created systems with many aspects of biological intelligence, and that these may lead to superintelligences; this is the subject of a few upcoming blogs. 
+
+> Davidson, T., Hadshar, R. (2025). _The Industrial Explosion_. \[online\] Available at: [https://www.forethought.org/research/the-industrial-explosion](https://www.forethought.org/research/the-industrial-explosion) \[Accessed 22 Jun. 2026\]
+
+The industrial explosion might start and proceed significantly before we achieve strongly superintelligent AI. It will almost certainly start after the beginning of RSI. Some levers:
+- Takeoff speeds
+- Rate of model diffusion (to relevant actors)
+	- The US government seems likely to both have access to the most intelligent models during RSI and be motivated to pursue an industrial explosion as soon as possible, as this could yield a DSA.
+	- Frontier labs could, in principle, pursue an industrial explosion themselves, but on average, there seem to be fewer incentives for this.
+
+We can think of it proceeding in three stages
+1. AI-directed human labour
+	- AI could significantly increase the productivity of each worker via extremely high quality micromanagement, previously impossible or impractical kinds of coordination, and larger-scoped efficiency/process improvements.
+	- This is likely to arrive first because it only requires advancement in cognitive capabilities.
+	- There might be reasons to expect for there to not be a very large delay, if any, between this phase and autonomous robot factories
+		- Some cognitive skills required to effectively direct human workers (e.g., certain geometric reasoning-y skills) might appear at the same time as those required to effectively command an android body.
+		- Elon Musk (and others) are already scaling up humanoid robot production.
+		- There might be immediate economic incentives; e.g., current humanoid robots cost as little as 30K, and they might be ~6x as productive as factory workers, doing labor equivalent to 240K in factory worker salary per year.
+2. Fully autonomous robot factories
+	- There are various ways to estimate doubling times.
+3. Nanotechnology
+### Autonomous robots as a vector for model exfiltration
+- It seems very likely that (at least one of) the model(s) that controls the robots is a general intelligence, and that this model is not widely available, and that it would be dangerous to make it widely available.
+- Insofar as the robots are sending signals to and receiving output from a generally intelligent model, it may be possible to use the robot to gain access to an otherwise restricted model.
+	- Well-resourced bad actors might hack into a robot or physically steal a robot and attempt to gain access to a restricted model using the robot.
+	- However, this seems tractable to mitigate, as a frontier lab, for example, by aggressively restricting the kinds of requests that can be sent from a robot endpoint, or using some sort of difficult- or impossible-to-fake verification system to ensure that the robot is in the correct factory, working on the correct task and project, etc.
+
+> Binder, D. (2026). The AI Industrial Explosion — Part 1: Maximum growth rates with current production methods. \[online\] Available [here](https://defensesindepth.bio/ai-industrial-takeoff-part-1-maximum-growth-rates-with-current-technology/) \[Accessed 24 Jun. 2026\]
+
+- How much will land area become a bottleneck?
+- On first impression, it seems like actual physical factory construction seems more difficult than e.g., installation of manufacturing pipelines, alongside transportation of materials. How much will these various components become bottlenecks?
+
+- AGI makes labor approximately free
+- Resource extraction is unlikely to significantly slow growth
+- Construction lags do not prevent rapid growth
+- Consumption doesn't prevent rapid growth
+
+| Scenario                       | Current | Full capacity | Emergency | 168 hr/wk |
+| ------------------------------ | ------- | ------------- | --------- | --------- |
+| Free labor                     | 0.61    | 0.77          | 0.85      | 1.38      |
+| + labor costs                  | 0.56    | 0.72          | 0.79      | 1.26      |
+| + 2× mining, fossil fuel costs | 0.51    | 0.64          | 0.70      | 1.20      |
+| + lags                         | 0.45    | 0.55          | 0.59      | 0.95      |
+| Ramsey savings                 | 0.23    | 0.30          | 0.32      | 0.57      |
+
+- holy shit

@@ -410,7 +410,7 @@ html {
   display: inline;
   position: relative;
   /* Extremely tight padding */
-  padding: 0.07rem 0.07rem;
+  padding: 0.03rem 0.04rem;
   background: rgba(var(--purple-tertiary-rgb), 0.15);
   border: 1px solid rgba(var(--purple-primary-rgb), 0.2);
   border-radius: 3px;
@@ -484,13 +484,115 @@ html {
   }
 }
 
-// Global line-height bump (~25%)
+// Obsidian-like reading layout
+// Line spacing matches Obsidian's default (--line-height-normal: 1.5)
 p,
 li,
 tbody {
-  line-height: 2rem;
+  line-height: 1.5;
 }
 
 figure[data-rehype-pretty-code-figure] {
-  line-height: 2rem;
+  line-height: 1.5;
+}
+
+// Lists. Values taken from Obsidian's default theme (app.css): filled disc at
+// every depth, faint (--text-faint) markers, and a tight 0.075em inter-item
+// pad rather than a margin.
+article {
+  ul {
+    list-style-type: disc;
+  }
+
+  ul,
+  ol {
+    li {
+      padding-block: 0.075em;
+
+      &::marker {
+        color: var(--gray); // ~= Obsidian --text-faint (#666 dark / #ababab light)
+      }
+    }
+  }
+
+  // A list introduced by a paragraph (no blank line in Obsidian's Live Preview)
+  // should sit tight under it. Pull in the paragraph's bottom margin and the
+  // list's top margin so they don't collapse to the full 1rem paragraph gap.
+  p:has(+ ul),
+  p:has(+ ol) {
+    margin-bottom: 0.35rem;
+  }
+  p + ul,
+  p + ol {
+    margin-top: 0;
+  }
+
+  // Faint vertical indentation guides on nested lists, like Obsidian's editor.
+  li > ul,
+  li > ol {
+    padding-left: 1.5rem;
+    margin-left: 0.35rem;
+    border-left: 1px solid var(--lightgray);
+  }
+}
+
+// Headings. Sizes / weights / line-heights are Obsidian's default-theme values
+// (--hN-size, --hN-weight, --hN-line-height). Weight 600 maps to the Libertinus
+// Serif semibold instance, so headings read lighter than the UA bold (700).
+// Spacing follows Obsidian: 1rem top/bottom, bumped to --heading-spacing (2.5rem)
+// when a heading follows a paragraph or list.
+article {
+  h1 {
+    font-size: 1.618em;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: 1.462em;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 1.318em;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  h4 {
+    font-size: 1.188em;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  h5 {
+    font-size: 1.076em;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  h6 {
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 1rem;
+    margin-bottom: 0.35rem;
+  }
+  // The first block after a heading carries its own top margin (a <ul> defaults
+  // to 1em), which collapses to the larger of the two and dominates the gap.
+  // Zero it so the heading's own margin-bottom alone sets the post-header space,
+  // matching Obsidian's Live Preview.
+  :is(h1, h2, h3, h4, h5, h6) + * {
+    margin-top: 0;
+  }
+  :is(p, pre, table, ul, ol) + :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 2.5rem;
+  }
+}
+
+// Quote styling: thin, muted vertical rule instead of the accent-colored bar,
+// matching the Obsidian look.
+blockquote {
+  border-left: 2px solid var(--gray);
+  font-style: normal;
+  color: var(--darkgray);
 }
