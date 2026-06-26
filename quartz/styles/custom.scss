@@ -4,32 +4,23 @@
 
 // Add CSS variables for colors with RGB values for the glowing effect
 :root {
-  // Updated colors with purple scheme
-  --purple-primary: #6a4c93; // Deep purple
-  --purple-secondary: #8675a9; // Medium purple
-  --purple-tertiary: #c3b1e1; // Light purple
-  --purple-highlight: #42275a; // Dark purple
-  
-  // RGB versions for gradient effects
-  --purple-primary-rgb: 106, 76, 147;
-  --purple-secondary-rgb: 134, 117, 169;
-  --purple-tertiary-rgb: 195, 177, 225;
-  
-  // Override the Quartz theme colors with our purple scheme
-  --secondary: var(--purple-primary) !important;
-  --tertiary: var(--purple-secondary) !important;
-  --highlight: rgba(var(--purple-tertiary-rgb), 0.15) !important;
-  
-  // Original colors kept for reference
-  --secondary-rgb: var(--purple-primary-rgb); /* #6a4c93 replaced #284b63 */
-  --tertiary-rgb: var(--purple-secondary-rgb); /* #8675a9 replaced #84a59d */
+  // Folio has no colored accent; links are ink with a muted underline (set
+  // below). These neutral tones just feed the legacy in-post tooltip markup
+  // that still references the old accent variables.
+  --blue-primary: #a59f93;
+  --blue-secondary: #a59f93;
+  --blue-tertiary: #a59f93;
+  --blue-highlight: #3a382f;
+  --blue-primary-rgb: 165, 159, 147;
+  --blue-secondary-rgb: 165, 159, 147;
+  --blue-tertiary-rgb: 165, 159, 147;
 }
 
 // Page title hover effect
 .page-title a {
   position: relative;
   text-decoration: none;
-  border: 1px solid var(--purple-primary);
+  border: 1px solid var(--blue-primary);
   padding: 0.5rem 1.5rem;
   overflow: hidden;
   transition: box-shadow 0.3s ease, transform 0.3s ease, font-size 0.3s ease;
@@ -37,7 +28,7 @@
   white-space: nowrap; // Prevent wrapping
   
   &:hover {
-    box-shadow: 1px 1px 25px 10px rgba(var(--purple-primary-rgb), 0.4);
+    box-shadow: 1px 1px 25px 10px rgba(var(--blue-primary-rgb), 0.4);
   }
   
   &:before {
@@ -50,7 +41,7 @@
     background: linear-gradient(
       120deg,
       transparent,
-      rgba(var(--purple-primary-rgb), 0.4),
+      rgba(var(--blue-primary-rgb), 0.4),
       transparent
     );
     transition: all 650ms;
@@ -132,9 +123,9 @@ body[data-slug="index"] {
     height: 12rem; // Much larger
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(var(--purple-tertiary-rgb), 0.1) 0%, // Less opaque
-      rgba(var(--purple-tertiary-rgb), 0.06) 40%, // Less opaque
-      rgba(var(--purple-tertiary-rgb), 0.03) 60%, // Added middle layer
+      rgba(var(--blue-tertiary-rgb), 0.1) 0%, // Less opaque
+      rgba(var(--blue-tertiary-rgb), 0.06) 40%, // Less opaque
+      rgba(var(--blue-tertiary-rgb), 0.03) 60%, // Added middle layer
       transparent 80%); // Wider fade
     pointer-events: none;
     opacity: 0;
@@ -170,7 +161,7 @@ body[data-slug="index"] {
         top: 0;
         height: calc(100% + 0.05rem); // Extend line to connect with next item
         width: 1.5px; // Thicker line
-        background-color: rgba(var(--purple-primary-rgb), 0.3);
+        background-color: rgba(var(--blue-primary-rgb), 0.3);
         z-index: 1;
       }
       
@@ -183,7 +174,7 @@ body[data-slug="index"] {
         height: 0.45rem; // Bigger dot (1.5x)
         width: 0.45rem; // Bigger dot (1.5x)
         border-radius: 50%;
-        background-color: var(--purple-primary);
+        background-color: var(--blue-primary);
         z-index: 2;
         transition: background-color 0.2s ease, transform 0.2s ease;
         cursor: pointer; // Show pointer cursor on dots
@@ -203,7 +194,7 @@ body[data-slug="index"] {
       
       // Hover effect for the dots and links
       &:hover::after {
-        background-color: var(--purple-secondary);
+        background-color: var(--blue-secondary);
         transform: scale(1.5);
       }
       
@@ -263,11 +254,11 @@ body[data-slug="index"] {
     color: var(--dark) !important;
     
     &:hover {
-      color: var(--purple-secondary) !important;
+      color: var(--blue-secondary) !important;
     }
     
     &.active {
-      color: var(--purple-primary) !important;
+      color: var(--blue-primary) !important;
       font-weight: 600;
     }
   }
@@ -336,9 +327,9 @@ html {
     height: 16rem; // Much larger size
     border-radius: 50%;
     background: radial-gradient(circle, 
-      rgba(var(--purple-tertiary-rgb), 0.12) 0%, // Less opaque
-      rgba(var(--purple-tertiary-rgb), 0.08) 30%, // Less opaque
-      rgba(var(--purple-tertiary-rgb), 0.05) 60%, // Added middle layer
+      rgba(var(--blue-tertiary-rgb), 0.12) 0%, // Less opaque
+      rgba(var(--blue-tertiary-rgb), 0.08) 30%, // Less opaque
+      rgba(var(--blue-tertiary-rgb), 0.05) 60%, // Added middle layer
       transparent 85%); // Wider fade
     pointer-events: none;
     z-index: 10;
@@ -387,14 +378,14 @@ html {
   margin: 1rem 0;
   
   a {
-    color: var(--purple-primary);
+    color: var(--blue-primary);
     transition: color 0.2s ease;
     display: flex; // Ensure icon is centered within its container
     align-items: center; // Center vertically
     justify-content: center; // Center horizontally
     
     &:hover {
-      color: var(--purple-secondary);
+      color: var(--blue-secondary);
     }
     
     svg {
@@ -405,16 +396,14 @@ html {
   }
 }
 
-// Tooltip styles
+// Tooltip trigger: folio underline styling (no box, no superscript number).
+// The hover/tap popover mechanics are unchanged (.tooltip-text + script).
 .tooltip {
-  display: inline;
   position: relative;
-  /* Extremely tight padding */
-  padding: 0.03rem 0.04rem;
-  background: rgba(var(--purple-tertiary-rgb), 0.15);
-  border: 1px solid rgba(var(--purple-primary-rgb), 0.2);
-  border-radius: 3px;
-  line-height: 1.1;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--folio-line-strong, var(--gray));
   cursor: var(--tooltip-cursor, help);
 
   // Set cursor from data attribute
@@ -427,23 +416,22 @@ html {
     cursor: pointer;
   }
 
+  // Superscript footnote number. inline-block keeps it out of the parent's
+  // underline so the line stops cleanly at the word.
   &::after {
     content: attr(data-number);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
+    display: inline-block;
+    font-size: 0.72rem;
     vertical-align: super;
-    margin-left: 0.15rem;
-    color: var(--purple-primary);
+    margin-left: 0.1rem;
+    color: var(--gray);
   }
 
   @media (max-width: 768px) {
     cursor: pointer;
-    
+
     &.active {
-      background: rgba(var(--purple-tertiary-rgb), 0.25);
-      border-color: rgba(var(--purple-primary-rgb), 0.3);
+      text-decoration-color: var(--dark);
     }
   }
 }
@@ -454,7 +442,7 @@ html {
   padding: 0.5rem 1rem;
   background: var(--dark);
   color: var(--light);
-  border: 1px solid rgba(var(--purple-primary-rgb), 0.3);
+  border: 1px solid rgba(var(--blue-primary-rgb), 0.3);
   border-radius: 4px;
   font-size: 0.875rem;
   max-width: 300px;
@@ -595,4 +583,86 @@ blockquote {
   border-left: 2px solid var(--gray);
   font-style: normal;
   color: var(--darkgray);
+}
+
+// ============================================================================
+// Folio layout: one centered column inside the fixed frame; no sidebars.
+// ============================================================================
+
+// Content links: ink text with a thin muted underline (folio style).
+a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--lightgray);
+}
+// Folio's own components manage their own link styling.
+.folio a,
+.folio-header a {
+  text-decoration: none;
+}
+
+// Drop the sidebars and the default footer — the folio header replaces them.
+#quartz-body > .sidebar {
+  display: none !important;
+}
+footer {
+  display: none !important;
+}
+
+// Scroll the whole page INSIDE the frame: a fixed, inset scroll container so
+// content is clipped at the frame edges instead of scrolling past the fixed
+// frame/header.
+html,
+body {
+  height: 100%;
+}
+body {
+  overflow: hidden;
+}
+#quartz-root {
+  position: fixed;
+  inset: 26px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// Center reading column: sized to sit within the frame and cleared of the
+// fixed header.
+#quartz-body .center {
+  width: 600px !important;
+  max-width: calc(100vw - 120px) !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  padding: 66px 30px 90px !important;
+  box-sizing: border-box;
+}
+.page-header {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+// The Quartz <header> wrapper only holds the fixed folio header/frame, but its
+// default 2rem margin still pushed content down. Collapse it.
+.page-header > header {
+  margin: 0 !important;
+  gap: 0 !important;
+}
+// Quartz emits an <hr> between content and footer; not wanted here.
+#quartz-body .center > hr {
+  display: none;
+}
+
+@media all and (max-width: 800px) {
+  #quartz-root {
+    inset: 14px;
+  }
+  #quartz-body .center {
+    max-width: calc(100vw - 36px) !important;
+    padding: 56px 22px 72px !important;
+  }
+}
+
+// Homepage: the Folio renders in beforeBody, so hide the (empty) article body.
+body[data-slug="index"] .center > article {
+  display: none;
 }

@@ -4,13 +4,15 @@ import * as Component from "./quartz/components"
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
-  afterBody: [Component.MobileOnly(Component.Backlinks())],
+  // The folio chrome (fixed boxed header + decorative frame) on every page.
+  header: [Component.FolioHeader(), Component.FolioFrame()],
+  // Tooltip renders nothing but loads the markdown-tooltip script site-wide.
+  afterBody: [Component.Tooltip()],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/cobylk",
       LinkedIn: "https://www.linkedin.com/in/cobylk/",
-      Email: "mailto:cobylkassner@gmail.com",
+      Email: "mailto:kassner@cobylk.io",
     },
   }),
 }
@@ -18,84 +20,30 @@ export const sharedPageComponents: SharedLayout = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
+    // Homepage: the Folio replaces normal article content.
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
+      component: Component.Folio(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs({ spacerSymbol: "/" }),
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
   ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    // Component.Explorer(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.DesktopOnly(Component.Graph()),
-    Component.DesktopOnly(Component.Backlinks()),
-  ],
-  right: [
-    Component.Tooltip(),
-    Component.MobileOnly(Component.Graph()),
-  ],
-}
-
-// Custom layout for the index page - no title or meta
-export const indexContentPageLayout: PageLayout = {
-  beforeBody: [
-    Component.Breadcrumbs(),
-    // Removed ArticleTitle and ContentMeta
-    Component.TagList(),
-  ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    // Component.Explorer(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.DesktopOnly(Component.Graph()),
-    Component.DesktopOnly(Component.Backlinks()),
-  ],
-  right: [
-    Component.MobileOnly(Component.Graph()),
-  ],
+  left: [],
+  right: [],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    Component.DesktopOnly(Component.Graph()),
-    // Component.Explorer(),
+  beforeBody: [
+    Component.Breadcrumbs({ spacerSymbol: "/" }),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
   ],
+  left: [],
   right: [],
 }

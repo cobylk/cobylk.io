@@ -23,36 +23,18 @@ $boldWeight: 700;
 $semiBoldWeight: 600;
 $normalWeight: 400;
 
-$mobileGrid: (
-  templateRows: "auto auto auto auto auto",
-  templateColumns: "auto",
-  rowGap: "5px",
-  columnGap: "5px",
+// Folio is a single centered column with no sidebars, so every breakpoint
+// uses the same one-column grid.
+$singleColumnGrid: (
+  templateRows: "auto auto auto",
+  templateColumns: "minmax(0, 1fr)",
+  rowGap: "0",
+  columnGap: "0",
   templateAreas:
-    '"grid-sidebar-left"\
-      "grid-header"\
+    '"grid-header"\
       "grid-center"\
-      "grid-sidebar-right"\
       "grid-footer"',
 );
-$tabletGrid: (
-  templateRows: "auto auto auto auto",
-  templateColumns: "#{$sidePanelWidth} auto",
-  rowGap: "5px",
-  columnGap: "5px",
-  templateAreas:
-    '"grid-sidebar-left grid-header"\
-      "grid-sidebar-left grid-center"\
-      "grid-sidebar-left grid-sidebar-right"\
-      "grid-sidebar-left grid-footer"',
-);
-$desktopGrid: (
-  templateRows: "auto auto auto",
-  templateColumns: "#{$sidePanelWidth} auto #{$sidePanelWidth}",
-  rowGap: "5px",
-  columnGap: "5px",
-  templateAreas:
-    '"grid-sidebar-left grid-header grid-sidebar-right"\
-      "grid-sidebar-left grid-center grid-sidebar-right"\
-      "grid-sidebar-left grid-footer grid-sidebar-right"',
-);
+$mobileGrid: $singleColumnGrid;
+$tabletGrid: $singleColumnGrid;
+$desktopGrid: $singleColumnGrid;

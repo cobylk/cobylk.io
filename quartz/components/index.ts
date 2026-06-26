@@ -24,6 +24,9 @@ import Comments from "./Comments"
 import Flex from "./Flex"
 import Tooltip from "./Tooltip"
 import ConditionalRender from "./ConditionalRender"
+import Folio from "./Folio"
+import FolioFrame from "./FolioFrame"
+import FolioHeader from "./FolioHeader"
 
 export {
   ArticleTitle,
@@ -52,4 +55,7 @@ export {
   Flex,
   Tooltip,
   ConditionalRender,
+  Folio,
+  FolioFrame,
+  FolioHeader,
 }
