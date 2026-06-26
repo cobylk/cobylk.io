@@ -1,7 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { resolveRelative } from "../util/path"
 // @ts-ignore
-import darkmodeScript from "./scripts/darkmode.inline"
+import themeScript from "./scripts/folioTheme.inline"
 
 // Sticky/fixed boxed header: wordmark + theme toggle. The toggle is a boxed
 // sun/moon segmented control; it carries the class `darkmode`, so Quartz's
@@ -24,6 +24,6 @@ const FolioHeader: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   )
 }
 
-FolioHeader.beforeDOMLoaded = darkmodeScript
+FolioHeader.beforeDOMLoaded = themeScript
 
 export default (() => FolioHeader) satisfies QuartzComponentConstructor
