@@ -15,8 +15,10 @@ const FolioHeader: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         <span class="folio-word-ext mono">.lk</span>
       </a>
       <button class="darkmode folio-toggle" aria-label="Toggle light/dark theme">
-        <span class="folio-toggle-cell sun">&#9728;</span>
-        <span class="folio-toggle-cell moon">&#9790;</span>
+        {/* &#65038; (U+FE0E) forces monochrome text rendering so mobile doesn't
+            promote these to colour emoji. */}
+        <span class="folio-toggle-cell sun">&#9728;&#65038;</span>
+        <span class="folio-toggle-cell moon">&#9790;&#65038;</span>
       </button>
     </div>
   )
