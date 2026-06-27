@@ -8,12 +8,16 @@ import frameScript from "./scripts/folioFrame.inline"
 // corner ticks, matching the Folio mockup. Purely visual (pointer-events:none).
 const FolioFrame: QuartzComponent = () => {
   return (
-    <div class="folio-frame" aria-hidden="true">
-      <div class="folio-tick tl"></div>
-      <div class="folio-tick tr"></div>
-      <div class="folio-tick bl"></div>
-      <div class="folio-tick br"></div>
-    </div>
+    <>
+      <div class="folio-frame" aria-hidden="true">
+        <div class="folio-tick tl"></div>
+        <div class="folio-tick tr"></div>
+        <div class="folio-tick bl"></div>
+        <div class="folio-tick br"></div>
+      </div>
+      {/* Roaming creature that travels the frame perimeter (folioFrame.inline.ts). */}
+      <div class="folio-creature" aria-hidden="true"></div>
+    </>
   )
 }
 
