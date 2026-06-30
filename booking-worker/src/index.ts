@@ -212,7 +212,7 @@ export default {
       if (req.method === "GET" && url.pathname === "/api/book/availability") {
         return await handleAvailability(req, env, origin)
       }
-      if (req.method === "POST" && url.pathname === "/api/book") {
+      if (req.method === "POST" && (url.pathname === "/api/book" || url.pathname === "/api/book/")) {
         return await handleBook(req, env, origin)
       }
       return json({ error: "not found" }, 404, origin)
