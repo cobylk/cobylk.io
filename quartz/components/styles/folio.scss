@@ -16,8 +16,15 @@
   --folio-corner: rgba(27, 26, 23, 0.6);
 }
 
+// Registered so the music glow radius can be transitioned (it can't otherwise).
+@property --glow-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 // Column geometry (matches the mockup: 600px frame, 30px content inset).
-$frameW: 600px;
+$frameW: 720px;
 $frameInset: 26px;
 $contentPad: 30px;
 
@@ -95,6 +102,8 @@ $contentPad: 30px;
 }
 
 // --- fixed boxed header -----------------------------------------------------
+// Wordmark on the left; right-aligned nav (CV + logos); then a boxed single
+// theme button at the far right, divided off like the reference search cell.
 .folio-header {
   position: fixed;
   top: $frameInset;
@@ -104,17 +113,18 @@ $contentPad: 30px;
   max-width: calc(100vw - 120px);
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
+  min-height: 56px;
   border: 1px solid var(--folio-line);
-  padding: 13px 30px;
+  padding: 0;
   background: var(--light);
   z-index: 6;
 }
 
 .folio-wordmark {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  padding-left: 30px;
   color: var(--dark);
   text-decoration: none;
   background: none;
@@ -133,69 +143,93 @@ $contentPad: 30px;
   }
 }
 
-.folio-toggle {
+.folio-nav {
   display: flex;
-  border: 1px solid var(--folio-line-strong);
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  user-select: none;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+  padding: 0 22px;
 
-  .folio-toggle-cell {
-    width: 30px;
-    height: 28px;
-    display: flex;
+  a {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     font-size: 13px;
+    letter-spacing: 0.06em;
     color: var(--gray);
-    transition:
-      background 0.15s ease,
-      color 0.15s ease;
+    background: none;
+    text-decoration: none;
+    transition: color 0.15s ease;
+    &:hover {
+      color: var(--dark);
+    }
   }
 }
-:root[saved-theme="dark"] .folio-toggle .folio-toggle-cell.moon {
-  background: var(--dark);
-  color: var(--light);
+
+// Boxed theme button at the far right, full height, divided off on the left.
+.folio-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  border: none;
+  border-left: 1px solid var(--folio-line);
+  background: transparent;
+  color: var(--gray);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: color 0.15s ease;
+  &:hover {
+    color: var(--dark);
+  }
+  .folio-icon {
+    display: block;
+  }
+  .icon-sun {
+    display: none;
+  }
 }
-:root[saved-theme="light"] .folio-toggle .folio-toggle-cell.sun {
-  background: var(--dark);
-  color: var(--light);
+:root[saved-theme="dark"] .folio-toggle .icon-sun {
+  display: block;
+}
+:root[saved-theme="dark"] .folio-toggle .icon-moon {
+  display: none;
 }
 
 // --- homepage body ----------------------------------------------------------
 .folio {
   color: var(--dark);
 
-  .folio-social {
-    display: flex;
-    gap: 22px;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: var(--gray);
-    margin-top: 0.4rem; // a little breathing room above CV (≈ half the gap below)
-
-    a {
-      color: var(--gray);
-      background: none;
-      text-decoration: none;
-      sup {
-        font-size: 0.72em;
-        margin-left: 1px;
-      }
-      &:hover {
-        color: var(--dark);
-      }
-    }
-  }
-
   .folio-intro {
     font-size: 20px;
     line-height: 1.66;
     letter-spacing: -0.002em;
-    margin: 22px 0 0;
+    margin: 0;
     color: var(--dark);
+  }
+
+  // Musical-notation flourish, painted in the theme colour via an alpha mask
+  // (works on both light and dark; no white screenshot box). A cursor-tracked
+  // radial highlight (--mx/--my, set by folio.inline.ts) brightens the notation
+  // toward the ink colour near the pointer; the mask clips it to the strokes.
+  .folio-score {
+    width: 100%;
+    aspect-ratio: 2878 / 230;
+    margin: 30px 0 2px;
+    --mx: 50%;
+    --my: 50%;
+    --glow-r: 0px;
+    background-color: var(--gray);
+    background-image: radial-gradient(
+      circle var(--glow-r) at var(--mx) var(--my),
+      var(--dark),
+      transparent 75%
+    );
+    transition:
+      --glow-r 280ms ease,
+      background-color 160ms ease;
+    -webkit-mask: url("/static/score-mask.png") center / contain no-repeat;
+    mask: url("/static/score-mask.png") center / contain no-repeat;
   }
 
   // footnote links + hover tooltip

@@ -56,38 +56,38 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
 
   return (
     <div class="folio">
-      <div class="folio-social mono">
-        <a href="curriculum_vitae.pdf" target="_blank" rel="noopener">
-          CV
-        </a>
-        <a href="https://github.com/cobylk" target="_blank" rel="noopener">
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/cobylk/" target="_blank" rel="noopener">
-          LinkedIn
-        </a>
-        <a href="mailto:kassner@cobylk.io">Email</a>
-      </div>
-
       <p class="folio-intro">
-        I'm Coby, and I'm an AI safety{" "}
+        I'm Coby Kassner, and I'm an AI safety{" "}
         <Footnote
           label="researcher"
           n={1}
           tip="Perhaps, soon, a technically-oriented generalist?"
         />{" "}
         with interest in control and science of generalization. I have a broader interest in most
-        things related to macrostrategy, existential risk, analytical philosophy, and EA/AIS
-        fieldbuilding. In my free time, I love composing and{" "}
+        things related to{" "}
+        <Footnote
+          label="macrostrategy"
+          n={2}
+          tip="Generally, the kind of research Forethought does."
+        />{" "}
+        , existential risk,{" "}
+        <Footnote
+          label="analytical philosophy"
+          n={3}
+          tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, and all of the sorts of papers that L. Dung writes."
+        />{" "}
+        , and effective altruism / AI safety fieldbuilding. In my free time, I love composing and{" "}
         <Footnote
           label="performing music"
-          n={2}
-          tip="I play the piano, alto saxophone, and am learning the accordion."
+          n={4}
+          tip="I play the piano, alto saxophone, and have dreams of learning the accordion or bandoneon."
         />
-        , dancing Argentine tango, and (ski) mountaineering. I'm currently doing my{" "}
-        <Footnote label="undergrad" n={3} tip="Class of 2029" /> at Yale, where I help organize Yale
-        Effective Altruism and Yale AI Alignment.
+        , dancing Argentine tango, and mountaineering. I'm currently{" "}
+        <Footnote label="studying" n={5} tip="B.S. Statistics and Data Science, Class of 2029" /> at
+        Yale, where I help organize the effective altruism and AI alignment groups.
       </p>
+
+      <div class="folio-score" role="img" aria-label="A flourish of musical notation"></div>
 
       <section class="folio-section folio-news">
         <div class="folio-news-head">

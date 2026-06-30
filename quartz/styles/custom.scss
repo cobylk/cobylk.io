@@ -630,11 +630,11 @@ body {
 // Center reading column: sized to sit within the frame and cleared of the
 // fixed header.
 #quartz-body .center {
-  width: 600px !important;
+  width: 720px !important;
   max-width: calc(100vw - 120px) !important;
   min-width: 0 !important;
   margin: 0 auto !important;
-  padding: 66px 30px 90px !important;
+  padding: 70px 30px 90px !important;
   box-sizing: border-box;
 }
 .page-header {
@@ -658,7 +658,7 @@ body {
   }
   #quartz-body .center {
     max-width: calc(100vw - 36px) !important;
-    padding: 56px 22px 72px !important;
+    padding: 62px 22px 72px !important;
   }
 }
 

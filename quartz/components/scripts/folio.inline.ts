@@ -1,6 +1,26 @@
 // Folio NEWS timeline: drag/wheel scrolling with momentum that eases to a stop
 // and snaps so an item's left edge aligns with the container's left edge.
 document.addEventListener("nav", () => {
+  // Cursor-tracked glow on the music flourish.
+  const score = document.querySelector<HTMLElement>(".folio-score")
+  if (score) {
+    const onScoreMove = (e: PointerEvent) => {
+      const r = score.getBoundingClientRect()
+      score.style.setProperty("--mx", `${e.clientX - r.left}px`)
+      score.style.setProperty("--my", `${e.clientY - r.top}px`)
+      score.style.setProperty("--glow-r", "100px") // grows in via CSS transition
+    }
+    const onScoreLeave = () => {
+      score.style.setProperty("--glow-r", "0px") // shrinks out via CSS transition
+    }
+    score.addEventListener("pointermove", onScoreMove)
+    score.addEventListener("pointerleave", onScoreLeave)
+    window.addCleanup?.(() => {
+      score.removeEventListener("pointermove", onScoreMove)
+      score.removeEventListener("pointerleave", onScoreLeave)
+    })
+  }
+
   const scrollers = document.querySelectorAll<HTMLElement>(".folio-news-scroll")
   scrollers.forEach((el) => {
     const items = () => Array.from(el.querySelectorAll<HTMLElement>(".folio-news-item"))
