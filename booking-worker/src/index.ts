@@ -179,6 +179,7 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
     timeZone: CONFIG.timeZone,
     attendeeEmail: email,
     attendeeName: name,
+    notifyEmail: CONFIG.notifyEmail,
     video: type.video,
   })
 

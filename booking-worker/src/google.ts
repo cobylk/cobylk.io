@@ -92,6 +92,8 @@ export interface EventInput {
   timeZone: string
   attendeeEmail: string
   attendeeName: string
+  /** optional owner-side notification address, added as a hidden attendee */
+  notifyEmail?: string
   /** add a Google Meet link */
   video?: boolean
 }
@@ -107,12 +109,23 @@ export async function createEvent(
   calendarId: string,
   input: EventInput,
 ): Promise<CreatedEvent> {
+  const attendees: Record<string, unknown>[] = [
+    { email: input.attendeeEmail, displayName: input.attendeeName },
+  ]
+  if (input.notifyEmail && input.notifyEmail !== input.attendeeEmail) {
+    // Pre-accepted so it lands cleanly on the owner's calendar; the email it
+    // triggers is the booking notification.
+    attendees.push({ email: input.notifyEmail, responseStatus: "accepted" })
+  }
+
   const body: Record<string, unknown> = {
     summary: input.summary,
     description: input.description,
     start: { dateTime: input.startISO, timeZone: input.timeZone },
     end: { dateTime: input.endISO, timeZone: input.timeZone },
-    attendees: [{ email: input.attendeeEmail, displayName: input.attendeeName }],
+    attendees,
+    // Keep the booker from seeing the owner's private notification address.
+    guestsCanSeeOtherGuests: false,
   }
   if (input.location) body.location = input.location
   if (input.video) {

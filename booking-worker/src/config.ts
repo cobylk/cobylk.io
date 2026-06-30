@@ -37,6 +37,13 @@ export interface OwnerConfig {
   timeZone: string
   /** which Google calendar to read/write */
   calendarId: string
+  /**
+   * Address to notify on every booking, added as a second attendee so Google
+   * emails it the invite. MUST be a different account from the calendar owner
+   * (Google won't email the organizer about their own event, and a gmail *alias*
+   * may get deduplicated). Your @yale.edu is the safe choice. Empty = disabled.
+   */
+  notifyEmail: string
   /** how many days ahead bookings are allowed */
   bookingWindowDays: number
   types: EventType[]
@@ -77,6 +84,9 @@ export const CONFIG: OwnerConfig = {
   ownerName: "Coby",
   timeZone: "America/New_York",
   calendarId: "primary",
+  // Set to an address on a DIFFERENT account than the calendar owner (e.g. your
+  // @yale.edu) to get an invite email on every booking. Leave "" to disable.
+  notifyEmail: "",
   bookingWindowDays: 21,
   types: [
     {
