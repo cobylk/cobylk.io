@@ -32,6 +32,11 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
+    // Booking widget, only on /chat.
+    Component.ConditionalRender({
+      component: Component.ChatBooking(),
+      condition: (page) => page.fileData.slug === "chat",
+    }),
   ],
   left: [],
   right: [],

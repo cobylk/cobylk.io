@@ -27,6 +27,7 @@ import ConditionalRender from "./ConditionalRender"
 import Folio from "./Folio"
 import FolioFrame from "./FolioFrame"
 import FolioHeader from "./FolioHeader"
+import ChatBooking from "./ChatBooking"
 
 export {
   ArticleTitle,
@@ -58,4 +59,5 @@ export {
   Folio,
   FolioFrame,
   FolioHeader,
+  ChatBooking,
 }

@@ -1,0 +1,8 @@
+# Copy to `.dev.vars` for local `wrangler dev`. Never commit `.dev.vars`.
+# (Put your REAL values in .dev.vars, which is gitignored — NOT in this file.)
+# Get the refresh token by running: npm run get-refresh-token
+GOOGLE_CLIENT_ID="xxxxxxxx.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="xxxxxxxx"
+GOOGLE_REFRESH_TOKEN="1//xxxxxxxx"
+# Leave TURNSTILE_SECRET unset locally to bypass the captcha in dev.
+TURNSTILE_SECRET=""

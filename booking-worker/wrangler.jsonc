@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "coby-booking",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-30",
+  // Bind the same path on both zones so the frontend can call relative /api/book/*
+  // regardless of whether the page was served from coby.lk or cobylk.io. Pages
+  // keeps serving everything else.
+  "routes": [
+    { "pattern": "coby.lk/api/book/*", "zone_name": "coby.lk" },
+    { "pattern": "cobylk.io/api/book/*", "zone_name": "cobylk.io" },
+  ],
+  "kv_namespaces": [
+    // Token cache, rate-limit counters. Replace id after `wrangler kv namespace create`.
+    { "binding": "BOOKING_KV", "id": "11f4eb0076bc42b3ae4443eb55e24415" },
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+  },
+  // Secrets (set with `wrangler secret put`):
+  //   GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, TURNSTILE_SECRET
+}
