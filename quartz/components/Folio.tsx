@@ -57,7 +57,7 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
   return (
     <div class="folio">
       <p class="folio-intro">
-        I'm Coby Kassner, and I'm an AI safety{" "}
+        I'm Coby Kassner, an AI safety{" "}
         <Footnote
           label="researcher"
           n={1}
@@ -65,12 +65,8 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
         />{" "}
         with interest in control and science of generalization. I have a broader interest in most
         things related to{" "}
-        <Footnote
-          label="macrostrategy"
-          n={2}
-          tip="Generally, the kind of research Forethought does."
-        />{" "}
-        , existential risk,{" "}
+        <Footnote label="macrostrategy" n={2} tip="Generally, I'm a big fan of Forethought." /> ,
+        existential risk,{" "}
         <Footnote
           label="analytical philosophy"
           n={3}

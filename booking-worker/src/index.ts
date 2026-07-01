@@ -39,8 +39,7 @@ function cellType(type: EventType): EventType {
 
 function corsHeaders(origin: string | null): Record<string, string> {
   const ok =
-    origin &&
-    (ALLOWED_ORIGINS.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin))
+    origin && (ALLOWED_ORIGINS.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin))
   return {
     "access-control-allow-origin": ok ? origin! : ALLOWED_ORIGINS[0],
     "access-control-allow-methods": "GET, POST, OPTIONS",
@@ -73,7 +72,11 @@ function timeLabel(instant: number, timeZone: string): string {
   }).format(new Date(instant))
 }
 
-async function handleAvailability(req: Request, env: Env, origin: string | null): Promise<Response> {
+async function handleAvailability(
+  req: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
   const url = new URL(req.url)
   const typeId = url.searchParams.get("type") ?? ""
   const date = url.searchParams.get("date") ?? ""
@@ -148,7 +151,8 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   const location = (body.location ?? "").trim()
 
   if (!name) return json({ error: "Name is required." }, 400, origin)
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: "A valid email is required." }, 400, origin)
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+    return json({ error: "A valid email is required." }, 400, origin)
   const startMs = Date.parse(startISO)
   if (Number.isNaN(startMs)) return json({ error: "Bad start time." }, 400, origin)
 
@@ -185,7 +189,9 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
 
   // The whole window must be a contiguous run of currently-free 30-min cells.
   // This validates the request AND closes the last-moment double-book race.
-  const freeCells = new Set(generateSlots(date, cellType(type), busy, CONFIG.timeZone).map((s) => s.start))
+  const freeCells = new Set(
+    generateSlots(date, cellType(type), busy, CONFIG.timeZone).map((s) => s.start),
+  )
   let allFree = true
   for (let t = startMs; t < endMs; t += cellMs) {
     if (!freeCells.has(t)) {
@@ -207,7 +213,7 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   ].filter(Boolean)
 
   const created = await createEvent(token, CONFIG.calendarId, {
-    summary: `${name} ↔ ${CONFIG.ownerName}: ${type.label}${place && !type.video ? ` (${place})` : ""}`,
+    summary: `${name} <> ${CONFIG.ownerName}: ${type.label}${place && !type.video ? ` (${place})` : ""}`,
     description: descLines.join("\n"),
     location: type.video ? undefined : place || undefined,
     startISO: startOut,
@@ -249,7 +255,10 @@ export default {
       if (req.method === "GET" && url.pathname === "/api/book/availability") {
         return await handleAvailability(req, env, origin)
       }
-      if (req.method === "POST" && (url.pathname === "/api/book" || url.pathname === "/api/book/")) {
+      if (
+        req.method === "POST" &&
+        (url.pathname === "/api/book" || url.pathname === "/api/book/")
+      ) {
         return await handleBook(req, env, origin)
       }
       return json({ error: "not found" }, 404, origin)
