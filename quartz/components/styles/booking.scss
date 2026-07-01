@@ -350,57 +350,56 @@ $axisW: 52px;
     flex: 1 1 0;
     position: relative;
     border-left: 1px solid var(--folio-line-soft);
+    // One continuous diagonal hatch spanning the whole column. Blocked cells are
+    // transparent windows onto it, so the pattern tiles seamlessly across the
+    // 30-min cell boundaries instead of restarting at each one.
     background-color: var(--light);
-    // Faint hour lines showing through the open (transparent) cells.
     background-image: repeating-linear-gradient(
-      to bottom,
+      45deg,
       var(--folio-line-soft) 0,
       var(--folio-line-soft) 1px,
       transparent 1px,
-      transparent var(--hour-px)
+      transparent 9px
     );
     user-select: none;
 
-    // A whole unavailable day: hatched.
+    // Faint hour lines, drawn on top of the cells (also continuous).
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--folio-line-soft) 0,
+        var(--folio-line-soft) 1px,
+        transparent 1px,
+        transparent var(--hour-px)
+      );
+    }
+
+    // A whole unavailable day is just the bare hatched column.
     &.is-off {
       opacity: 0.5;
-      background-image:
-        repeating-linear-gradient(
-          to bottom,
-          var(--folio-line-soft) 0,
-          var(--folio-line-soft) 1px,
-          transparent 1px,
-          transparent var(--hour-px)
-        ),
-        repeating-linear-gradient(
-          45deg,
-          var(--folio-line-soft) 0,
-          var(--folio-line-soft) 1px,
-          transparent 1px,
-          transparent 7px
-        );
     }
   }
 
-  // 30-min cells. Open cells are the draggable canvas; blocked cells are hatched.
+  // 30-min cells. Open cells mask the hatch (they are the draggable canvas);
+  // blocked cells stay transparent so the column's continuous hatch shows.
   .chat-cal-cell {
     box-sizing: border-box;
 
     &.open {
+      background-color: var(--light);
       cursor: crosshair;
     }
+    // Tint on hover without exposing the hatch underneath the cell.
     &.open:hover {
-      background: var(--highlight);
+      background-image: linear-gradient(var(--highlight), var(--highlight));
     }
     &.blocked {
+      background: transparent;
       cursor: not-allowed;
-      background-image: repeating-linear-gradient(
-        45deg,
-        var(--folio-line-soft) 0,
-        var(--folio-line-soft) 1px,
-        transparent 1px,
-        transparent 7px
-      );
     }
   }
 
