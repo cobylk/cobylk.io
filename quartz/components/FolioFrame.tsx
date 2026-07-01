@@ -16,7 +16,8 @@ const FolioFrame: QuartzComponent = () => {
         <div class="folio-tick br"></div>
       </div>
       {/* Roaming creature that travels the frame perimeter (folioFrame.inline.ts). */}
-      <div class="folio-creature" aria-hidden="true"></div>
+      {/* Temporarily disabled — folioFrame.inline.ts no-ops when this is absent. */}
+      {/* <div class="folio-creature" aria-hidden="true"></div> */}
     </>
   )
 }
