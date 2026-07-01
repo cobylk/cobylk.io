@@ -327,6 +327,9 @@ $axisW: 52px;
     scrollbar-width: thin;
     border: 1px solid var(--folio-line-soft);
     border-top: none;
+    // Breathing room so the first/last hour labels (centered on their line)
+    // aren't clipped at the top and bottom edges.
+    padding: 10px 0;
   }
   .chat-cal-body {
     display: flex;

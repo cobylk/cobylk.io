@@ -62,7 +62,7 @@ function fmtDateChip(dateStr: string): string {
 
 // --- calendar-grid date helpers ---------------------------------------------
 // Vertical pixels per minute of the day; sets how tall the week grid is.
-const PX_PER_MIN = 0.9
+const PX_PER_MIN = 0.5
 
 /** YYYY-MM-DD n days after dateStr (plain calendar arithmetic). */
 function addDaysStr(dateStr: string, n: number): string {
