@@ -359,8 +359,8 @@ $axisW: 52px;
     background-color: var(--light);
     background-image: repeating-linear-gradient(
       45deg,
-      var(--folio-line-soft) 0,
-      var(--folio-line-soft) 1px,
+      var(--folio-line) 0,
+      var(--folio-line) 1px,
       transparent 1px,
       transparent 9px
     );
@@ -423,7 +423,7 @@ $axisW: 52px;
     display: flex;
     align-items: flex-start;
     overflow: hidden;
-    background: var(--dark);
+    background: var(--gray);
     color: var(--light);
     border-radius: 3px;
     padding: 2px 5px;
@@ -444,9 +444,9 @@ $axisW: 52px;
     display: block;
     margin: 0.9rem auto 0;
     padding: 0.55rem 1.2rem;
-    background: var(--dark);
+    background: var(--gray);
     color: var(--light);
-    border: 1px solid var(--dark);
+    border: 1px solid var(--gray);
     border-radius: 2px;
     font-family: var(--bodyFont);
     font-size: 0.95rem;
