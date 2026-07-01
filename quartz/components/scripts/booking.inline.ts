@@ -260,7 +260,6 @@ document.addEventListener("nav", () => {
         { class: "chat-card", type: "button" },
         h("span", { class: "chat-card-title" }, t.label),
         h("span", { class: "chat-card-blurb" }, t.blurb),
-        h("span", { class: "chat-card-meta mono" }, `${t.durationMin} min`),
       )
       card.addEventListener("click", () => {
         state.type = t
