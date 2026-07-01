@@ -109,18 +109,14 @@ function dayHeader(dateStr: string): { wd: string; day: string } {
 }
 function hourLabel(min: number): string {
   const h = Math.floor(min / 60)
-  const ampm = h < 12 ? "AM" : "PM"
-  const h12 = h % 12 === 0 ? 12 : h % 12
-  return `${h12} ${ampm}`
+  return `${String(h % 24).padStart(2, "0")}:00`
 }
 function minLabel(min: number): string {
   const h = Math.floor(min / 60)
   const mm = min % 60
-  const ampm = h < 12 ? "AM" : "PM"
-  const h12 = h % 12 === 0 ? 12 : h % 12
-  return `${h12}:${String(mm).padStart(2, "0")} ${ampm}`
+  return `${String(h % 24).padStart(2, "0")}:${String(mm).padStart(2, "0")}`
 }
-/** "12:00 – 1:00 PM" for a [startMin, endMin) window. */
+/** "12:00 – 13:00" for a [startMin, endMin) window (24-hour). */
 function rangeLabel(startMin: number, endMin: number): string {
   return `${minLabel(startMin)} – ${minLabel(endMin)}`
 }

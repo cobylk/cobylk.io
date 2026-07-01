@@ -63,12 +63,13 @@ function dateInTz(instant: number, timeZone: string): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone }).format(new Date(instant))
 }
 
-/** Human label like "12:30 PM" for a slot start, in the owner timezone. */
+/** Human label like "13:30" (24-hour) for a slot start, in the owner timezone. */
 function timeLabel(instant: number, timeZone: string): string {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("en-GB", {
     timeZone,
-    hour: "numeric",
+    hour: "2-digit",
     minute: "2-digit",
+    hourCycle: "h23",
   }).format(new Date(instant))
 }
 

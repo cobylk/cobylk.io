@@ -96,9 +96,7 @@ function res(data: unknown, status = 200): Response {
 }
 
 function label12(h: number, m: number): string {
-  const ap = h < 12 ? "AM" : "PM"
-  const h12 = h % 12 === 0 ? 12 : h % 12
-  return `${h12}:${String(m).padStart(2, "0")} ${ap}`
+  return `${String(h % 24).padStart(2, "0")}:${String(m).padStart(2, "0")}`
 }
 // EDT offset is fine for the summer preview; the grid converts back via Intl.
 function iso(date: string, h: number, m: number): string {
@@ -148,10 +146,11 @@ window.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   if (p.endsWith("/api/book") || p.endsWith("/api/book/")) {
     const body = init?.body ? JSON.parse(init.body as string) : {}
     const fmt = (isoStr: string) =>
-      new Intl.DateTimeFormat("en-US", {
+      new Intl.DateTimeFormat("en-GB", {
         timeZone: config.timeZone,
-        hour: "numeric",
+        hour: "2-digit",
         minute: "2-digit",
+        hourCycle: "h23",
       }).format(new Date(isoStr))
     const label = body.endISO ? `${fmt(body.startISO)} – ${fmt(body.endISO)}` : fmt(body.startISO)
     const date = new Intl.DateTimeFormat("en-CA", { timeZone: config.timeZone }).format(
