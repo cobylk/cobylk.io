@@ -17,12 +17,25 @@ export interface Env {
 }
 
 import { CONFIG, getType, publicConfig } from "./config"
+import type { EventType } from "./config"
 import { generateSlots, zonedWallClockToUtc } from "./slots"
 import { freeBusy, getAccessToken, createEvent } from "./google"
 import { verifyTurnstile } from "./turnstile"
 
 const ALLOWED_ORIGINS = ["https://coby.lk", "https://cobylk.io", "https://www.coby.lk"]
 const RATE_LIMIT_PER_HOUR = 5
+
+// Bookings are built from draggable 30-minute cells (a contiguous run of free
+// cells), capped so nobody blocks out half a day.
+const CELL_MIN = 30
+const MAX_BOOKING_MIN = 240
+const cellMs = CELL_MIN * 60_000
+
+// Availability is expressed as free 30-min cells regardless of a type's default
+// meeting length, so the calendar can offer drag-to-size windows.
+function cellType(type: EventType): EventType {
+  return { ...type, durationMin: CELL_MIN, slotStepMin: CELL_MIN }
+}
 
 function corsHeaders(origin: string | null): Record<string, string> {
   const ok =
@@ -75,13 +88,13 @@ async function handleAvailability(req: Request, env: Env, origin: string | null)
 
   const token = await getAccessToken(env)
   const busy = await freeBusy(token, CONFIG.calendarId, dayStart, dayEnd)
-  const slots = generateSlots(date, type, busy, CONFIG.timeZone)
+  const cells = generateSlots(date, cellType(type), busy, CONFIG.timeZone)
 
   return json(
     {
       type: type.id,
       date,
-      slots: slots.map((s) => ({
+      slots: cells.map((s) => ({
         startISO: s.startISO,
         endISO: s.endISO,
         label: timeLabel(s.start, CONFIG.timeZone),
@@ -96,6 +109,7 @@ interface BookingBody {
   type?: string
   location?: string
   startISO?: string
+  endISO?: string
   name?: string
   email?: string
   note?: string
@@ -137,6 +151,16 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   const startMs = Date.parse(startISO)
   if (Number.isNaN(startMs)) return json({ error: "Bad start time." }, 400, origin)
 
+  // Duration comes from the dragged window; fall back to the type default so
+  // older clients still work. Must be a positive multiple of a cell and capped.
+  const endMs = body.endISO ? Date.parse(body.endISO) : startMs + type.durationMin * 60_000
+  if (Number.isNaN(endMs)) return json({ error: "Bad end time." }, 400, origin)
+  const durMs = endMs - startMs
+  if (durMs <= 0 || durMs % cellMs !== 0) return json({ error: "Bad duration." }, 400, origin)
+  if (durMs > MAX_BOOKING_MIN * 60_000) {
+    return json({ error: `Bookings can be at most ${MAX_BOOKING_MIN / 60} hours.` }, 400, origin)
+  }
+
   // Location must be one of the offered options (unless this is a fixed/video type).
   if (type.locations.length > 0 && !type.locations.includes(location)) {
     return json({ error: "Pick a location from the list." }, 400, origin)
@@ -157,12 +181,23 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
 
   const token = await getAccessToken(env)
   const busy = await freeBusy(token, CONFIG.calendarId, dayStart, dayEnd)
-  const slots = generateSlots(date, type, busy, CONFIG.timeZone)
-  const match = slots.find((s) => s.start === startMs)
-  if (!match) {
+
+  // The whole window must be a contiguous run of currently-free 30-min cells.
+  // This validates the request AND closes the last-moment double-book race.
+  const freeCells = new Set(generateSlots(date, cellType(type), busy, CONFIG.timeZone).map((s) => s.start))
+  let allFree = true
+  for (let t = startMs; t < endMs; t += cellMs) {
+    if (!freeCells.has(t)) {
+      allFree = false
+      break
+    }
+  }
+  if (!allFree) {
     return json({ error: "That time is no longer available. Please pick another." }, 409, origin)
   }
 
+  const startOut = new Date(startMs).toISOString()
+  const endOut = new Date(endMs).toISOString()
   const place = type.video ? "Google Meet" : location
   const descLines = [
     `Booked via coby.lk/chat by ${name} (${email}).`,
@@ -174,8 +209,8 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
     summary: `${name} ↔ ${CONFIG.ownerName}: ${type.label}${place && !type.video ? ` (${place})` : ""}`,
     description: descLines.join("\n"),
     location: type.video ? undefined : place || undefined,
-    startISO: match.startISO,
-    endISO: match.endISO,
+    startISO: startOut,
+    endISO: endOut,
     timeZone: CONFIG.timeZone,
     attendeeEmail: email,
     attendeeName: name,
@@ -186,8 +221,8 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   return json(
     {
       ok: true,
-      startISO: match.startISO,
-      label: timeLabel(match.start, CONFIG.timeZone),
+      startISO: startOut,
+      label: `${timeLabel(startMs, CONFIG.timeZone)} – ${timeLabel(endMs, CONFIG.timeZone)}`,
       date,
       place,
       meetLink: created.hangoutLink ?? null,

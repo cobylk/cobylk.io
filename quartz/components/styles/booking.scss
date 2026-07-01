@@ -6,7 +6,7 @@
 $axisW: 52px;
 
 .chat-booking {
-  max-width: 560px;
+  max-width: 680px;
   margin: 1rem auto 3rem;
 
   .chat-eyebrow {
@@ -253,14 +253,6 @@ $axisW: 52px;
   }
 
   // --- calendar week grid ---------------------------------------------------
-  // The grid breaks out wider than the 560px column so several days fit.
-  .chat-cal-step {
-    width: min(760px, 92vw);
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   .chat-cal-nav {
     display: flex;
     align-items: center;
@@ -358,7 +350,8 @@ $axisW: 52px;
     flex: 1 1 0;
     position: relative;
     border-left: 1px solid var(--folio-line-soft);
-    // Faint hour lines.
+    background-color: var(--light);
+    // Faint hour lines showing through the open (transparent) cells.
     background-image: repeating-linear-gradient(
       to bottom,
       var(--folio-line-soft) 0,
@@ -366,7 +359,9 @@ $axisW: 52px;
       transparent 1px,
       transparent var(--hour-px)
     );
+    user-select: none;
 
+    // A whole unavailable day: hatched.
     &.is-off {
       opacity: 0.5;
       background-image:
@@ -386,12 +381,29 @@ $axisW: 52px;
         );
     }
   }
-  .chat-cal-window {
-    position: absolute;
-    left: 0;
-    right: 0;
-    background: var(--highlight);
+
+  // 30-min cells. Open cells are the draggable canvas; blocked cells are hatched.
+  .chat-cal-cell {
+    box-sizing: border-box;
+
+    &.open {
+      cursor: crosshair;
+    }
+    &.open:hover {
+      background: var(--highlight);
+    }
+    &.blocked {
+      cursor: not-allowed;
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--folio-line-soft) 0,
+        var(--folio-line-soft) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+    }
   }
+
   .chat-cal-colmsg {
     position: absolute;
     top: 8px;
@@ -401,34 +413,38 @@ $axisW: 52px;
     color: var(--tertiary);
   }
 
-  .chat-cal-slot {
+  // The dragged booking window.
+  .chat-cal-sel {
     position: absolute;
-    left: 3px;
-    right: 3px;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    align-items: flex-start;
     overflow: hidden;
-    background: var(--light);
-    border: 1px solid var(--folio-line-strong);
-    border-left: 3px solid var(--dark);
+    background: var(--dark);
+    color: var(--light);
     border-radius: 3px;
-    color: var(--dark);
-    cursor: pointer;
-    font-size: 0.72rem;
-    text-align: left;
     padding: 2px 5px;
+    font-size: 0.72rem;
     line-height: 1.1;
-    transition:
-      background 0.12s ease,
-      transform 0.12s ease;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .chat-cal-continue {
+    display: block;
+    margin: 0.9rem auto 0;
+    padding: 0.55rem 1.2rem;
+    background: var(--dark);
+    color: var(--light);
+    border: 1px solid var(--dark);
+    border-radius: 2px;
+    font-family: var(--bodyFont);
+    font-size: 0.95rem;
+    cursor: pointer;
 
     &:hover {
-      background: var(--highlight);
-      transform: translateX(1px);
-      z-index: 2;
-    }
-    &.is-selected {
-      background: var(--dark);
-      color: var(--light);
-      border-color: var(--dark);
+      opacity: 0.86;
     }
   }
 

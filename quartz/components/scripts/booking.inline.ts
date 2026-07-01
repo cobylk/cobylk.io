@@ -111,6 +111,17 @@ function hourLabel(min: number): string {
   const h12 = h % 12 === 0 ? 12 : h % 12
   return `${h12} ${ampm}`
 }
+function minLabel(min: number): string {
+  const h = Math.floor(min / 60)
+  const mm = min % 60
+  const ampm = h < 12 ? "AM" : "PM"
+  const h12 = h % 12 === 0 ? 12 : h % 12
+  return `${h12}:${String(mm).padStart(2, "0")} ${ampm}`
+}
+/** "12:00 – 1:00 PM" for a [startMin, endMin) window. */
+function rangeLabel(startMin: number, endMin: number): string {
+  return `${minLabel(startMin)} – ${minLabel(endMin)}`
+}
 function fmtRange(dateStr: string): string {
   const [y, m, d] = dateStr.split("-").map(Number)
   return new Intl.DateTimeFormat("en-US", {
@@ -168,7 +179,15 @@ document.addEventListener("nav", () => {
     type: PublicType | null
     location: string
     date: string
-    slot: ApiSlot | null
+    // dragged booking window
+    sel: {
+      date: string
+      startMin: number
+      endMin: number
+      startISO: string
+      endISO: string
+      label: string
+    } | null
     // calendar grid
     weekStart: string
     visibleDays: number
@@ -181,7 +200,7 @@ document.addEventListener("nav", () => {
     type: null,
     location: "",
     date: "",
-    slot: null,
+    sel: null,
     weekStart: "",
     visibleDays: 4,
     daySlots: {},
@@ -209,7 +228,7 @@ document.addEventListener("nav", () => {
     state.type = null
     state.location = ""
     state.date = ""
-    state.slot = null
+    state.sel = null
     state.weekStart = ""
     state.daySlots = {}
     state.error = ""
@@ -289,6 +308,7 @@ document.addEventListener("nav", () => {
 
   function enterCalendar() {
     state.step = "calendar"
+    state.sel = null
     state.weekStart = clampWeekStart(ownerToday(tz()))
     state.daySlots = {}
     fetchWeek()
@@ -387,52 +407,148 @@ document.addEventListener("nav", () => {
     }
     body.append(times)
 
+    const cellPx = 30 * PX_PER_MIN
+    const nCells = (axisEnd - axisStart) / 30
     for (const ds of dates) {
       const off = ds < today || !t.days.includes(weekdayOf(ds))
       const col = h("div", { class: "chat-cal-col" + (off ? " is-off" : "") })
       col.style.setProperty("--hour-px", `${60 * PX_PER_MIN}px`)
-      col.style.setProperty("--axis-offset", `${(axisStart % 60) * PX_PER_MIN}px`)
-      if (!off) {
-        for (const wn of wins) {
-          const reg = h("div", { class: "chat-cal-window" })
-          reg.style.top = `${(wn.s - axisStart) * PX_PER_MIN}px`
-          reg.style.height = `${(wn.e - wn.s) * PX_PER_MIN}px`
-          col.append(reg)
-        }
-        const slots = state.daySlots[ds]
-        if (slots === undefined) {
-          col.append(h("div", { class: "chat-cal-colmsg mono" }, "…"))
-        } else if (slots === "error") {
-          col.append(h("div", { class: "chat-cal-colmsg mono" }, "!"))
-        } else {
-          for (const s of slots) {
-            const startMin = tzMinutes(s.startISO, tz())
-            const endMin = tzMinutes(s.endISO, tz())
-            const dur = endMin > startMin ? endMin - startMin : t.durationMin
-            const selected = state.slot?.startISO === s.startISO
-            const block = h(
-              "button",
-              { class: "chat-cal-slot mono" + (selected ? " is-selected" : ""), type: "button" },
-              s.label,
-            )
-            block.style.top = `${(startMin - axisStart) * PX_PER_MIN}px`
-            block.style.height = `${dur * PX_PER_MIN}px`
-            block.addEventListener("click", () => {
-              state.slot = s
-              state.date = ds
-              state.step = "details"
-              render()
-            })
-            col.append(block)
-          }
+      body.append(col)
+      if (off) continue
+
+      const slots = state.daySlots[ds]
+
+      // Open 30-min cells (free time) come straight from the worker; everything
+      // else in the day is blocked off. Users drag across open cells.
+      const openMins = new Set<number>()
+      const cellMap = new Map<number, ApiSlot>()
+      if (Array.isArray(slots)) {
+        for (const s of slots) {
+          const mn = tzMinutes(s.startISO, tz())
+          openMins.add(mn)
+          cellMap.set(mn, s)
         }
       }
-      body.append(col)
+      for (let i = 0; i < nCells; i++) {
+        const mn = axisStart + i * 30
+        const cell = h("div", {
+          class: "chat-cal-cell " + (openMins.has(mn) ? "open" : "blocked"),
+        })
+        cell.style.height = `${cellPx}px`
+        col.append(cell)
+      }
+      if (slots === undefined || slots === "error") {
+        col.append(h("div", { class: "chat-cal-colmsg mono" }, slots === "error" ? "!" : "…"))
+      }
+
+      // Selection overlay, redrawn each render and live-updated while dragging.
+      const overlay = h("div", { class: "chat-cal-sel mono" })
+      const drawSel = () => {
+        if (state.sel && state.sel.date === ds) {
+          overlay.style.display = "flex"
+          overlay.style.top = `${(state.sel.startMin - axisStart) * PX_PER_MIN}px`
+          overlay.style.height = `${(state.sel.endMin - state.sel.startMin) * PX_PER_MIN}px`
+          overlay.textContent = state.sel.label
+        } else {
+          overlay.style.display = "none"
+        }
+      }
+      col.append(overlay)
+      drawSel()
+
+      if (openMins.size) setupDrag(col, ds, axisStart, cellPx, nCells, openMins, cellMap, drawSel)
     }
     scroll.append(body)
     wrap.append(scroll)
-    wrap.append(h("div", { class: "chat-cal-hint mono" }, "Select an open slot"))
+
+    if (state.sel) {
+      const cont = h(
+        "button",
+        { class: "chat-cal-continue", type: "button" },
+        `Continue — ${state.sel.label}`,
+      )
+      cont.addEventListener("click", () => {
+        state.step = "details"
+        render()
+      })
+      wrap.append(cont)
+    } else {
+      wrap.append(h("div", { class: "chat-cal-hint mono" }, "Drag across open time to pick a window"))
+    }
     return wrap
+  }
+
+  // Press-drag on a day column to select a contiguous run of open 30-min cells.
+  function setupDrag(
+    col: HTMLElement,
+    ds: string,
+    axisStart: number,
+    cellPx: number,
+    nCells: number,
+    openMins: Set<number>,
+    cellMap: Map<number, ApiSlot>,
+    drawSel: () => void,
+  ) {
+    let selecting = false
+    let anchor = 0
+    const minAt = (clientY: number): number => {
+      const r = col.getBoundingClientRect()
+      let idx = Math.floor((clientY - r.top) / cellPx)
+      idx = Math.max(0, Math.min(nCells - 1, idx))
+      return axisStart + idx * 30
+    }
+    const apply = (target: number) => {
+      let lo = anchor
+      let hi = anchor
+      if (target >= anchor) {
+        for (let m = anchor + 30; m <= target; m += 30) {
+          if (openMins.has(m)) hi = m
+          else break // never let a selection cross blocked time
+        }
+      } else {
+        for (let m = anchor - 30; m >= target; m -= 30) {
+          if (openMins.has(m)) lo = m
+          else break
+        }
+      }
+      state.sel = {
+        date: ds,
+        startMin: lo,
+        endMin: hi + 30,
+        startISO: cellMap.get(lo)!.startISO,
+        endISO: cellMap.get(hi)!.endISO,
+        label: rangeLabel(lo, hi + 30),
+      }
+      drawSel()
+    }
+    col.addEventListener("pointerdown", (e) => {
+      const m = minAt(e.clientY)
+      if (!openMins.has(m)) return
+      e.preventDefault()
+      selecting = true
+      anchor = m
+      try {
+        col.setPointerCapture(e.pointerId)
+      } catch {
+        /* noop */
+      }
+      apply(m)
+    })
+    col.addEventListener("pointermove", (e) => {
+      if (selecting) apply(minAt(e.clientY))
+    })
+    const end = (e: PointerEvent) => {
+      if (!selecting) return
+      selecting = false
+      try {
+        col.releasePointerCapture(e.pointerId)
+      } catch {
+        /* noop */
+      }
+      render() // surface the Continue button
+    }
+    col.addEventListener("pointerup", end)
+    col.addEventListener("pointercancel", end)
   }
 
   function renderDetails() {
@@ -443,7 +559,7 @@ document.addEventListener("nav", () => {
     const summary = [
       t.label,
       state.location || (t.video ? "Google Meet" : ""),
-      `${fmtDateChip(state.date)}, ${state.slot!.label}`,
+      `${fmtDateChip(state.sel!.date)}, ${state.sel!.label}`,
     ]
       .filter(Boolean)
       .join(" · ")
@@ -489,7 +605,8 @@ document.addEventListener("nav", () => {
           body: JSON.stringify({
             type: t.id,
             location: state.location,
-            startISO: state.slot!.startISO,
+            startISO: state.sel!.startISO,
+            endISO: state.sel!.endISO,
             name: nameI.value.trim(),
             email: emailI.value.trim(),
             note: noteI.value.trim(),

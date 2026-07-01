@@ -90,16 +90,17 @@ function availability(url: URL) {
   const weekday = new Date(Date.UTC(y, m - 1, d)).getUTCDay()
   if (!type.days.includes(weekday)) return { type: typeId, date, slots: [] }
 
+  // Free 30-minute cells (matches the worker's cell-based availability).
   const slots: { startISO: string; endISO: string; label: string }[] = []
   for (const w of type.windows) {
     const [sh, sm] = w.start.split(":").map(Number)
     const [eh, em] = w.end.split(":").map(Number)
     let t = sh * 60 + sm
     const end = eh * 60 + em
-    while (t + type.durationMin <= end) {
-      // Deterministic pseudo-gaps so some slots look "taken".
-      if ((d * 131 + t * 7) % 10 > 3) {
-        const et = t + type.durationMin
+    while (t + 30 <= end) {
+      // Deterministic pseudo-gaps so some cells look "taken".
+      if ((d * 131 + t * 7) % 10 > 2) {
+        const et = t + 30
         slots.push({
           startISO: iso(date, Math.floor(t / 60), t % 60),
           endISO: iso(date, Math.floor(et / 60), et % 60),
@@ -121,13 +122,16 @@ window.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   if (p.endsWith("/api/book/availability")) return res(availability(url))
   if (p.endsWith("/api/book") || p.endsWith("/api/book/")) {
     const body = init?.body ? JSON.parse(init.body as string) : {}
-    const dt = new Date(body.startISO)
-    const label = new Intl.DateTimeFormat("en-US", {
-      timeZone: config.timeZone,
-      hour: "numeric",
-      minute: "2-digit",
-    }).format(dt)
-    const date = new Intl.DateTimeFormat("en-CA", { timeZone: config.timeZone }).format(dt)
+    const fmt = (isoStr: string) =>
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: config.timeZone,
+        hour: "numeric",
+        minute: "2-digit",
+      }).format(new Date(isoStr))
+    const label = body.endISO ? `${fmt(body.startISO)} – ${fmt(body.endISO)}` : fmt(body.startISO)
+    const date = new Intl.DateTimeFormat("en-CA", { timeZone: config.timeZone }).format(
+      new Date(body.startISO),
+    )
     return res({
       ok: true,
       date,
