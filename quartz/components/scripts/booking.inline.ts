@@ -409,6 +409,33 @@ document.addEventListener("nav", () => {
 
     const cellPx = 30 * PX_PER_MIN
     const nCells = (axisEnd - axisStart) / 30
+
+    // Footer (hint / Continue) and overlay refresh are updated in place so a
+    // drag never triggers a full re-render (which would reset scroll + flash).
+    const drawSelFns: Array<() => void> = []
+    const foot = h("div", { class: "chat-cal-foot" })
+    const syncFooter = () => {
+      foot.replaceChildren()
+      if (state.sel) {
+        const cont = h(
+          "button",
+          { class: "chat-cal-continue", type: "button" },
+          `Continue — ${state.sel.label}`,
+        )
+        cont.addEventListener("click", () => {
+          state.step = "details"
+          render()
+        })
+        foot.append(cont)
+      } else {
+        foot.append(h("div", { class: "chat-cal-hint mono" }, "Drag across open time to pick a window"))
+      }
+    }
+    const onSelChange = () => {
+      drawSelFns.forEach((f) => f())
+      syncFooter()
+    }
+
     for (const ds of dates) {
       const off = ds < today || !t.days.includes(weekdayOf(ds))
       const col = h("div", { class: "chat-cal-col" + (off ? " is-off" : "") })
@@ -455,26 +482,15 @@ document.addEventListener("nav", () => {
       }
       col.append(overlay)
       drawSel()
+      drawSelFns.push(drawSel)
 
-      if (openMins.size) setupDrag(col, ds, axisStart, cellPx, nCells, openMins, cellMap, drawSel)
+      if (openMins.size) setupDrag(col, ds, axisStart, cellPx, nCells, openMins, cellMap, onSelChange)
     }
     scroll.append(body)
     wrap.append(scroll)
 
-    if (state.sel) {
-      const cont = h(
-        "button",
-        { class: "chat-cal-continue", type: "button" },
-        `Continue — ${state.sel.label}`,
-      )
-      cont.addEventListener("click", () => {
-        state.step = "details"
-        render()
-      })
-      wrap.append(cont)
-    } else {
-      wrap.append(h("div", { class: "chat-cal-hint mono" }, "Drag across open time to pick a window"))
-    }
+    syncFooter()
+    wrap.append(foot)
     return wrap
   }
 
@@ -487,7 +503,7 @@ document.addEventListener("nav", () => {
     nCells: number,
     openMins: Set<number>,
     cellMap: Map<number, ApiSlot>,
-    drawSel: () => void,
+    onChange: () => void,
   ) {
     let selecting = false
     let anchor = 0
@@ -519,7 +535,7 @@ document.addEventListener("nav", () => {
         endISO: cellMap.get(hi)!.endISO,
         label: rangeLabel(lo, hi + 30),
       }
-      drawSel()
+      onChange()
     }
     col.addEventListener("pointerdown", (e) => {
       const m = minAt(e.clientY)
@@ -545,7 +561,8 @@ document.addEventListener("nav", () => {
       } catch {
         /* noop */
       }
-      render() // surface the Continue button
+      // No re-render: the overlay + footer were already updated live during the
+      // drag, so releasing shouldn't reset scroll or replay the fade.
     }
     col.addEventListener("pointerup", end)
     col.addEventListener("pointercancel", end)

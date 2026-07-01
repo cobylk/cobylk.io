@@ -431,6 +431,13 @@ $axisW: 52px;
     z-index: 3;
   }
 
+  .chat-cal-foot {
+    min-height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .chat-cal-continue {
     display: block;
     margin: 0.9rem auto 0;
