@@ -5,6 +5,7 @@ public
 prof
 tsconfig.tsbuildinfo
 .quartz-cache
+booking-preview/dist
 private/
 .replit
 replit.nix
