@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" saved-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Booking UI preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Mirror the site's palette + fonts so the widget looks like production. */
+      :root {
+        --bodyFont: "Newsreader", Georgia, serif;
+        --codeFont: "IBM Plex Mono", ui-monospace, monospace;
+      }
+      :root[saved-theme="light"] {
+        --light: #f4f1ea;
+        --lightgray: #dcd7cb;
+        --gray: #6b675e;
+        --darkgray: #1b1a17;
+        --dark: #1b1a17;
+        --secondary: #1b1a17;
+        --tertiary: #6b675e;
+        --highlight: rgba(27, 26, 23, 0.06);
+        --folio-line: rgba(27, 26, 23, 0.22);
+        --folio-line-soft: rgba(27, 26, 23, 0.13);
+        --folio-line-strong: rgba(27, 26, 23, 0.5);
+      }
+      :root[saved-theme="dark"] {
+        --light: #14130f;
+        --lightgray: #3a382f;
+        --gray: #a59f93;
+        --darkgray: #ece7dd;
+        --dark: #ece7dd;
+        --secondary: #ece7dd;
+        --tertiary: #a59f93;
+        --highlight: rgba(236, 231, 221, 0.08);
+        --folio-line: rgba(236, 231, 221, 0.2);
+        --folio-line-soft: rgba(236, 231, 221, 0.13);
+        --folio-line-strong: rgba(236, 231, 221, 0.42);
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        background: var(--light);
+        color: var(--dark);
+        font-family: var(--bodyFont);
+      }
+      .mono {
+        font-family: var(--codeFont);
+      }
+      .preview-frame {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 48px 30px;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+      .preview-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+        border-bottom: 1px solid var(--folio-line-soft);
+        padding-bottom: 12px;
+      }
+      .preview-bar h1 {
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        font-weight: 500;
+        margin: 0;
+        color: var(--gray);
+      }
+      .preview-bar button {
+        font-family: var(--codeFont);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        background: none;
+        border: 1px solid var(--folio-line);
+        border-radius: 2px;
+        color: var(--dark);
+        padding: 0.4rem 0.7rem;
+        cursor: pointer;
+      }
+    </style>
+    <link rel="stylesheet" href="/dist/bundle.css" />
+  </head>
+  <body>
+    <div class="preview-frame">
+      <div class="preview-bar">
+        <h1 class="mono">BOOKING UI PREVIEW — mocked API</h1>
+        <button id="theme-toggle" type="button">toggle theme</button>
+      </div>
+      <div class="chat-booking" data-turnstile-key="1x00000000000000000000AA">
+        <div class="chat-loading mono">Loading…</div>
+      </div>
+    </div>
+    <script>
+      // esbuild live reload
+      try {
+        new EventSource("/esbuild").addEventListener("change", () => location.reload())
+      } catch (e) {}
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const el = document.documentElement
+        el.setAttribute("saved-theme", el.getAttribute("saved-theme") === "dark" ? "light" : "dark")
+      })
+    </script>
+    <script src="/dist/bundle.js"></script>
+  </body>
+</html>
