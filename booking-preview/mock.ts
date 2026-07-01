@@ -114,24 +114,25 @@ function availability(url: URL) {
   const weekday = new Date(Date.UTC(y, m - 1, d)).getUTCDay()
   if (!type.days.includes(weekday)) return { type: typeId, date, slots: [] }
 
-  // Free 30-minute cells (matches the worker's cell-based availability).
+  // Free cells (matches the worker's cell-based availability).
+  const CELL = 15
   const slots: { startISO: string; endISO: string; label: string }[] = []
   for (const w of type.windows) {
     const [sh, sm] = w.start.split(":").map(Number)
     const [eh, em] = w.end.split(":").map(Number)
     let t = sh * 60 + sm
     const end = eh * 60 + em
-    while (t + 30 <= end) {
+    while (t + CELL <= end) {
       // Deterministic pseudo-gaps so some cells look "taken".
       if ((d * 131 + t * 7) % 10 > 2) {
-        const et = t + 30
+        const et = t + CELL
         slots.push({
           startISO: iso(date, Math.floor(t / 60), t % 60),
           endISO: iso(date, Math.floor(et / 60), et % 60),
           label: label12(Math.floor(t / 60), t % 60),
         })
       }
-      t += 30
+      t += CELL
     }
   }
   return { type: typeId, date, slots }

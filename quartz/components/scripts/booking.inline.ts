@@ -63,6 +63,8 @@ function fmtDateChip(dateStr: string): string {
 // --- calendar-grid date helpers ---------------------------------------------
 // Vertical pixels per minute of the day; sets how tall the week grid is.
 const PX_PER_MIN = 0.5
+// Booking granularity in minutes (must match the worker's CELL_MIN).
+const CELL_MIN = 15
 
 /** YYYY-MM-DD n days after dateStr (plain calendar arithmetic). */
 function addDaysStr(dateStr: string, n: number): string {
@@ -406,8 +408,8 @@ document.addEventListener("nav", () => {
     }
     body.append(times)
 
-    const cellPx = 30 * PX_PER_MIN
-    const nCells = (axisEnd - axisStart) / 30
+    const cellPx = CELL_MIN * PX_PER_MIN
+    const nCells = (axisEnd - axisStart) / CELL_MIN
 
     // Footer (hint / Continue) and overlay refresh are updated in place so a
     // drag never triggers a full re-render (which would reset scroll + flash).
@@ -444,8 +446,8 @@ document.addEventListener("nav", () => {
 
       const slots = state.daySlots[ds]
 
-      // Open 30-min cells (free time) come straight from the worker; everything
-      // else in the day is blocked off. Users drag across open cells.
+      // Open cells (free time) come straight from the worker; everything else in
+      // the day is blocked off. Users drag across open cells.
       const openMins = new Set<number>()
       const cellMap = new Map<number, ApiSlot>()
       if (Array.isArray(slots)) {
@@ -456,7 +458,7 @@ document.addEventListener("nav", () => {
         }
       }
       for (let i = 0; i < nCells; i++) {
-        const mn = axisStart + i * 30
+        const mn = axisStart + i * CELL_MIN
         const cell = h("div", {
           class: "chat-cal-cell " + (openMins.has(mn) ? "open" : "blocked"),
         })
@@ -493,7 +495,7 @@ document.addEventListener("nav", () => {
     return wrap
   }
 
-  // Press-drag on a day column to select a contiguous run of open 30-min cells.
+  // Press-drag on a day column to select a contiguous run of open cells.
   function setupDrag(
     col: HTMLElement,
     ds: string,
@@ -510,18 +512,18 @@ document.addEventListener("nav", () => {
       const r = col.getBoundingClientRect()
       let idx = Math.floor((clientY - r.top) / cellPx)
       idx = Math.max(0, Math.min(nCells - 1, idx))
-      return axisStart + idx * 30
+      return axisStart + idx * CELL_MIN
     }
     const apply = (target: number) => {
       let lo = anchor
       let hi = anchor
       if (target >= anchor) {
-        for (let m = anchor + 30; m <= target; m += 30) {
+        for (let m = anchor + CELL_MIN; m <= target; m += CELL_MIN) {
           if (openMins.has(m)) hi = m
           else break // never let a selection cross blocked time
         }
       } else {
-        for (let m = anchor - 30; m >= target; m -= 30) {
+        for (let m = anchor - CELL_MIN; m >= target; m -= CELL_MIN) {
           if (openMins.has(m)) lo = m
           else break
         }
@@ -529,10 +531,10 @@ document.addEventListener("nav", () => {
       state.sel = {
         date: ds,
         startMin: lo,
-        endMin: hi + 30,
+        endMin: hi + CELL_MIN,
         startISO: cellMap.get(lo)!.startISO,
         endISO: cellMap.get(hi)!.endISO,
-        label: rangeLabel(lo, hi + 30),
+        label: rangeLabel(lo, hi + CELL_MIN),
       }
       onChange()
     }

@@ -25,9 +25,9 @@ import { verifyTurnstile } from "./turnstile"
 const ALLOWED_ORIGINS = ["https://coby.lk", "https://cobylk.io", "https://www.coby.lk"]
 const RATE_LIMIT_PER_HOUR = 5
 
-// Bookings are built from draggable 30-minute cells (a contiguous run of free
-// cells), capped so nobody blocks out half a day.
-const CELL_MIN = 30
+// Bookings are built from draggable cells (a contiguous run of free cells),
+// capped so nobody blocks out half a day.
+const CELL_MIN = 15
 const MAX_BOOKING_MIN = 240
 const cellMs = CELL_MIN * 60_000
 
@@ -87,7 +87,7 @@ async function handleAvailability(req: Request, env: Env, origin: string | null)
   ).toISOString()
 
   const token = await getAccessToken(env)
-  const busy = await freeBusy(token, CONFIG.calendarId, dayStart, dayEnd)
+  const busy = await freeBusy(token, CONFIG.busyCalendarIds, dayStart, dayEnd)
   const cells = generateSlots(date, cellType(type), busy, CONFIG.timeZone)
 
   return json(
@@ -180,7 +180,7 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   ).toISOString()
 
   const token = await getAccessToken(env)
-  const busy = await freeBusy(token, CONFIG.calendarId, dayStart, dayEnd)
+  const busy = await freeBusy(token, CONFIG.busyCalendarIds, dayStart, dayEnd)
 
   // The whole window must be a contiguous run of currently-free 30-min cells.
   // This validates the request AND closes the last-moment double-book race.

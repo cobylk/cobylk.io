@@ -52,10 +52,14 @@ export async function getAccessToken(env: Env): Promise<string> {
   return json.access_token
 }
 
-/** Busy intervals on `calendarId` between two instants. */
+/**
+ * Merged busy intervals across `calendarIds` between two instants. Calendars the
+ * token account can't read come back with `errors` (not `busy`) and are skipped,
+ * so one inaccessible calendar never breaks the whole availability check.
+ */
 export async function freeBusy(
   token: string,
-  calendarId: string,
+  calendarIds: string[],
   timeMinISO: string,
   timeMaxISO: string,
 ): Promise<Busy[]> {
@@ -68,7 +72,7 @@ export async function freeBusy(
     body: JSON.stringify({
       timeMin: timeMinISO,
       timeMax: timeMaxISO,
-      items: [{ id: calendarId }],
+      items: calendarIds.map((id) => ({ id })),
     }),
   })
   if (!res.ok) {
@@ -76,11 +80,22 @@ export async function freeBusy(
     throw new Error(`freeBusy failed (${res.status}): ${detail}`)
   }
   const json = (await res.json()) as {
-    calendars: Record<string, { busy: { start: string; end: string }[] }>
+    calendars: Record<
+      string,
+      { busy?: { start: string; end: string }[]; errors?: { reason: string }[] }
+    >
   }
-  const cal = json.calendars[calendarId]
-  const busy = cal?.busy ?? []
-  return busy.map((b) => ({ start: Date.parse(b.start), end: Date.parse(b.end) }))
+  const out: Busy[] = []
+  for (const [id, cal] of Object.entries(json.calendars ?? {})) {
+    if (cal.errors?.length) {
+      console.warn("freeBusy: skipping unreadable calendar", { id, errors: cal.errors })
+      continue
+    }
+    for (const b of cal.busy ?? []) {
+      out.push({ start: Date.parse(b.start), end: Date.parse(b.end) })
+    }
+  }
+  return out
 }
 
 export interface EventInput {

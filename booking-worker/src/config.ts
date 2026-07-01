@@ -35,8 +35,14 @@ export interface OwnerConfig {
   ownerName: string
   /** IANA tz the windows/days are expressed in */
   timeZone: string
-  /** which Google calendar to read/write */
+  /** calendar that bookings are written to */
   calendarId: string
+  /**
+   * Calendars whose busy blocks are merged to compute availability. Each must be
+   * readable by the token account (own/subscribed/shared with free-busy access);
+   * unreadable ones are skipped. Use "primary" for the token account's own.
+   */
+  busyCalendarIds: string[]
   /**
    * Address to notify on every booking, added as a second attendee so Google
    * emails it the invite. MUST be a different account from the calendar owner
@@ -52,7 +58,9 @@ export interface OwnerConfig {
 // Yale residential-college dining halls + the Commons at Schwarzman. Trim or
 // reorder freely.
 const DINING_HALLS = [
-  "Commons (Schwarzman Center)",
+  "Commons",
+  "The Underground",
+  "Steep Cafe",
   "Benjamin Franklin",
   "Berkeley",
   "Branford",
@@ -74,62 +82,71 @@ const CAMPUS_SPOTS = [
   "Cross Campus",
   "Old Campus (Phelps Gate)",
   "Beinecke Plaza",
-  "Bass Library steps",
+  "Bass Library lobby",
   "Sterling Memorial Library nave",
-  "Schwarzman Center",
-  "Science Hill (Kline Tower)",
+  "Schwarzman Center lobby",
+  "Science Hill",
 ]
 
 export const CONFIG: OwnerConfig = {
   ownerName: "Coby",
   timeZone: "America/New_York",
   calendarId: "primary",
+  // Availability is the union of busy time across these calendars. They must be
+  // readable by the token account (share them / subscribe with free-busy access);
+  // any that aren't are silently skipped.
+  busyCalendarIds: [
+    "primary",
+    "coby.kassner@yale.edu",
+    "c_7db4afba902b789232000821ad7b4b94e7ab27ee274eb65e27c7804f4dead999@group.calendar.google.com",
+  ],
   // Set to an address on a DIFFERENT account than the calendar owner (e.g. your
   // @yale.edu) to get an invite email on every booking. Leave "" to disable.
   notifyEmail: "coby.kassner@yale.edu",
   bookingWindowDays: 21,
   types: [
     {
-      id: "meal",
-      label: "Grab a meal",
-      blurb: "Lunch or dinner at a Yale dining hall.",
-      durationMin: 60,
-      bufferMin: 15,
-      minNoticeHours: 12,
-      days: [1, 2, 3, 4, 5],
-      windows: [
-        { start: "12:00", end: "13:30" },
-        { start: "18:00", end: "19:30" },
-      ],
-      slotStepMin: 30,
-      locationPrompt: "Which dining hall?",
-      locations: DINING_HALLS,
-    },
-    {
-      id: "walk",
-      label: "Go for a walk",
-      blurb: "A loop around campus, weather permitting.",
-      durationMin: 30,
-      bufferMin: 10,
-      minNoticeHours: 6,
-      days: [0, 1, 2, 3, 4, 5, 6],
-      windows: [{ start: "14:00", end: "18:00" }],
-      slotStepMin: 30,
-      locationPrompt: "Where should we meet?",
-      locations: CAMPUS_SPOTS,
-    },
-    {
       id: "virtual",
       label: "Meet virtually",
-      blurb: "A video call over Google Meet.",
+      blurb: "(we can chat from anywhere in the world)",
       durationMin: 30,
       bufferMin: 5,
       minNoticeHours: 2,
       days: [0, 1, 2, 3, 4, 5, 6],
-      windows: [{ start: "09:00", end: "21:00" }],
+      windows: [{ start: "09:00", end: "23:30" }],
       slotStepMin: 30,
       locations: [],
       video: true,
+    },
+    {
+      id: "meal",
+      label: "Get a meal",
+      blurb: "(we can enjoy some dining hall food)",
+      durationMin: 60,
+      bufferMin: 15,
+      minNoticeHours: 12,
+      days: [0, 1, 2, 3, 4, 5, 6],
+      windows: [
+        { start: "8:00", end: "10:30" },
+        { start: "12:00", end: "13:30" },
+        { start: "17:00", end: "19:30" },
+      ],
+      slotStepMin: 30,
+      locationPrompt: "Where should we feast?",
+      locations: DINING_HALLS,
+    },
+    {
+      id: "walk",
+      label: "Meet in-person",
+      blurb: "(we can go for a walk or sit down somewhere)",
+      durationMin: 30,
+      bufferMin: 10,
+      minNoticeHours: 6,
+      days: [0, 1, 2, 3, 4, 5, 6],
+      windows: [{ start: "05:00", end: "23:30" }],
+      slotStepMin: 30,
+      locationPrompt: "Where should we meet?",
+      locations: CAMPUS_SPOTS,
     },
   ],
 }
