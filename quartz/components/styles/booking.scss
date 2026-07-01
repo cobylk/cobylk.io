@@ -259,6 +259,13 @@ $axisW: 52px;
   }
 
   // --- calendar week grid ---------------------------------------------------
+  .chat-cal-tz {
+    color: var(--tertiary);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    margin: -0.2rem 0 1rem;
+  }
+
   .chat-cal-nav {
     display: flex;
     align-items: center;

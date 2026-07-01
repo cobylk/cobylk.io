@@ -107,14 +107,32 @@ function dayHeader(dateStr: string): { wd: string; day: string } {
   const wd = new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short" }).format(dt)
   return { wd, day: String(d) }
 }
+// Labels take a minute-of-day that may have been shifted by a timezone offset,
+// so wrap into [0, 1440) before formatting.
 function hourLabel(min: number): string {
-  const h = Math.floor(min / 60)
-  return `${String(h % 24).padStart(2, "0")}:00`
+  const t = ((Math.floor(min) % 1440) + 1440) % 1440
+  return `${String(Math.floor(t / 60)).padStart(2, "0")}:00`
 }
 function minLabel(min: number): string {
-  const h = Math.floor(min / 60)
-  const mm = min % 60
-  return `${String(h % 24).padStart(2, "0")}:${String(mm).padStart(2, "0")}`
+  const t = ((Math.round(min) % 1440) + 1440) % 1440
+  return `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`
+}
+
+// The booker's own timezone, and helpers to relabel owner-tz minutes into it.
+const BOOKER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone
+/** Minutes a timezone is ahead of UTC on a given date (evaluated at noon). */
+function tzOffsetMin(dateStr: string, tz: string): number {
+  const [y, m, d] = dateStr.split("-").map(Number)
+  const noonUtc = new Date(Date.UTC(y, m - 1, d, 12, 0)).toISOString()
+  return tzMinutes(noonUtc, tz) - 720
+}
+/** Short zone name like "EST" / "PST" for display. */
+function tzShort(tz: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    timeZoneName: "short",
+  }).formatToParts(new Date())
+  return parts.find((p) => p.type === "timeZoneName")?.value ?? tz
 }
 /** "12:00 – 13:00" for a [startMin, endMin) window (24-hour). */
 function rangeLabel(startMin: number, endMin: number): string {
@@ -293,6 +311,9 @@ document.addEventListener("nav", () => {
   }
 
   const tz = () => state.cfg!.timeZone
+  // Minutes added to owner-tz labels for the current type. Grid positions stay
+  // in owner tz; this only shifts the displayed text (virtual → booker's zone).
+  let labelShift = 0
   function clampWeekStart(ds: string): string {
     const today = ownerToday(tz())
     return ds < today ? today : ds
@@ -339,6 +360,17 @@ document.addEventListener("nav", () => {
     const wrap = h("div", { class: "chat-step chat-cal-step" })
     wrap.append(backBtn(t.locations.length > 0 ? "location" : "type"), eyebrow("PICK A TIME"))
     if (state.location) wrap.append(h("div", { class: "chat-sub" }, state.location))
+
+    // Virtual meetings are labelled in the booker's own timezone; in-person ones
+    // stay in the owner's zone (that's where the meeting physically is). Only the
+    // labels shift — cell positions remain owner-tz.
+    const ownerTz = tz()
+    const displayTz = t.video ? BOOKER_TZ : ownerTz
+    labelShift =
+      displayTz === ownerTz
+        ? 0
+        : tzOffsetMin(state.weekStart, displayTz) - tzOffsetMin(state.weekStart, ownerTz)
+    wrap.append(h("div", { class: "chat-cal-tz mono" }, `Times shown in ${tzShort(displayTz)}`))
 
     // Axis bounds from the type's availability windows, rounded to whole hours.
     // Fall back to a full-day axis if an older Worker serves no windows yet.
@@ -398,7 +430,7 @@ document.addEventListener("nav", () => {
 
     const times = h("div", { class: "chat-cal-times" })
     for (let mnt = axisStart; mnt <= axisEnd; mnt += 60) {
-      const lab = h("div", { class: "chat-cal-time mono" }, hourLabel(mnt))
+      const lab = h("div", { class: "chat-cal-time mono" }, hourLabel(mnt + labelShift))
       lab.style.top = `${(mnt - axisStart) * PX_PER_MIN}px`
       times.append(lab)
     }
@@ -530,7 +562,7 @@ document.addEventListener("nav", () => {
         endMin: hi + CELL_MIN,
         startISO: cellMap.get(lo)!.startISO,
         endISO: cellMap.get(hi)!.endISO,
-        label: rangeLabel(lo, hi + CELL_MIN),
+        label: rangeLabel(lo + labelShift, hi + CELL_MIN + labelShift),
       }
       onChange()
     }
@@ -645,6 +677,11 @@ document.addEventListener("nav", () => {
 
   function renderDone() {
     const r = state.result
+    // Prefer the frontend's selection label so the confirmation matches the
+    // grid's timezone (booker-zone for virtual); fall back to the worker's.
+    const when = state.sel
+      ? `${fmtDateChip(state.sel.date)} at ${state.sel.label}`
+      : `${fmtDateChip(r.date)} at ${r.label}`
     const wrap = h("div", { class: "chat-step chat-done" })
     wrap.append(
       h("div", { class: "chat-eyebrow mono" }, "REQUESTED"),
@@ -652,7 +689,7 @@ document.addEventListener("nav", () => {
       h(
         "p",
         { class: "chat-done-body" },
-        `I'll see you ${fmtDateChip(r.date)} at ${r.label}${r.place ? ` — ${r.place}` : ""}. ` +
+        `I'll see you ${when}${r.place ? ` — ${r.place}` : ""}. ` +
           `A calendar invite is on its way to your inbox.`,
       ),
     )
