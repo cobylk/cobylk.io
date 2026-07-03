@@ -245,6 +245,7 @@ document.addEventListener("nav", () => {
     state.location = ""
     state.date = ""
     state.sel = null
+    tapAnchor = null
     state.weekStart = ""
     state.daySlots = {}
     state.error = ""
@@ -314,6 +315,8 @@ document.addEventListener("nav", () => {
   // Minutes added to owner-tz labels for the current type. Grid positions stay
   // in owner tz; this only shifts the displayed text (virtual → booker's zone).
   let labelShift = 0
+  // First tap of a touch "tap start → tap end" selection.
+  let tapAnchor: { date: string; min: number } | null = null
   function clampWeekStart(ds: string): string {
     const today = ownerToday(tz())
     return ds < today ? today : ds
@@ -327,6 +330,7 @@ document.addEventListener("nav", () => {
   function enterCalendar() {
     state.step = "calendar"
     state.sel = null
+    tapAnchor = null
     state.weekStart = clampWeekStart(ownerToday(tz()))
     state.daySlots = {}
     fetchWeek()
@@ -457,7 +461,14 @@ document.addEventListener("nav", () => {
         })
         foot.append(cont)
       } else {
-        foot.append(h("div", { class: "chat-cal-hint mono" }, "Drag across open time to pick a window"))
+        const coarse = window.matchMedia("(pointer: coarse)").matches
+        foot.append(
+          h(
+            "div",
+            { class: "chat-cal-hint mono" },
+            coarse ? "Tap a start time, then an end time" : "Drag across open time to pick a window",
+          ),
+        )
       }
     }
     const onSelChange = () => {
@@ -523,7 +534,11 @@ document.addEventListener("nav", () => {
     return wrap
   }
 
-  // Press-drag on a day column to select a contiguous run of open cells.
+  // Selection interaction on a day column.
+  //  - Mouse: press-drag a contiguous run of open cells (captures the pointer).
+  //  - Touch/pen: tap a start cell, then tap an end cell. We never call
+  //    preventDefault or capture the pointer, so vertical scrolling stays native
+  //    and the selection gesture doesn't fight it.
   function setupDrag(
     col: HTMLElement,
     ds: string,
@@ -534,28 +549,30 @@ document.addEventListener("nav", () => {
     cellMap: Map<number, ApiSlot>,
     onChange: () => void,
   ) {
-    let selecting = false
-    let anchor = 0
     const minAt = (clientY: number): number => {
       const r = col.getBoundingClientRect()
       let idx = Math.floor((clientY - r.top) / cellPx)
       idx = Math.max(0, Math.min(nCells - 1, idx))
       return axisStart + idx * CELL_MIN
     }
-    const apply = (target: number) => {
-      let lo = anchor
-      let hi = anchor
-      if (target >= anchor) {
-        for (let m = anchor + CELL_MIN; m <= target; m += CELL_MIN) {
+    // Contiguous open run from `from` toward `toward`, stopping at blocked time.
+    const run = (from: number, toward: number): [number, number] => {
+      let lo = from
+      let hi = from
+      if (toward >= from) {
+        for (let m = from + CELL_MIN; m <= toward; m += CELL_MIN) {
           if (openMins.has(m)) hi = m
-          else break // never let a selection cross blocked time
+          else break
         }
       } else {
-        for (let m = anchor - CELL_MIN; m >= target; m -= CELL_MIN) {
+        for (let m = from - CELL_MIN; m >= toward; m -= CELL_MIN) {
           if (openMins.has(m)) lo = m
           else break
         }
       }
+      return [lo, hi]
+    }
+    const setSel = (lo: number, hi: number) => {
       state.sel = {
         date: ds,
         startMin: lo,
@@ -566,35 +583,72 @@ document.addEventListener("nav", () => {
       }
       onChange()
     }
+
+    // --- touch/pen: tap start, tap end ---
+    const handleTap = (m: number) => {
+      if (!openMins.has(m)) return
+      if (tapAnchor && tapAnchor.date === ds && openMins.has(tapAnchor.min)) {
+        if (m === tapAnchor.min) {
+          state.sel = null
+          tapAnchor = null
+          onChange()
+          return
+        }
+        const [lo, hi] = run(tapAnchor.min, m)
+        if (m >= lo && m <= hi) {
+          setSel(lo, hi)
+          return
+        }
+        // Tapped across a blocked gap — start a fresh selection there.
+      }
+      tapAnchor = { date: ds, min: m }
+      setSel(m, m)
+    }
+
+    // --- mouse: drag ---
+    let dragging = false
+    let anchor = 0
+    let downY = 0
     col.addEventListener("pointerdown", (e) => {
+      downY = e.clientY
+      if (e.pointerType !== "mouse") return // touch/pen scrolls; decide on up
       const m = minAt(e.clientY)
       if (!openMins.has(m)) return
       e.preventDefault()
-      selecting = true
+      dragging = true
       anchor = m
+      tapAnchor = null
       try {
         col.setPointerCapture(e.pointerId)
       } catch {
         /* noop */
       }
-      apply(m)
+      const [lo, hi] = run(anchor, m)
+      setSel(lo, hi)
     })
     col.addEventListener("pointermove", (e) => {
-      if (selecting) apply(minAt(e.clientY))
+      if (!dragging) return
+      const [lo, hi] = run(anchor, minAt(e.clientY))
+      setSel(lo, hi)
     })
-    const end = (e: PointerEvent) => {
-      if (!selecting) return
-      selecting = false
-      try {
-        col.releasePointerCapture(e.pointerId)
-      } catch {
-        /* noop */
+    col.addEventListener("pointerup", (e) => {
+      if (dragging) {
+        dragging = false
+        try {
+          col.releasePointerCapture(e.pointerId)
+        } catch {
+          /* noop */
+        }
+        return
       }
-      // No re-render: the overlay + footer were already updated live during the
-      // drag, so releasing shouldn't reset scroll or replay the fade.
-    }
-    col.addEventListener("pointerup", end)
-    col.addEventListener("pointercancel", end)
+      // A touch/pen release that barely moved is a tap (a scroll moves further).
+      if (e.pointerType !== "mouse" && Math.abs(e.clientY - downY) < 12) {
+        handleTap(minAt(e.clientY))
+      }
+    })
+    col.addEventListener("pointercancel", () => {
+      dragging = false
+    })
   }
 
   function renderDetails() {
