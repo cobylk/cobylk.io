@@ -64,12 +64,14 @@
   }
 }
 
-// Hide specific elements based on CSS classes
-.hide-title .article-title {
+// Hide specific elements based on `cssclasses`. Quartz puts those classes on the
+// <article>, but the title/meta render in the sibling .page-header — so reach
+// them from the article via :has() on the shared .center ancestor.
+.center:has(> article.hide-title) .article-title {
   display: none !important;
 }
 
-.hide-meta .content-meta {
+.center:has(> article.hide-meta) .content-meta {
   display: none !important;
 }
 

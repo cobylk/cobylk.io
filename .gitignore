@@ -1,5 +1,4 @@
 .DS_Store
-.gitignore
 node_modules
 public
 prof
@@ -9,5 +8,6 @@ booking-preview/dist
 private/
 .replit
 replit.nix
+.claude/
 
 content/Personal/Why I am pursuing a career in AI safety research.md
