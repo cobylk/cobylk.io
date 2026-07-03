@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/chat.md",
+                "file": "content/Personal/Why I am pursuing a career in AI safety research copy.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "chat"
+              "title": "Why I am pursuing a career in AI safety research copy"
             }
           },
           {
@@ -256,12 +256,14 @@
     "public/postscript.js",
     "public/prescript.js",
     "public/index.css",
-    "public/Personal/006-kernels-and-neural-networks.html",
-    "public/Personal/003-lasso,-smoothing-and-kernels.html",
+    "public/Music/TDE_score.pdf",
+    "public/Music/tidal-disruption-event.html",
+    "public/Music/juvenalia.html",
+    "public/index.xml",
+    "public/curriculum_vitae.pdf",
+    "content/chat.md",
     "content/index.md",
-    "public/Research/spar_simplicial_networks.html",
-    "public/Research/privacy_neuron_editing.html",
-    "public/Research/manifold_neural_block.html",
+    "content/Personal/Why I am pursuing a career in AI safety research copy.md",
     "booking-worker/node_modules/fsevents/README.md",
     "booking-worker/README.md",
     "booking-worker/node_modules/@cloudflare/workerd-darwin-arm64/README.md",
@@ -283,8 +285,6 @@
     "booking-worker/node_modules/undici/docs/docs/api/WebSocket.md",
     "booking-worker/node_modules/undici/docs/docs/api/Util.md",
     "booking-worker/node_modules/undici/docs/docs/api/Socks5ProxyAgent.md",
-    "booking-worker/node_modules/undici/docs/docs/api/SnapshotAgent.md",
-    "booking-worker/node_modules/undici/docs/docs/api/RoundRobinPool.md",
-    "booking-worker/node_modules/undici/docs/docs/api/RetryHandler.md"
+    "booking-worker/node_modules/undici/docs/docs/api/SnapshotAgent.md"
   ]
 }

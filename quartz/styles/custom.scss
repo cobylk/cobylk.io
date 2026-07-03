@@ -400,6 +400,10 @@ html {
 // The hover/tap popover mechanics are unchanged (.tooltip-text + script).
 .tooltip {
   position: relative;
+  // Keep the word and its superscript number together — the inline-block
+  // ::after is an atomic inline, which would otherwise let the number orphan
+  // onto the next line.
+  white-space: nowrap;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
@@ -449,6 +453,7 @@ html {
   z-index: 1000;
   pointer-events: none;
   line-height: 1.4;
+  white-space: normal;
 
   &.visible {
     display: block;

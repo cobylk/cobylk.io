@@ -63,18 +63,19 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
           n={1}
           tip="Perhaps, soon, a technically-oriented generalist?"
         />{" "}
-        with interest in control and science of generalization. I have a broader interest in most
-        things related to{" "}
-        <Footnote label="macrostrategy" n={2} tip="Generally, I'm a big fan of Forethought." /> ,
+        with interest in control and science of generalization. I have a broader interest in things
+        related to{" "}
+        <Footnote label="macrostrategy" n={2} tip="Generally, I'm a big fan of Forethought." />,
         existential risk,{" "}
         <Footnote
           label="analytical philosophy"
           n={3}
           tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, and all of the sorts of papers that L. Dung writes."
         />{" "}
-        , and effective altruism / AI safety fieldbuilding. In my free time, I love composing and{" "}
+        , and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
+        performing{" "}
         <Footnote
-          label="performing music"
+          label="music"
           n={4}
           tip="I play the piano, alto saxophone, and have dreams of learning the accordion or bandoneon."
         />
