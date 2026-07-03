@@ -645,7 +645,9 @@ document.addEventListener("nav", () => {
       }
 
       try {
-        const res = await fetch(api(""), {
+        // Trailing slash so it matches the Worker route `/api/book/*` (a bare
+        // `/api/book` misses the route and falls through to Pages as a 405).
+        const res = await fetch(api("/"), {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
