@@ -253,9 +253,16 @@ $axisW: 52px;
   .chat-done-body {
     color: var(--gray);
   }
-  .chat-meet {
-    display: inline-block;
+  // Meet link and "book another" each get their own line (both were inline-block
+  // and overlapped).
+  .chat-done .chat-meet {
+    display: block;
     margin-top: 0.3rem;
+  }
+  .chat-done .chat-back {
+    display: block;
+    margin-top: 1.2rem;
+    margin-bottom: 0;
   }
 
   // --- calendar week grid ---------------------------------------------------
