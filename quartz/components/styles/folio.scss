@@ -232,6 +232,30 @@ $contentPad: 30px;
     mask: url("/static/score-mask.png") center / contain no-repeat;
   }
 
+  // Caption that fades in under the sheet music on hover.
+  .folio-score-tip {
+    text-align: center;
+    max-width: 46ch;
+    margin: 0.7rem auto 0;
+    color: var(--gray);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+
+    em {
+      font-style: italic;
+    }
+  }
+  .folio-score-wrap:hover .folio-score-tip {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .folio-score-tip {
+      transition: none;
+    }
+  }
+
   // footnote links + hover tooltip
   .folio-fn {
     position: relative;
