@@ -28,6 +28,7 @@ import Folio from "./Folio"
 import FolioFrame from "./FolioFrame"
 import FolioHeader from "./FolioHeader"
 import ChatBooking from "./ChatBooking"
+import OracleDist from "./OracleDist"
 
 export {
   ArticleTitle,
@@ -60,4 +61,5 @@ export {
   FolioFrame,
   FolioHeader,
   ChatBooking,
+  OracleDist,
 }

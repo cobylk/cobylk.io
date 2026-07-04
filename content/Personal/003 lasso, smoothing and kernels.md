@@ -1,6 +1,6 @@
 ---
-title: lasso, smoothing, and kernels
-draft: false 
+title: (S&DS 365) Lasso, smoothing, and kernels
+draft:  
 ---
 *This is an excerpt from some notes I took for Yale's S&DS 365 Class (Intermediate Machine Learning)*
 

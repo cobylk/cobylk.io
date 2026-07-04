@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/Personal/Why I am pursuing a career in AI safety research copy.md",
+                "file": "content/Personal/003 lasso, smoothing and kernels.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Why I am pursuing a career in AI safety research copy"
+              "title": "003 lasso, smoothing and kernels"
             }
           },
           {
@@ -249,21 +249,26 @@
     "public/Research/caa_data_extraction-og-image.webp",
     "public/Research/aitchison_transformer-og-image.webp",
     "public/Personal/index-og-image.webp",
+    "public/Personal/future-og-image.webp",
     "public/Personal/006-kernels-and-neural-networks-og-image.webp",
-    "public/Personal/003-lasso,-smoothing-and-kernels-og-image.webp",
     "public/index.html",
     "public/chat.html",
+    "public/Research/spar_simplicial_networks.html",
+    "public/Research/privacy_neuron_editing.html",
+    "public/Research/manifold_neural_block.html",
+    "public/Research/caa_data_extraction.html",
+    "public/Research/aitchison_transformer.html",
     "public/postscript.js",
     "public/prescript.js",
-    "public/index.css",
-    "public/Music/TDE_score.pdf",
-    "public/Music/tidal-disruption-event.html",
-    "public/Music/juvenalia.html",
-    "public/index.xml",
-    "public/curriculum_vitae.pdf",
+    "public/Personal/future.html",
+    "content/Personal/Untitled.md",
+    "content/Personal/future.md",
+    "content/Personal/003 lasso, smoothing and kernels.md",
+    "content/Personal/006 kernels and neural networks.md",
+    "content/Personal/autobiography.md",
+    "content/Personal/Why I am pursuing a career in AI safety research copy.md",
     "content/chat.md",
     "content/index.md",
-    "content/Personal/Why I am pursuing a career in AI safety research copy.md",
     "booking-worker/node_modules/fsevents/README.md",
     "booking-worker/README.md",
     "booking-worker/node_modules/@cloudflare/workerd-darwin-arm64/README.md",
@@ -280,11 +285,6 @@
     "booking-worker/node_modules/undici/docs/docs/best-practices/proxy.md",
     "booking-worker/node_modules/undici/docs/docs/best-practices/mocking-request.md",
     "booking-worker/node_modules/undici/docs/docs/best-practices/crawling.md",
-    "booking-worker/node_modules/undici/docs/docs/best-practices/client-certificate.md",
-    "booking-worker/node_modules/undici/docs/docs/api/api-lifecycle.md",
-    "booking-worker/node_modules/undici/docs/docs/api/WebSocket.md",
-    "booking-worker/node_modules/undici/docs/docs/api/Util.md",
-    "booking-worker/node_modules/undici/docs/docs/api/Socks5ProxyAgent.md",
-    "booking-worker/node_modules/undici/docs/docs/api/SnapshotAgent.md"
+    "booking-worker/node_modules/undici/docs/docs/best-practices/client-certificate.md"
   ]
 }

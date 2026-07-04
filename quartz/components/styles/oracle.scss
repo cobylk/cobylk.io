@@ -1,0 +1,148 @@
+// Styles for the interactive partitioned distributions ("I, Oracle").
+// Rendered into `.oracle-dist` containers by scripts/oracle.inline.ts.
+
+.oracle-dist {
+  margin: 2.2rem 0 1.8rem;
+
+  .oracle-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+
+  .oracle-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .oracle-curve {
+    fill: none;
+    stroke: var(--dark);
+    stroke-width: 1.5;
+    pointer-events: none;
+  }
+
+  .oracle-axis {
+    stroke: var(--lightgray);
+    stroke-width: 1;
+    pointer-events: none;
+  }
+
+  .oracle-tick-label {
+    fill: var(--gray);
+    font-family: var(--codeFont), monospace;
+    font-size: 11px;
+    pointer-events: none;
+  }
+
+  .oracle-boundary {
+    stroke: var(--gray);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .oracle-region-g {
+    cursor: pointer;
+
+    .oracle-area {
+      fill: var(--dark);
+      fill-opacity: 0.08;
+      transition: fill-opacity 0.15s ease;
+      pointer-events: none;
+    }
+
+    &.hover .oracle-area {
+      fill-opacity: 0.17;
+    }
+
+    &.selected .oracle-area {
+      fill-opacity: 0.32;
+    }
+  }
+
+  // Once something is chosen, quiet the unselected regions further.
+  &.has-selection .oracle-region-g:not(.selected):not(.hover) .oracle-area {
+    fill-opacity: 0.045;
+  }
+
+  .oracle-hit {
+    fill: transparent;
+    outline: none;
+  }
+
+  .oracle-keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+
+  .oracle-key {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.65rem;
+    background: transparent;
+    border: 1px solid var(--lightgray);
+    border-radius: 2px;
+    color: var(--gray);
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease,
+      background-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--gray);
+      color: var(--dark);
+    }
+
+    &.selected {
+      border-color: var(--dark);
+      color: var(--dark);
+      background-color: var(--highlight);
+    }
+  }
+}
+
+.oracle-reading {
+  .oracle-hint {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    border: 1px dashed var(--lightgray);
+    padding: 0.85rem 1rem;
+    margin: 1.8rem 0;
+  }
+
+  .oracle-variant {
+    display: none;
+  }
+
+  .oracle-variant.active {
+    display: block;
+    animation: oracle-fade 0.35s ease;
+  }
+
+  .oracle-variant-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    margin: 1.8rem 0 0.6rem;
+  }
+}
+
+@keyframes oracle-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

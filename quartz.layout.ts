@@ -7,7 +7,9 @@ export const sharedPageComponents: SharedLayout = {
   // The folio chrome (fixed boxed header + decorative frame) on every page.
   header: [Component.FolioHeader(), Component.FolioFrame()],
   // Tooltip renders nothing but loads the markdown-tooltip script site-wide.
-  afterBody: [Component.Tooltip()],
+  // OracleDist likewise loads the interactive-distribution script; it only
+  // acts on pages containing `.oracle-dist` containers.
+  afterBody: [Component.Tooltip(), Component.OracleDist()],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/cobylk",

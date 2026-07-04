@@ -1,5 +1,5 @@
 ---
-title: kernels and neural networks
+title: (S&DS 365) Kernels and neural networks
 draft: false 
 ---
 *This is an excerpt from some notes I took for Yale's S&DS 365 Class (Intermediate Machine Learning)*
