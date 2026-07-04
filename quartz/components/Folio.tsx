@@ -87,8 +87,7 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
       <div class="folio-score-wrap">
         <div class="folio-score" role="img" aria-label="A flourish of musical notation"></div>
         <div class="folio-score-tip">
-          This is a snippet from my piece <em>Tidal Disruption Event</em> (2024). If you can't tell,
-          I'm infatuated with E lydian
+          This is a snippet from my piece <em>Tidal Disruption Event</em> (2024).
         </div>
       </div>
 
