@@ -341,10 +341,9 @@ $axisW: 52px;
     color: var(--dark);
   }
 
+  // No inner scroll region — the compact grid renders at its natural height
+  // (an inner scrollbar looked bad and hid parts of the day).
   .chat-cal-scroll {
-    max-height: 440px;
-    overflow-y: auto;
-    scrollbar-width: thin;
     border: 1px solid var(--folio-line-soft);
     border-top: none;
     // Breathing room so the first/last hour labels (centered on their line)
