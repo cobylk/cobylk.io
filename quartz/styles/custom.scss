@@ -700,19 +700,24 @@ article.scrapbook {
 
 // Scrapbook pages get a wider canvas than the 720px reading column. The fixed
 // folio frame and header are sized to the column, so they widen in step.
-body:has(article.scrapbook) {
+// Scoped by slug, not by article presence: link popovers inject the target
+// page's <article> into the current DOM, so :has(article.scrapbook) would
+// widen the frame the moment a scrapbook link is hovered anywhere on the site.
+body[data-slug^="scrapbook/"]:not([data-slug="scrapbook/index"]) {
   .folio-frame,
   .folio-header {
     width: 1140px;
   }
-}
-#quartz-body .center:has(> article.scrapbook) {
-  width: 1100px !important;
-  max-width: calc(100vw - 160px) !important;
-}
-@media all and (max-width: 800px) {
-  #quartz-body .center:has(> article.scrapbook) {
-    max-width: calc(100vw - 36px) !important;
+
+  #quartz-body .center {
+    width: 1100px !important;
+    max-width: calc(100vw - 160px) !important;
+  }
+
+  @media all and (max-width: 800px) {
+    #quartz-body .center {
+      max-width: calc(100vw - 36px) !important;
+    }
   }
 }
 
