@@ -1,12 +1,9 @@
 ---
-title: Drift
+title: Scrapbook
 cssclasses:
   - scrapbook
-  - scrapbook-drift
   - hide-meta
 ---
-
-Masonry columns with a slight drift: each piece leans no more than a degree or so, and hover lifts it gently. The most restrained of the three versions, meant to sit comfortably next to the rest of the site.
 
 <div class="scrapbook-board">
 

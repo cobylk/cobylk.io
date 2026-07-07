@@ -675,17 +675,16 @@ body[data-slug="index"] .center > article {
 }
 
 // ============================================================================
-// Scrapbook demos. Three page treatments share the .scrapbook base; each page
-// opts into a variant via `cssclasses` (scrapbook-cork / -desk / -drift).
-// Per-piece tilt is an inline `--tilt` custom property on each .scrap, so the
-// composition lives in the markdown and the behavior lives here.
+// Scrapbook (Personal/scrapbook): masonry columns of paintings, poems, and
+// embedded videos with a slight per-piece lean. Each .scrap carries an inline
+// `--tilt` custom property, so the composition lives in the markdown and the
+// behavior lives here. Activated via `cssclasses: [scrapbook]` frontmatter.
 // ============================================================================
 
 article.scrapbook {
   --paper: #fffdf6;
   --paper-ink: #24221d;
   --paper-muted: #6b675e;
-  --tape: rgba(214, 188, 122, 0.55);
   --scrap-shadow: rgba(27, 26, 23, 0.16);
   --scrap-shadow-hover: rgba(27, 26, 23, 0.28);
 }
@@ -693,17 +692,16 @@ article.scrapbook {
   --paper: #221f1a;
   --paper-ink: #ece7dd;
   --paper-muted: #a59f93;
-  --tape: rgba(180, 155, 90, 0.35);
   --scrap-shadow: rgba(0, 0, 0, 0.45);
   --scrap-shadow-hover: rgba(0, 0, 0, 0.65);
 }
 
-// Scrapbook pages get a wider canvas than the 720px reading column. The fixed
-// folio frame and header are sized to the column, so they widen in step.
-// Scoped by slug, not by article presence: link popovers inject the target
-// page's <article> into the current DOM, so :has(article.scrapbook) would
-// widen the frame the moment a scrapbook link is hovered anywhere on the site.
-body[data-slug^="scrapbook/"]:not([data-slug="scrapbook/index"]) {
+// The scrapbook gets a wider canvas than the 720px reading column; the fixed
+// folio frame and header widen in step. Scoped by slug, not by article
+// presence: link popovers inject the target page's <article> into the current
+// DOM, so :has(article.scrapbook) would widen the frame the moment a
+// scrapbook link is hovered anywhere on the site.
+body[data-slug="Personal/scrapbook"] {
   .folio-frame,
   .folio-header {
     width: 1140px;
@@ -722,12 +720,21 @@ body[data-slug^="scrapbook/"]:not([data-slug="scrapbook/index"]) {
 }
 
 article.scrapbook {
-  // The shared scrap card: a piece of paper with a tilt that undoes itself on
-  // hover. z-index only wins while transformed, hence position: relative.
+  .scrapbook-board {
+    columns: 3 260px;
+    column-gap: 1.6rem;
+    padding: 1.5rem 0 4rem;
+  }
+
+  // A scrap: a piece of paper with a slight lean that rights itself on hover.
+  // position: relative so the hover z-index wins over later siblings.
   .scrap {
     position: relative;
+    break-inside: avoid;
+    margin: 0 0 1.6rem;
     background: var(--paper);
     color: var(--paper-ink);
+    border: 1px solid var(--lightgray);
     box-shadow:
       0 1px 3px var(--scrap-shadow),
       0 6px 16px var(--scrap-shadow);
@@ -738,7 +745,7 @@ article.scrapbook {
     will-change: transform;
 
     &:hover {
-      transform: rotate(0deg) translateY(-6px) scale(1.02);
+      transform: rotate(0deg) translateY(-4px);
       box-shadow:
         0 4px 10px var(--scrap-shadow-hover),
         0 18px 36px var(--scrap-shadow);
@@ -768,6 +775,7 @@ article.scrapbook {
 
   figure.scrap {
     margin: 0;
+    padding: 0.7rem 0.7rem 0.8rem;
   }
 
   figcaption,
@@ -807,103 +815,5 @@ article.scrapbook {
       transform: none;
       transition: none;
     }
-  }
-}
-
-// --- Corkboard: flex-wrapped polaroids held down with tape ------------------
-article.scrapbook-cork {
-  .scrapbook-board {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 2.6rem 1.8rem;
-    padding: 2rem 0 4rem;
-  }
-
-  .scrap {
-    width: var(--w, 280px);
-    max-width: 100%;
-  }
-
-  // Polaroid: white mat around the image, thicker at the bottom for the caption.
-  figure.scrap {
-    padding: 0.8rem 0.8rem 0.9rem;
-  }
-
-  // Tape strip across the top edge.
-  .scrap::before {
-    content: "";
-    position: absolute;
-    top: -0.75rem;
-    left: 50%;
-    width: 5.5rem;
-    height: 1.5rem;
-    transform: translateX(-50%) rotate(calc(var(--tilt, 0deg) * -1.5));
-    background: var(--tape);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-    z-index: 2;
-  }
-}
-
-// --- Desk: overlapping collage on a 12-column grid --------------------------
-// Each scrap places itself with inline --gc / --gr (grid lines) and stacks
-// with --z; overlapping ranges are the point. Rows are fixed-height tracks so
-// pieces taller than their span spill over the ones below.
-article.scrapbook-desk {
-  .scrapbook-board {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: 3rem;
-    padding: 2.5rem 0 5rem;
-  }
-
-  .scrap {
-    grid-column: var(--gc, auto);
-    grid-row: var(--gr, auto);
-    z-index: var(--z, 1);
-    align-self: start;
-    height: fit-content;
-  }
-
-  figure.scrap {
-    padding: 0.6rem 0.6rem 0.7rem;
-  }
-
-  // On narrow screens the pile relaxes into a single tidy-ish column.
-  @media all and (max-width: 800px) {
-    .scrapbook-board {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      padding: 1.5rem 0 3rem;
-    }
-
-    .scrap {
-      transform: rotate(calc(var(--tilt, 0deg) / 2));
-    }
-  }
-}
-
-// --- Drift: masonry columns with a slight lean -------------------------------
-article.scrapbook-drift {
-  .scrapbook-board {
-    columns: 3 260px;
-    column-gap: 1.6rem;
-    padding: 1.5rem 0 4rem;
-  }
-
-  .scrap {
-    break-inside: avoid;
-    margin: 0 0 1.6rem;
-    border: 1px solid var(--lightgray);
-
-    &:hover {
-      transform: rotate(0deg) translateY(-4px);
-    }
-  }
-
-  figure.scrap {
-    padding: 0.7rem 0.7rem 0.8rem;
   }
 }
