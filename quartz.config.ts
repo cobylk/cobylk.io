@@ -23,9 +23,9 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        title: { name: "Sorts Mill Goudy", weights: [400] },
-        header: { name: "Sorts Mill Goudy", weights: [400] },
-        body: { name: "Sorts Mill Goudy", weights: [400], includeItalic: true },
+        title: "Newsreader",
+        header: "Newsreader",
+        body: { name: "Newsreader", weights: [300, 400, 500, 600], includeItalic: true },
         code: "Fira Code",
       },
       colors: {
