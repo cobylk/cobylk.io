@@ -1,5 +1,5 @@
 ---
-title: Scrapbook
+title: some art I like
 cssclasses:
   - scrapbook
   - hide-meta
