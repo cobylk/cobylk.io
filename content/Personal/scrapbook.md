@@ -7,6 +7,7 @@ cssclasses:
 
 <div class="scrapbook-board">
 
+
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="Q1jBjhEvruw" aria-label="Play: Sciarrino, Melencolia I">
 <img src="https://i.ytimg.com/vi/Q1jBjhEvruw/hqdefault.jpg" alt="" loading="lazy">
@@ -70,8 +71,8 @@ In his talons.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/michael-cheval-lullaby-of-uncle-magritte.jpg" width="960" height="1200" alt="Lullaby of Uncle Magritte" loading="lazy">
-<figcaption>Michael Cheval, <em>Lullaby of Uncle Magritte</em></figcaption>
+<img src="Personal/scrapbook-art/ta-volgenau-smooch-blossoms.jpg" width="1186" height="1200" alt="Smooch Blossoms" loading="lazy">
+<figcaption>T. A. Volgenau, <em>Smooch Blossoms</em></figcaption>
 </figure>
 
 <div class="scrap scrap-poem">
@@ -169,8 +170,8 @@ scaleless visions)</pre>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ta-volgenau-smooch-blossoms.jpg" width="1186" height="1200" alt="Smooch Blossoms" loading="lazy">
-<figcaption>T. A. Volgenau, <em>Smooch Blossoms</em></figcaption>
+<img src="Personal/scrapbook-art/michael-cheval-lullaby-of-uncle-magritte.jpg" width="960" height="1200" alt="Lullaby of Uncle Magritte" loading="lazy">
+<figcaption>Michael Cheval, <em>Lullaby of Uncle Magritte</em></figcaption>
 </figure>
 
 <div class="scrap scrap-video">
@@ -505,5 +506,6 @@ hush.
 </button>
 <span class="scrap-attr">Ravel, Scarbo (Gavrilov)</span>
 </div>
+
 
 </div>
