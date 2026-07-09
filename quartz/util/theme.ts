@@ -67,7 +67,7 @@ function formatFontSpecification(
     features.push("ital")
   }
 
-  if (weights.length > 1) {
+  if (weights.length > 1 || italic) {
     const weightSpec = italic
       ? weights
           .flatMap((w) => [`0,${w}`, `1,${w}`])

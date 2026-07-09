@@ -16,17 +16,17 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "https://cobylk.io/",
+    baseUrl: "https://coby.lk/",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        title: "Newsreader",
-        header: "Newsreader",
-        body: { name: "Newsreader", weights: [300, 400, 500, 600], includeItalic: true },
-        code: "IBM Plex Mono",
+        title: { name: "Sorts Mill Goudy", weights: [400] },
+        header: { name: "Sorts Mill Goudy", weights: [400] },
+        body: { name: "Sorts Mill Goudy", weights: [400], includeItalic: true },
+        code: "Fira Code",
       },
       colors: {
         // Folio palette (light): bg #F4F1EA, ink #1B1A17, muted #6B675E

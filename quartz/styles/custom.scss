@@ -675,7 +675,7 @@ body[data-slug="index"] .center > article {
 }
 
 // ============================================================================
-// Scrapbook (Personal/scrapbook): masonry columns of paintings, poems, and
+// Scrapbook (personal/scrapbook): masonry columns of paintings, poems, and
 // embedded videos. Items are evenly spaced within each column; the columns
 // stagger against one another naturally as content flows. Activated via
 // `cssclasses: [scrapbook]` frontmatter.
@@ -697,7 +697,7 @@ article.scrapbook {
 // presence: link popovers inject the target page's <article> into the current
 // DOM, so :has(article.scrapbook) would widen the frame the moment a
 // scrapbook link is hovered anywhere on the site.
-body[data-slug="Personal/scrapbook"] {
+body[data-slug="personal/scrapbook"] {
   .folio-frame,
   .folio-header {
     width: 1140px;

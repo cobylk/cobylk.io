@@ -38,8 +38,8 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
   }
   const rel = (p: QuartzPluginData) => resolveRelative(fileData.slug!, p.slug!)
 
-  const research = allFiles.filter(inFolder("Research")).sort(byDateDesc)
-  const writing = allFiles.filter(inFolder("Personal")).sort(byDateDesc)
+  const research = allFiles.filter(inFolder("research")).sort(byDateDesc)
+  const writing = allFiles.filter(inFolder("personal")).sort(byDateDesc)
   const news: NewsItem[] = ((fileData.frontmatter as any)?.news ?? []) as NewsItem[]
 
   const index = (rows: QuartzPluginData[], eyebrow: string) => (
