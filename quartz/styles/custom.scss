@@ -676,24 +676,20 @@ body[data-slug="index"] .center > article {
 
 // ============================================================================
 // Scrapbook (Personal/scrapbook): masonry columns of paintings, poems, and
-// embedded videos with a slight per-piece lean. Each .scrap carries an inline
-// `--tilt` custom property, so the composition lives in the markdown and the
-// behavior lives here. Activated via `cssclasses: [scrapbook]` frontmatter.
+// embedded videos. Items are evenly spaced within each column; the columns
+// stagger against one another naturally as content flows. Activated via
+// `cssclasses: [scrapbook]` frontmatter.
 // ============================================================================
 
 article.scrapbook {
   --paper: #fffdf6;
   --paper-ink: #24221d;
   --paper-muted: #6b675e;
-  --scrap-shadow: rgba(27, 26, 23, 0.16);
-  --scrap-shadow-hover: rgba(27, 26, 23, 0.28);
 }
 :root[saved-theme="dark"] article.scrapbook {
   --paper: #221f1a;
   --paper-ink: #ece7dd;
   --paper-muted: #a59f93;
-  --scrap-shadow: rgba(0, 0, 0, 0.45);
-  --scrap-shadow-hover: rgba(0, 0, 0, 0.65);
 }
 
 // The scrapbook gets a wider canvas than the 720px reading column; the fixed
@@ -720,37 +716,69 @@ body[data-slug="Personal/scrapbook"] {
 }
 
 article.scrapbook {
+  // Fallback layout when JS hasn't split the board (also used inside link
+  // popovers, where the split script doesn't run).
   .scrapbook-board {
     columns: 3 260px;
     column-gap: 1.6rem;
     padding: 1.5rem 0 4rem;
+
+    // scrapbook.inline.ts distributes scraps into real .scrapbook-col
+    // elements so each column can drift independently on scroll.
+    &.is-split {
+      columns: auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.6rem;
+    }
   }
 
-  // A scrap: a piece of paper with a slight lean that rights itself on hover.
-  // position: relative so the hover z-index wins over later siblings.
+  .scrapbook-col {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  // Board dynamics, both compositor-driven via scroll-driven animations:
+  // columns drift apart slightly as the page scrolls (a fixed offset spread
+  // over the full scroll range, so scrolling back always retraces the same
+  // positions), and each scrap fades up as it enters the viewport. Browsers
+  // without animation-timeline, and readers preferring reduced motion, get
+  // the static board.
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .scrapbook-col {
+        animation: scrapbook-col-drift linear both;
+        animation-timeline: scroll();
+      }
+
+      .scrapbook-board[data-cols="3"] .scrapbook-col:nth-child(1) {
+        --col-drift: -640px;
+      }
+      .scrapbook-board[data-cols="3"] .scrapbook-col:nth-child(3) {
+        --col-drift: 640px;
+      }
+      .scrapbook-board[data-cols="2"] .scrapbook-col:nth-child(2) {
+        --col-drift: 480px;
+      }
+
+      // --reveal-shift (set per scrap by scrapbook.inline.ts) corrects the
+      // range for the column drift, which view() cannot see on its own.
+      .scrap {
+        animation: scrap-reveal linear both;
+        animation-timeline: view();
+        animation-range: entry calc(5% + var(--reveal-shift, 0px)) entry
+          calc(55% + var(--reveal-shift, 0px));
+      }
+    }
+  }
+
+  // A scrap: a flat piece of paper.
   .scrap {
-    position: relative;
     break-inside: avoid;
     margin: 0 0 1.6rem;
     background: var(--paper);
     color: var(--paper-ink);
     border: 1px solid var(--lightgray);
-    box-shadow:
-      0 1px 3px var(--scrap-shadow),
-      0 6px 16px var(--scrap-shadow);
-    transform: rotate(var(--tilt, 0deg));
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
-    will-change: transform;
-
-    &:hover {
-      transform: rotate(0deg) translateY(-4px);
-      box-shadow:
-        0 4px 10px var(--scrap-shadow-hover),
-        0 18px 36px var(--scrap-shadow);
-      z-index: 20;
-    }
 
     img {
       display: block;
@@ -773,8 +801,10 @@ article.scrapbook {
     }
   }
 
+  // figure carries browser default margins; reset them but keep the same
+  // bottom gap every .scrap gets, since this selector is more specific.
   figure.scrap {
-    margin: 0;
+    margin: 0 0 1.6rem;
     padding: 0.7rem 0.7rem 0.8rem;
   }
 
@@ -793,6 +823,40 @@ article.scrapbook {
     padding: 1.1rem 1.2rem 1rem;
   }
 
+  .scrap-poem p + p,
+  .scrap-poem p + pre {
+    margin-top: 0.7rem;
+  }
+
+  .scrap-epigraph {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--paper-muted);
+
+    & + p,
+    & + pre {
+      margin-top: 0.7rem;
+    }
+  }
+
+  // cummings scraps use <pre>: the indentation is part of the poem. Undo the
+  // site-wide code-block chrome and render it as ordinary poem text that
+  // wraps rather than scrolls.
+  .scrap-poem pre {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: inherit;
+    white-space: pre-wrap;
+    overflow: visible;
+    position: static;
+  }
+
   .scrap-note p {
     font-style: italic;
   }
@@ -807,13 +871,76 @@ article.scrapbook {
       border: 0;
       background: #000;
     }
-  }
 
-  @media (prefers-reduced-motion: reduce) {
-    .scrap,
-    .scrap:hover {
-      transform: none;
-      transition: none;
+    // Click-to-play facade (scrapbook.inline.ts swaps in the real player):
+    // a bare thumbnail with our own play glyph, so the idle card carries no
+    // YouTube chrome. hqdefault thumbs are 4:3 with letterbox bars; the
+    // fixed 16:9 ratio plus object-fit crops them away.
+    .yt-facade {
+      display: block;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      padding: 0;
+      border: 0;
+      background: #000;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2.9rem;
+        height: 2.9rem;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: rgba(20, 18, 16, 0.55);
+        transition: background 0.2s ease;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(calc(-50% + 2px), -50%);
+        border: 0.55rem solid transparent;
+        border-left: 0.85rem solid rgba(255, 253, 246, 0.95);
+        border-right-width: 0;
+      }
+
+      &:hover::before,
+      &:focus-visible::before {
+        background: rgba(20, 18, 16, 0.82);
+      }
     }
+  }
+}
+
+// Scrapbook scroll-driven keyframes (referenced above; kept at top level).
+@keyframes scrapbook-col-drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--col-drift, 0px));
+  }
+}
+
+@keyframes scrap-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

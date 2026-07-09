@@ -29,6 +29,7 @@ import FolioFrame from "./FolioFrame"
 import FolioHeader from "./FolioHeader"
 import ChatBooking from "./ChatBooking"
 import OracleDist from "./OracleDist"
+import ScrapbookVideos from "./ScrapbookVideos"
 
 export {
   ArticleTitle,
@@ -62,4 +63,5 @@ export {
   FolioHeader,
   ChatBooking,
   OracleDist,
+  ScrapbookVideos,
 }

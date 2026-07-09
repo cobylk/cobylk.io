@@ -8,8 +8,9 @@ export const sharedPageComponents: SharedLayout = {
   header: [Component.FolioHeader(), Component.FolioFrame()],
   // Tooltip renders nothing but loads the markdown-tooltip script site-wide.
   // OracleDist likewise loads the interactive-distribution script; it only
-  // acts on pages containing `.oracle-dist` containers.
-  afterBody: [Component.Tooltip(), Component.OracleDist()],
+  // acts on pages containing `.oracle-dist` containers. ScrapbookVideos loads
+  // the click-to-play YouTube facade for the scrapbook's video cards.
+  afterBody: [Component.Tooltip(), Component.OracleDist(), Component.ScrapbookVideos()],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/cobylk",
