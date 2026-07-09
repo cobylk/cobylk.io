@@ -7,7 +7,6 @@ cssclasses:
 
 <div class="scrapbook-board">
 
-
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="Q1jBjhEvruw" aria-label="Play: Sciarrino, Melencolia I">
 <img src="https://i.ytimg.com/vi/Q1jBjhEvruw/hqdefault.jpg" alt="" loading="lazy">
@@ -15,11 +14,59 @@ cssclasses:
 <span class="scrap-attr">Sciarrino, Melencolia I</span>
 </div>
 
+
+<figure class="scrap scrap-img">
+<img src="Personal/scrapbook-art/vladimir-kush-cosmic-envoy.jpg" width="961" height="1200" alt="Cosmic Envoy" loading="lazy">
+<figcaption>Vladimir Kush, <em>Cosmic Envoy</em></figcaption>
+</figure>
+
+<figure class="scrap scrap-img">
+<img src="Personal/scrapbook-art/ivan-pokidishev-golden-haze.webp" width="889" height="1094" alt="Golden Haze" loading="lazy">
+<figcaption>Ivan Pokidishev, <em>Golden Haze</em>, 2022</figcaption>
+</figure>
+
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="wjULTZEq4BY" aria-label="Play: Sciarrino, Ai limiti della notte">
 <img src="https://i.ytimg.com/vi/wjULTZEq4BY/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Sciarrino, Ai limiti della notte</span>
+</div>
+
+<figure class="scrap scrap-img">
+<img src="Personal/scrapbook-art/steven-daluz-source.jpg" width="1200" height="1199" alt="Source" loading="lazy">
+<figcaption>Steven DaLuz, <em>Source</em></figcaption>
+</figure>
+
+<div class="scrap scrap-poem">
+<h3>The Despairing Man Draws a Serpent</h3>
+<p>I went up the hill<br>
+At moonrise.<br>
+She swore that she would come<br>
+By the south way.<br>
+A dusky hawk<br>
+Caught up the path<br>
+In his talons.</p>
+<span class="scrap-attr">Pablo Antonio Cuadra, tr. Thomas Merton</span>
+</div>
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-video-id="Rx4CZ7WRRvc" aria-label="Play: Sciarrino, La perfezione di uno spirito sottile">
+<img src="https://i.ytimg.com/vi/Rx4CZ7WRRvc/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Sciarrino, La perfezione di uno spirito sottile</span>
+</div>
+
+<figure class="scrap scrap-img">
+<img src="Personal/scrapbook-art/ivan-pokidishev-34-2-c.webp" width="889" height="779" alt="34.2 °C" loading="lazy">
+<figcaption>Ivan Pokidishev, <em>34.2 °C</em>, 2023</figcaption>
+</figure>
+
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-video-id="Fmw82oNB6Wg" aria-label="Play: Yoshimatsu, Threnody to Toki">
+<img src="https://i.ytimg.com/vi/Fmw82oNB6Wg/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Yoshimatsu, Threnody to Toki</span>
 </div>
 
 <figure class="scrap scrap-img">
@@ -43,13 +90,6 @@ Of war and war’s alarms,<br>
 But O that I were young again<br>
 And held her in my arms.</p>
 <span class="scrap-attr">W. B. Yeats</span>
-</div>
-
-<div class="scrap scrap-video">
-<button type="button" class="yt-facade" data-video-id="Rx4CZ7WRRvc" aria-label="Play: Sciarrino, La perfezione di uno spirito sottile">
-<img src="https://i.ytimg.com/vi/Rx4CZ7WRRvc/hqdefault.jpg" alt="" loading="lazy">
-</button>
-<span class="scrap-attr">Sciarrino, La perfezione di uno spirito sottile</span>
 </div>
 
 <figure class="scrap scrap-img">
@@ -183,11 +223,6 @@ Only to vanish as one approaches them?</p>
 </button>
 <span class="scrap-attr">Ornstein, A Morning in the Woods</span>
 </div>
-
-<figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/steven-daluz-source.jpg" width="1200" height="1199" alt="Source" loading="lazy">
-<figcaption>Steven DaLuz, <em>Source</em></figcaption>
-</figure>
 
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="mkWcA94EYSo" aria-label="Play: Medtner, the piano sonatas">
@@ -349,13 +384,6 @@ Sweetly
 <span class="scrap-attr">Qigang Chen, Enchantements oubliés</span>
 </div>
 
-<div class="scrap scrap-video">
-<button type="button" class="yt-facade" data-video-id="Fmw82oNB6Wg" aria-label="Play: Yoshimatsu, Threnody to Toki">
-<img src="https://i.ytimg.com/vi/Fmw82oNB6Wg/hqdefault.jpg" alt="" loading="lazy">
-</button>
-<span class="scrap-attr">Yoshimatsu, Threnody to Toki</span>
-</div>
-
 <figure class="scrap scrap-img">
 <img src="Personal/scrapbook-art/vladimir-kush-shine-of-gold.jpg" width="952" height="1200" alt="Shine of Gold" loading="lazy">
 <figcaption>Vladimir Kush, <em>Shine of Gold</em></figcaption>
@@ -379,18 +407,6 @@ Sweetly
 <img src="Personal/scrapbook-art/duchamp-lhooq.jpg" width="929" height="1200" alt="L.H.O.O.Q." loading="lazy">
 <figcaption>Marcel Duchamp, <em>L.H.O.O.Q.</em>, 1919</figcaption>
 </figure>
-
-<div class="scrap scrap-poem">
-<h3>The Despairing Man Draws a Serpent</h3>
-<p>I went up the hill<br>
-At moonrise.<br>
-She swore that she would come<br>
-By the south way.<br>
-A dusky hawk<br>
-Caught up the path<br>
-In his talons.</p>
-<span class="scrap-attr">Pablo Antonio Cuadra, tr. Thomas Merton</span>
-</div>
 
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="qj1luIOQHLw" aria-label="Play: Scriabin, Sonata no. 9 (Sokolov)">
@@ -476,11 +492,6 @@ hush.
 <span class="scrap-attr">Liszt, Wilde Jagd (Pogorelich)</span>
 </div>
 
-<figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ivan-pokidishev-golden-haze.webp" width="889" height="1094" alt="Golden Haze" loading="lazy">
-<figcaption>Ivan Pokidishev, <em>Golden Haze</em>, 2022</figcaption>
-</figure>
-
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="GIU_s0hvT5M" aria-label="Play: Liszt, Appassionata (Pogorelich)">
 <img src="https://i.ytimg.com/vi/GIU_s0hvT5M/hqdefault.jpg" alt="" loading="lazy">
@@ -494,16 +505,5 @@ hush.
 </button>
 <span class="scrap-attr">Ravel, Scarbo (Gavrilov)</span>
 </div>
-
-
-<figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/vladimir-kush-cosmic-envoy.jpg" width="961" height="1200" alt="Cosmic Envoy" loading="lazy">
-<figcaption>Vladimir Kush, <em>Cosmic Envoy</em></figcaption>
-</figure>
-
-<figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ivan-pokidishev-34-2-c.webp" width="889" height="779" alt="34.2 °C" loading="lazy">
-<figcaption>Ivan Pokidishev, <em>34.2 °C</em>, 2023</figcaption>
-</figure>
 
 </div>
