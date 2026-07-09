@@ -15,7 +15,7 @@ export const sharedPageComponents: SharedLayout = {
     links: {
       GitHub: "https://github.com/cobylk",
       LinkedIn: "https://www.linkedin.com/in/cobylk/",
-      Email: "mailto:kassner@cobylk.io",
+      Email: "mailto:ansatz@coby.lk",
     },
   }),
 }

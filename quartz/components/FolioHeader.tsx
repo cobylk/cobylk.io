@@ -72,7 +72,7 @@ const FolioHeader: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         <span class="folio-word-ext mono">.lk</span>
       </a>
       <nav class="folio-nav mono">
-        <a href="curriculum_vitae.pdf" target="_blank" rel="noopener">
+        <a href="https://coby.lk/curriculum_vitae.pdf" target="_blank" rel="noopener">
           cv
         </a>
         <a href="https://github.com/cobylk" target="_blank" rel="noopener" aria-label="GitHub">
