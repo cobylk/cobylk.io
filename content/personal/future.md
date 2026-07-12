@@ -1,6 +1,6 @@
 ---
 title: I, Oracle
-draft: false
+draft: true 
 ---
 <!--More specifically, I am writing this post *because* I would like to
 - Develop explicit and extremely accurate mental models of most potential future outcomes

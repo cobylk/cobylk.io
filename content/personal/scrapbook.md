@@ -105,6 +105,11 @@ And held her in my arms.</p>
 <span class="scrap-attr">Takemitsu, And Then I Knew ’Twas Wind</span>
 </div>
 
+<figure class="scrap scrap-img">
+<img src="Personal/scrapbook-art/my-favorite-youtube-comment.jpg" width="888" height="625" alt="youtube commend" loading="lazy">
+<figcaption>my favorite youtube comment reply</figcaption>
+</figure>
+
 <div class="scrap scrap-poem">
 <h3>Amores I</h3>
 <pre>consider O
