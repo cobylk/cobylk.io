@@ -17,12 +17,12 @@ cssclasses:
 
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/vladimir-kush-cosmic-envoy.jpg" width="961" height="1200" alt="Cosmic Envoy" loading="lazy">
+<img src="personal/scrapbook-art/vladimir-kush-cosmic-envoy.jpg" width="961" height="1200" alt="Cosmic Envoy" loading="lazy">
 <figcaption>Vladimir Kush, <em>Cosmic Envoy</em></figcaption>
 </figure>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ivan-pokidishev-golden-haze.webp" width="889" height="1094" alt="Golden Haze" loading="lazy">
+<img src="personal/scrapbook-art/ivan-pokidishev-golden-haze.webp" width="889" height="1094" alt="Golden Haze" loading="lazy">
 <figcaption>Ivan Pokidishev, <em>Golden Haze</em>, 2022</figcaption>
 </figure>
 
@@ -34,7 +34,7 @@ cssclasses:
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/steven-daluz-source.jpg" width="1200" height="1199" alt="Source" loading="lazy">
+<img src="personal/scrapbook-art/steven-daluz-source.jpg" width="1200" height="1199" alt="Source" loading="lazy">
 <figcaption>Steven DaLuz, <em>Source</em></figcaption>
 </figure>
 
@@ -58,7 +58,7 @@ In his talons.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ivan-pokidishev-34-2-c.webp" width="889" height="779" alt="34.2 °C" loading="lazy">
+<img src="personal/scrapbook-art/ivan-pokidishev-34-2-c.webp" width="889" height="779" alt="34.2 °C" loading="lazy">
 <figcaption>Ivan Pokidishev, <em>34.2 °C</em>, 2023</figcaption>
 </figure>
 
@@ -71,7 +71,7 @@ In his talons.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/ta-volgenau-smooch-blossoms.jpg" width="1186" height="1200" alt="Smooch Blossoms" loading="lazy">
+<img src="personal/scrapbook-art/ta-volgenau-smooch-blossoms.jpg" width="1186" height="1200" alt="Smooch Blossoms" loading="lazy">
 <figcaption>T. A. Volgenau, <em>Smooch Blossoms</em></figcaption>
 </figure>
 
@@ -94,7 +94,7 @@ And held her in my arms.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/vladimir-kush-street-lantern.jpg" width="1200" height="811" alt="Street Lantern" loading="lazy">
+<img src="personal/scrapbook-art/vladimir-kush-street-lantern.jpg" width="1200" height="811" alt="Street Lantern" loading="lazy">
 <figcaption>Vladimir Kush, <em>Street Lantern</em></figcaption>
 </figure>
 
@@ -106,7 +106,7 @@ And held her in my arms.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/my-favorite-youtube-comment.jpg" width="888" height="625" alt="youtube commend" loading="lazy">
+<img src="personal/scrapbook-art/my-favorite-youtube-comment.jpg" width="888" height="625" alt="youtube commend" loading="lazy">
 <figcaption>my favorite youtube comment reply</figcaption>
 </figure>
 
@@ -156,7 +156,7 @@ scaleless visions)</pre>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/hubble-extreme-deep-field.jpg" width="1200" height="1047" alt="Hubble eXtreme Deep Field" loading="lazy">
+<img src="personal/scrapbook-art/hubble-extreme-deep-field.jpg" width="1200" height="1047" alt="Hubble eXtreme Deep Field" loading="lazy">
 <figcaption>NASA/ESA, <em>Hubble eXtreme Deep Field</em>, 2012</figcaption>
 </figure>
 
@@ -175,7 +175,7 @@ scaleless visions)</pre>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/michael-cheval-lullaby-of-uncle-magritte.jpg" width="960" height="1200" alt="Lullaby of Uncle Magritte" loading="lazy">
+<img src="personal/scrapbook-art/michael-cheval-lullaby-of-uncle-magritte.jpg" width="960" height="1200" alt="Lullaby of Uncle Magritte" loading="lazy">
 <figcaption>Michael Cheval, <em>Lullaby of Uncle Magritte</em></figcaption>
 </figure>
 
@@ -212,7 +212,7 @@ Only to vanish as one approaches them?</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/sascha-schneider-hypnosis.jpg" width="928" height="1200" alt="Hypnosis" loading="lazy">
+<img src="personal/scrapbook-art/sascha-schneider-hypnosis.jpg" width="928" height="1200" alt="Hypnosis" loading="lazy">
 <figcaption>Sascha Schneider, <em>Hypnosis</em>, 1904</figcaption>
 </figure>
 
@@ -267,7 +267,7 @@ my lips</pre>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/goya-el-perro.jpg" width="707" height="1200" alt="El Perro" loading="lazy">
+<img src="personal/scrapbook-art/goya-el-perro.jpg" width="707" height="1200" alt="El Perro" loading="lazy">
 <figcaption>Goya, <em>El Perro</em>, c. 1819–23</figcaption>
 </figure>
 
@@ -286,7 +286,7 @@ my lips</pre>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/church-rainy-season-in-the-tropics.jpg" width="1200" height="796" alt="Rainy Season in the Tropics" loading="lazy">
+<img src="personal/scrapbook-art/church-rainy-season-in-the-tropics.jpg" width="1200" height="796" alt="Rainy Season in the Tropics" loading="lazy">
 <figcaption>Frederic Edwin Church, <em>Rainy Season in the Tropics</em>, 1866</figcaption>
 </figure>
 
@@ -319,7 +319,7 @@ Listening to the city grinding up the dead.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/bierstadt-storm-in-the-rocky-mountains.jpg" width="1200" height="704" alt="A Storm in the Rocky Mountains, Mt. Rosalie" loading="lazy">
+<img src="personal/scrapbook-art/bierstadt-storm-in-the-rocky-mountains.jpg" width="1200" height="704" alt="A Storm in the Rocky Mountains, Mt. Rosalie" loading="lazy">
 <figcaption>Albert Bierstadt, <em>A Storm in the Rocky Mountains, Mt. Rosalie</em>, 1866</figcaption>
 </figure>
 
@@ -338,7 +338,7 @@ Listening to the city grinding up the dead.</p>
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/john-dowell-to-move-from-infinity.jpg" width="1200" height="864" alt="To Move From Infinity" loading="lazy">
+<img src="personal/scrapbook-art/john-dowell-to-move-from-infinity.jpg" width="1200" height="864" alt="To Move From Infinity" loading="lazy">
 <figcaption>John Dowell, <em>To Move From Infinity</em></figcaption>
 </figure>
 
@@ -379,7 +379,7 @@ Sweetly
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/church-cotopaxi.jpg" width="1200" height="679" alt="Cotopaxi" loading="lazy">
+<img src="personal/scrapbook-art/church-cotopaxi.jpg" width="1200" height="679" alt="Cotopaxi" loading="lazy">
 <figcaption>Frederic Edwin Church, <em>Cotopaxi</em>, 1862</figcaption>
 </figure>
 
@@ -391,7 +391,7 @@ Sweetly
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/vladimir-kush-shine-of-gold.jpg" width="952" height="1200" alt="Shine of Gold" loading="lazy">
+<img src="personal/scrapbook-art/vladimir-kush-shine-of-gold.jpg" width="952" height="1200" alt="Shine of Gold" loading="lazy">
 <figcaption>Vladimir Kush, <em>Shine of Gold</em></figcaption>
 </figure>
 
@@ -410,7 +410,7 @@ Sweetly
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/duchamp-lhooq.jpg" width="929" height="1200" alt="L.H.O.O.Q." loading="lazy">
+<img src="personal/scrapbook-art/duchamp-lhooq.jpg" width="929" height="1200" alt="L.H.O.O.Q." loading="lazy">
 <figcaption>Marcel Duchamp, <em>L.H.O.O.Q.</em>, 1919</figcaption>
 </figure>
 
@@ -422,7 +422,7 @@ Sweetly
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/egor-kamalev-scenic-view-of-night-sky.jpg" width="1200" height="669" alt="Scenic View of Night Sky" loading="lazy">
+<img src="personal/scrapbook-art/egor-kamalev-scenic-view-of-night-sky.jpg" width="1200" height="669" alt="Scenic View of Night Sky" loading="lazy">
 <figcaption>Egor Kamalev, <em>Scenic View of Night Sky</em></figcaption>
 </figure>
 
@@ -441,7 +441,7 @@ Sweetly
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/max-ernst-aquis-submersus.jpg" width="1200" height="946" alt="Aquis Submersus" loading="lazy">
+<img src="personal/scrapbook-art/max-ernst-aquis-submersus.jpg" width="1200" height="946" alt="Aquis Submersus" loading="lazy">
 <figcaption>Max Ernst, <em>Aquis Submersus</em>, 1919</figcaption>
 </figure>
 
@@ -480,7 +480,7 @@ hush.
 </div>
 
 <figure class="scrap scrap-img">
-<img src="Personal/scrapbook-art/steven-daluz-rip.jpg" width="1200" height="1200" alt="Rip" loading="lazy">
+<img src="personal/scrapbook-art/steven-daluz-rip.jpg" width="1200" height="1200" alt="Rip" loading="lazy">
 <figcaption>Steven DaLuz, <em>Rip</em></figcaption>
 </figure>
 
