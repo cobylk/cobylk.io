@@ -663,8 +663,11 @@ body {
   #quartz-root {
     inset: 14px;
   }
+  // 100vw-based widths overflow the grid track (the body already carries the
+  // frame gutters), and grid spills overflow entirely to the inline-end side,
+  // shoving content off-center. Fit the track instead.
   #quartz-body .center {
-    max-width: calc(100vw - 36px) !important;
+    max-width: 100% !important;
     padding: 62px 22px 72px !important;
   }
 }

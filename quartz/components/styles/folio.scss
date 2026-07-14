@@ -416,6 +416,7 @@ $contentPad: 30px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 16px;
     padding: 11px 0;
     color: var(--dark);
     background: none;
@@ -430,6 +431,10 @@ $contentPad: 30px;
     .folio-row-year {
       font-size: 12px;
       color: var(--gray);
+      // The site-wide overflow-wrap: anywhere would let flex squeeze the year
+      // and break it mid-number ("202 / 5") next to a wrapping title.
+      flex-shrink: 0;
+      white-space: nowrap;
     }
     &:hover .folio-row-title {
       text-decoration: underline;
