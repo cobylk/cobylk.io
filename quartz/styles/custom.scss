@@ -708,9 +708,11 @@ body[data-slug="personal/scrapbook"] {
     max-width: calc(100vw - 160px) !important;
   }
 
+  // On mobile the forced width must not exceed the grid track: overflow in a
+  // grid spills entirely to the inline-end side, shoving the board off-center.
   @media all and (max-width: 800px) {
     #quartz-body .center {
-      max-width: calc(100vw - 36px) !important;
+      max-width: 100% !important;
     }
   }
 }
