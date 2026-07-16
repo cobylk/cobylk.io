@@ -114,6 +114,7 @@ export interface EventInput {
 }
 
 export interface CreatedEvent {
+  id: string
   htmlLink: string
   hangoutLink?: string
 }
@@ -168,6 +169,31 @@ export async function createEvent(
     const detail = await res.text()
     throw new Error(`event insert failed (${res.status}): ${detail}`)
   }
-  const json = (await res.json()) as { htmlLink: string; hangoutLink?: string }
-  return { htmlLink: json.htmlLink, hangoutLink: json.hangoutLink }
+  const json = (await res.json()) as { id: string; htmlLink: string; hangoutLink?: string }
+  return { id: json.id, htmlLink: json.htmlLink, hangoutLink: json.hangoutLink }
+}
+
+/**
+ * Delete an event; Google emails the cancellation because of sendUpdates=all.
+ * A 404/410 (already gone, e.g. deleted by hand from the calendar) counts as
+ * success — the caller only cares that the event no longer exists.
+ */
+export async function deleteEvent(
+  token: string,
+  calendarId: string,
+  eventId: string,
+): Promise<void> {
+  const url = new URL(
+    `${CAL_BASE}/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(eventId)}`,
+  )
+  url.searchParams.set("sendUpdates", "all")
+
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: { authorization: `Bearer ${token}` },
+  })
+  if (!res.ok && res.status !== 404 && res.status !== 410) {
+    const detail = await res.text()
+    throw new Error(`event delete failed (${res.status}): ${detail}`)
+  }
 }

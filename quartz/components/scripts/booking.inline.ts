@@ -752,10 +752,131 @@ document.addEventListener("nav", () => {
     if (r.meetLink) {
       wrap.append(h("a", { class: "chat-meet", href: r.meetLink, target: "_blank", rel: "noopener" }, "Google Meet link"))
     }
+    if (r.cancelUrl) {
+      wrap.append(
+        h(
+          "p",
+          { class: "chat-done-cancel" },
+          "If plans change, cancel with ",
+          h("a", { href: r.cancelUrl }, "this link"),
+          " (it's also in the invite email).",
+        ),
+      )
+    }
     const again = h("button", { class: "chat-back mono", type: "button" }, "book another →")
     again.addEventListener("click", reset)
     wrap.append(again)
     return wrap
+  }
+
+  // --- cancellation ----------------------------------------------------------
+  // A cancel link (from the invite email or the confirmation screen) lands on
+  // /chat?cancel=<token> and replaces the booking UI. The GET lookup is
+  // read-only; the deletion only happens on an explicit click — mail scanners
+  // prefetch links, so nothing may be cancelled by merely loading the page.
+  async function runCancelFlow(token: string) {
+    root.replaceChildren(h("p", { class: "chat-loading" }, "Looking up your booking…"))
+
+    let info: any
+    try {
+      const res = await fetch(api(`/cancel?token=${encodeURIComponent(token)}`))
+      info = await res.json()
+      if (!res.ok) throw new Error(info?.error || "")
+    } catch (err) {
+      root.replaceChildren(
+        h(
+          "div",
+          { class: "chat-step chat-done" },
+          eyebrow("CANCEL BOOKING"),
+          h(
+            "p",
+            { class: "chat-done-body" },
+            err instanceof Error && err.message
+              ? err.message
+              : "Couldn't look up this booking. Please try again later.",
+          ),
+        ),
+      )
+      return
+    }
+
+    // Virtual meetings are described in the booker's timezone, in-person ones in
+    // the owner's — same convention as the calendar grid.
+    const displayTz = info.video ? BOOKER_TZ : info.timeZone
+    const dayFmt = new Intl.DateTimeFormat("en-US", {
+      timeZone: displayTz,
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    })
+    const timeFmt = new Intl.DateTimeFormat("en-GB", {
+      timeZone: displayTz,
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    })
+    const start = new Date(info.startISO)
+    const end = new Date(info.endISO)
+    const when = `${dayFmt.format(start)}, ${timeFmt.format(start)} – ${timeFmt.format(end)} (${tzShort(displayTz)})`
+
+    const errP = h("p", { class: "chat-error" })
+    errP.style.display = "none"
+    const btn = h("button", { class: "chat-submit", type: "button" }, "Cancel this booking")
+
+    const wrap = h("div", { class: "chat-step chat-done" })
+    wrap.append(
+      eyebrow("CANCEL BOOKING"),
+      h("h2", { class: "chat-done-title" }, "Cancel this meeting?"),
+      h(
+        "p",
+        { class: "chat-done-body" },
+        `${info.typeLabel}${info.place ? ` — ${info.place}` : ""}, ${when}.`,
+      ),
+      btn,
+      errP,
+    )
+
+    btn.addEventListener("click", async () => {
+      errP.style.display = "none"
+      btn.setAttribute("disabled", "true")
+      btn.textContent = "Cancelling…"
+      try {
+        const res = await fetch(api("/cancel"), {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data?.error || "Something went wrong.")
+
+        const again = h("button", { class: "chat-back mono", type: "button" }, "book another time →")
+        again.addEventListener("click", () => {
+          history.replaceState(null, "", location.pathname)
+          loadConfig()
+        })
+        root.replaceChildren(
+          h(
+            "div",
+            { class: "chat-step chat-done" },
+            eyebrow("CANCELLED"),
+            h("h2", { class: "chat-done-title" }, "It's cancelled."),
+            h(
+              "p",
+              { class: "chat-done-body" },
+              "A cancellation email is on its way to both of us. If plans change again, you're always welcome to pick a new time.",
+            ),
+            again,
+          ),
+        )
+      } catch (err) {
+        errP.textContent = err instanceof Error ? err.message : "Something went wrong."
+        errP.style.display = "block"
+        btn.removeAttribute("disabled")
+        btn.textContent = "Cancel this booking"
+      }
+    })
+
+    root.replaceChildren(wrap)
   }
 
   function render() {
@@ -780,7 +901,12 @@ document.addEventListener("nav", () => {
     root.replaceChildren(node)
   }
 
-  loadConfig()
+  const cancelParam = new URLSearchParams(location.search).get("cancel")
+  if (cancelParam) {
+    runCancelFlow(cancelParam)
+  } else {
+    loadConfig()
+  }
 
   window.addCleanup?.(() => {
     if (w.turnstile && turnstileWidgetId !== null) {

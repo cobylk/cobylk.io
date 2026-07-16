@@ -264,6 +264,15 @@ $axisW: 52px;
     margin-top: 1.2rem;
     margin-bottom: 0;
   }
+  .chat-done-cancel {
+    color: var(--tertiary);
+    font-size: 0.82rem;
+    margin-top: 0.9rem;
+
+    a {
+      color: var(--gray);
+    }
+  }
 
   // --- calendar week grid ---------------------------------------------------
   .chat-cal-tz {

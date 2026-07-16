@@ -4,6 +4,8 @@
 //   GET  /api/book/config                       public per-type config
 //   GET  /api/book/availability?type=&date=     open slots for one day
 //   POST /api/book                              create the booking
+//   GET  /api/book/cancel?token=                look up a cancellable booking
+//   POST /api/book/cancel                       cancel it (deletes the event)
 //
 // NOTE: prefer `wrangler types` to generate Env; this hand-written interface is
 // here so the project type-checks before the binding is generated. Keep it in
@@ -19,7 +21,7 @@ export interface Env {
 import { CONFIG, getType, publicConfig } from "./config"
 import type { EventType } from "./config"
 import { generateSlots, zonedWallClockToUtc } from "./slots"
-import { freeBusy, getAccessToken, createEvent } from "./google"
+import { freeBusy, getAccessToken, createEvent, deleteEvent } from "./google"
 import { verifyTurnstile } from "./turnstile"
 
 const ALLOWED_ORIGINS = ["https://coby.lk", "https://cobylk.io", "https://www.coby.lk"]
@@ -35,6 +37,21 @@ const cellMs = CELL_MIN * 60_000
 // meeting length, so the calendar can offer drag-to-size windows.
 function cellType(type: EventType): EventType {
   return { ...type, durationMin: CELL_MIN, slotStepMin: CELL_MIN }
+}
+
+/**
+ * Origin the cancel link should live on. Use the caller's own origin when it is
+ * one we serve (so local-dev links stay local); anything else falls back to the
+ * canonical site.
+ */
+function siteBase(origin: string | null): string {
+  if (
+    origin &&
+    (ALLOWED_ORIGINS.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin))
+  ) {
+    return origin
+  }
+  return "https://coby.lk"
 }
 
 function corsHeaders(origin: string | null): Record<string, string> {
@@ -206,10 +223,18 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
   const startOut = new Date(startMs).toISOString()
   const endOut = new Date(endMs).toISOString()
   const place = type.video ? "Google Meet" : location
+
+  // Cancellation capability: an unguessable token, stored in KV until the event
+  // ends. Whoever holds the link may cancel — no account needed. The link goes
+  // in the event description so it rides along inside the invite email.
+  const cancelToken = crypto.randomUUID()
+  const cancelUrl = `${siteBase(origin)}/chat?cancel=${cancelToken}`
+
   const descLines = [
     `Booked via coby.lk/chat by ${name} (${email}).`,
     type.video ? "Video: Google Meet (link below)." : place ? `Where: ${place}.` : "",
     note ? `\nNote: ${note}` : "",
+    `\nNeed to cancel? ${cancelUrl}`,
   ].filter(Boolean)
 
   const created = await createEvent(token, CONFIG.calendarId, {
@@ -225,6 +250,22 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
     video: type.video,
   })
 
+  await env.BOOKING_KV.put(
+    `cancel:${cancelToken}`,
+    JSON.stringify({
+      eventId: created.id,
+      typeLabel: type.label,
+      place,
+      video: !!type.video,
+      startISO: startOut,
+      endISO: endOut,
+      name,
+    } satisfies CancelRecord),
+    // The token is only useful until the event starts; keeping it until the end
+    // just lets the lookup say "already started" instead of "invalid link".
+    { expirationTtl: Math.max(60, Math.ceil((endMs - Date.now()) / 1000)) },
+  )
+
   return json(
     {
       ok: true,
@@ -233,10 +274,91 @@ async function handleBook(req: Request, env: Env, origin: string | null): Promis
       date,
       place,
       meetLink: created.hangoutLink ?? null,
+      cancelUrl,
     },
     200,
     origin,
   )
+}
+
+// What `cancel:<token>` maps to in KV. Everything the cancel page needs to
+// describe the booking, plus the event id needed to delete it.
+interface CancelRecord {
+  eventId: string
+  typeLabel: string
+  place: string
+  video: boolean
+  startISO: string
+  endISO: string
+  name: string
+}
+
+/**
+ * Read-only lookup for the cancel page. This is what a GET from an email-link
+ * scanner hits, so it must never mutate anything — the deletion itself only
+ * happens on an explicit POST from the page.
+ */
+async function handleCancelLookup(
+  req: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  const token = new URL(req.url).searchParams.get("token") ?? ""
+  const rec = token
+    ? await env.BOOKING_KV.get<CancelRecord>(`cancel:${token}`, "json")
+    : null
+  if (!rec) {
+    return json({ error: "This cancellation link is no longer valid." }, 404, origin)
+  }
+  if (Date.parse(rec.startISO) <= Date.now()) {
+    return json(
+      { error: "This meeting has already started, so there's nothing to cancel." },
+      410,
+      origin,
+    )
+  }
+  return json(
+    {
+      typeLabel: rec.typeLabel,
+      place: rec.place,
+      video: rec.video,
+      startISO: rec.startISO,
+      endISO: rec.endISO,
+      name: rec.name,
+      timeZone: CONFIG.timeZone,
+    },
+    200,
+    origin,
+  )
+}
+
+async function handleCancel(req: Request, env: Env, origin: string | null): Promise<Response> {
+  let body: { token?: string }
+  try {
+    body = (await req.json()) as { token?: string }
+  } catch {
+    return json({ error: "invalid JSON" }, 400, origin)
+  }
+
+  const token = (body.token ?? "").trim()
+  const key = `cancel:${token}`
+  const rec = token ? await env.BOOKING_KV.get<CancelRecord>(key, "json") : null
+  if (!rec) {
+    return json({ error: "This cancellation link is no longer valid." }, 404, origin)
+  }
+  if (Date.parse(rec.startISO) <= Date.now()) {
+    return json(
+      { error: "This meeting has already started, so it can no longer be cancelled here." },
+      410,
+      origin,
+    )
+  }
+
+  const accessToken = await getAccessToken(env)
+  await deleteEvent(accessToken, CONFIG.calendarId, rec.eventId)
+  await env.BOOKING_KV.delete(key)
+
+  return json({ ok: true }, 200, origin)
 }
 
 export default {
@@ -254,6 +376,12 @@ export default {
       }
       if (req.method === "GET" && url.pathname === "/api/book/availability") {
         return await handleAvailability(req, env, origin)
+      }
+      if (req.method === "GET" && url.pathname === "/api/book/cancel") {
+        return await handleCancelLookup(req, env, origin)
+      }
+      if (req.method === "POST" && url.pathname === "/api/book/cancel") {
+        return await handleCancel(req, env, origin)
       }
       if (
         req.method === "POST" &&

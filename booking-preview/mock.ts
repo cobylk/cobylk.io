@@ -143,6 +143,27 @@ window.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const p = url.pathname
   if (p.endsWith("/api/book/config")) return res(config)
   if (p.endsWith("/api/book/availability")) return res(availability(url))
+  if (p.endsWith("/api/book/cancel")) {
+    // GET (lookup) and POST (cancel) share the path; a body means POST. Use
+    // ?cancel=expired on the page to preview the invalid-link state.
+    const token = url.searchParams.get("token") || ""
+    if (token === "expired") {
+      return res({ error: "This cancellation link is no longer valid." }, 404)
+    }
+    if (init?.body) return res({ ok: true })
+    const start = new Date(Date.now() + 26 * 3_600_000)
+    start.setMinutes(0, 0, 0)
+    const end = new Date(start.getTime() + 60 * 60_000)
+    return res({
+      typeLabel: "Grab a meal",
+      place: "Silliman",
+      video: false,
+      startISO: start.toISOString(),
+      endISO: end.toISOString(),
+      name: "Mock Booker",
+      timeZone: config.timeZone,
+    })
+  }
   if (p.endsWith("/api/book") || p.endsWith("/api/book/")) {
     const body = init?.body ? JSON.parse(init.body as string) : {}
     const fmt = (isoStr: string) =>
@@ -162,6 +183,7 @@ window.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
       label,
       place: body.location || "Google Meet",
       meetLink: "https://meet.google.com/xxx-mock-xxx",
+      cancelUrl: `${location.origin}${location.pathname}?cancel=mock-token`,
     })
   }
   return realFetch(input, init)

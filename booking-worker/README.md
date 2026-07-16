@@ -100,3 +100,11 @@ push the Quartz changes so Pages rebuilds `/chat`, and book a real test slot.
 - Rate limit: `RATE_LIMIT_PER_HOUR` per IP (`src/index.ts`), backed by KV.
 - The POST handler re-checks free/busy immediately before insert, which both
   validates the slot and closes the last-moment double-book race.
+- Cancellation: every booking mints an unguessable token (`cancel:<token>` in
+  KV, expiring when the event ends) and puts a `/chat?cancel=<token>` link in
+  the event description, so it arrives inside the invite email. The page does a
+  read-only `GET /api/book/cancel?token=` lookup and only cancels on an explicit
+  button click (`POST /api/book/cancel`), because mail scanners prefetch GET
+  links. Cancelling deletes the calendar event with `sendUpdates=all`, so Google
+  emails both sides and the slot frees itself via free/busy. Declining the
+  Google invite does *not* free the slot — this flow is the only real cancel.
