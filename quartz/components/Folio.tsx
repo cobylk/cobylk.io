@@ -57,30 +57,25 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
   return (
     <div class="folio">
       <p class="folio-intro">
-        I'm Coby Kassner, an AI safety{" "}
-        <Footnote
-          label="researcher"
-          n={1}
-          tip="Perhaps, soon, a technically-oriented generalist?"
-        />{" "}
-        with interest in control and science of generalization. I have a broader interest in things
-        related to{" "}
-        <Footnote label="macrostrategy" n={2} tip="Generally, I'm a big fan of Forethought." />,
+        I'm Coby Kassner, a technically-oriented AI safety generalist. I am interested in automated safety {" "}<Footnote label="research" n={1} tip="E.g., agendas related to control, scalable oversight, 'capabilties' research that is differentially better for safety (like making AIs better at conceptual reasoning for acausal stuff + navigating the intelligence explosion)" />,
+        science of {" "}<Footnote label="generalization" n={2}  tip="It seems like understanding lots of Owain-Evans-y weird empirical phenomena could be pretty useful for ensuring that early superhuman AIs are robustly aligned."/>,
+        {" "}
+        <Footnote label="macrostrategy" n={3} tip="Generally, I'm a fan of the work Forethought does." />,
         existential risk,{" "}
         <Footnote
           label="analytical philosophy"
-          n={3}
-          tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, and all of the sorts of papers that L. Dung writes."
+          n={4}
+          tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, digital minds, and all of the sorts of papers that Leonard Dung writes."
         />{" "}
         , and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
         performing{" "}
         <Footnote
           label="music"
-          n={4}
+          n={5}
           tip="I play the piano, alto saxophone, and have dreams of learning the accordion or bandoneon."
         />
         , dancing Argentine tango, and mountaineering. I'm currently{" "}
-        <Footnote label="studying" n={5} tip="B.S. Statistics and Data Science, Class of 2029" /> at
+        <Footnote label="studying" n={6} tip="B.S. Statistics and Data Science, Class of 2029" /> at
         Yale, where I help organize the effective altruism and AI alignment groups.
       </p>
 
