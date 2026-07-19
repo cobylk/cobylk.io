@@ -66,8 +66,7 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
           label="analytical philosophy"
           n={4}
           tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, digital minds, and all of the sorts of papers that Leonard Dung writes."
-        />{" "}
-        , and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
+        />{" "}, and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
         performing{" "}
         <Footnote
           label="music"
