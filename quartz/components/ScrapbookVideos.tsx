@@ -4,7 +4,8 @@ import { QuartzComponent, QuartzComponentConstructor } from "./types"
 import script from "./scripts/scrapbook.inline"
 
 // Renders nothing; loads the click-to-play YouTube facade script site-wide.
-// It only acts on pages containing `button.yt-facade` (the scrapbook).
+// It only acts on pages containing `button.yt-facade` (the homepage's
+// scrapbook fold).
 const ScrapbookVideos: QuartzComponent = () => {
   return null
 }

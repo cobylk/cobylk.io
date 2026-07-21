@@ -672,16 +672,11 @@ body {
   }
 }
 
-// Homepage: the Folio renders in beforeBody, so hide the (empty) article body.
-body[data-slug="index"] .center > article {
-  display: none;
-}
-
 // ============================================================================
-// Scrapbook (personal/scrapbook): masonry columns of paintings, poems, and
-// embedded videos. Items are evenly spaced within each column; the columns
-// stagger against one another naturally as content flows. Activated via
-// `cssclasses: [scrapbook]` frontmatter.
+// Scrapbook (homepage): masonry columns of paintings, poems, and embedded
+// videos, folded into a <details> that reads as one more folio section below
+// the ruled indexes. The Folio itself renders in beforeBody; the article body
+// holds only the fold. Activated via `cssclasses: [scrapbook]` frontmatter.
 // ============================================================================
 
 article.scrapbook {
@@ -695,38 +690,119 @@ article.scrapbook {
   --paper-muted: #a59f93;
 }
 
-// The scrapbook gets a wider canvas than the 720px reading column; the fixed
-// folio frame and header widen in step. Scoped by slug, not by article
-// presence: link popovers inject the target page's <article> into the current
-// DOM, so :has(article.scrapbook) would widen the frame the moment a
-// scrapbook link is hovered anywhere on the site.
-body[data-slug="personal/scrapbook"] {
-  .folio-frame,
-  .folio-header {
-    width: 1140px;
+article.scrapbook {
+  // The OTHER section: ruled like a .folio-section. Holds the friends row and
+  // the scrapbook fold (friends first, so expanding the board pushes only the
+  // footer down, not the friends).
+  .folio-other {
+    margin-top: 44px;
+    border-top: 1px solid var(--folio-line);
+    padding-top: 22px;
   }
 
-  #quartz-body .center {
-    width: 1100px !important;
-    max-width: calc(100vw - 160px) !important;
+  .folio-friends {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 11px 0;
   }
 
-  // On mobile the forced width must not exceed the grid track: overflow in a
-  // grid spills entirely to the inline-end side, shoving the board off-center.
-  @media all and (max-width: 800px) {
-    #quartz-body .center {
-      max-width: 100% !important;
+  .folio-friends-label {
+    font-size: 18px;
+    color: var(--dark);
+  }
+
+  .folio-friends-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 14px;
+    row-gap: 4px;
+    font-size: 12px;
+
+    a {
+      color: var(--gray);
+      font-weight: 400;
+      background: none;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      &:hover {
+        color: var(--dark);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+        text-decoration-color: var(--folio-line-strong);
+      }
+
+      // Names only; the crawler's external-link arrow is noise at this size.
+      .external-icon {
+        display: none;
+      }
     }
   }
-}
 
-article.scrapbook {
+  // The fold, whose summary row is the expand/collapse button (styled like a
+  // .folio-row, divided off from the friends row by a soft rule).
+  .scrapbook-fold {
+    border-top: 1px solid var(--folio-line-soft);
+
+    > summary {
+      list-style: none;
+      cursor: pointer;
+      &::-webkit-details-marker {
+        display: none;
+      }
+      &:hover .scrapbook-fold-title {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+        text-decoration-color: var(--folio-line-strong);
+      }
+    }
+  }
+
+  .scrapbook-fold-eyebrow {
+    display: block;
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+
+  .scrapbook-fold-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 11px 0;
+  }
+
+  .scrapbook-fold-title {
+    font-size: 18px;
+    color: var(--dark);
+  }
+
+  .scrapbook-fold-hint {
+    font-size: 11.5px;
+    letter-spacing: 0.13em;
+    color: var(--gray);
+    white-space: nowrap;
+    &::after {
+      content: "EXPAND +";
+    }
+  }
+  .scrapbook-fold[open] .scrapbook-fold-hint::after {
+    content: "COLLAPSE −";
+  }
+
   // Fallback layout when JS hasn't split the board (also used inside link
-  // popovers, where the split script doesn't run).
+  // popovers, where the split script doesn't run). Two columns, matching the
+  // narrow homepage reading column.
   .scrapbook-board {
-    columns: 3 260px;
+    columns: 2 260px;
     column-gap: 1.6rem;
-    padding: 1.5rem 0 4rem;
+    padding: 1.5rem 0 2rem;
 
     // scrapbook.inline.ts distributes scraps into real .scrapbook-col
     // elements so each column can drift independently on scroll.
@@ -743,36 +819,15 @@ article.scrapbook {
     min-width: 0;
   }
 
-  // Board dynamics, both compositor-driven via scroll-driven animations:
-  // columns drift apart slightly as the page scrolls (a fixed offset spread
-  // over the full scroll range, so scrolling back always retraces the same
-  // positions), and each scrap fades up as it enters the viewport. Browsers
-  // without animation-timeline, and readers preferring reduced motion, get
-  // the static board.
+  // Each scrap fades up as it enters the viewport (compositor-driven via a
+  // scroll-driven animation). Browsers without animation-timeline, and
+  // readers preferring reduced motion, get the static board.
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: scroll()) {
-      .scrapbook-col {
-        animation: scrapbook-col-drift linear both;
-        animation-timeline: scroll();
-      }
-
-      .scrapbook-board[data-cols="3"] .scrapbook-col:nth-child(1) {
-        --col-drift: -640px;
-      }
-      .scrapbook-board[data-cols="3"] .scrapbook-col:nth-child(3) {
-        --col-drift: 640px;
-      }
-      .scrapbook-board[data-cols="2"] .scrapbook-col:nth-child(2) {
-        --col-drift: 480px;
-      }
-
-      // --reveal-shift (set per scrap by scrapbook.inline.ts) corrects the
-      // range for the column drift, which view() cannot see on its own.
       .scrap {
         animation: scrap-reveal linear both;
         animation-timeline: view();
-        animation-range: entry calc(5% + var(--reveal-shift, 0px)) entry
-          calc(55% + var(--reveal-shift, 0px));
+        animation-range: entry 5% entry 55%;
       }
     }
   }
@@ -930,15 +985,6 @@ article.scrapbook {
 }
 
 // Scrapbook scroll-driven keyframes (referenced above; kept at top level).
-@keyframes scrapbook-col-drift {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(var(--col-drift, 0px));
-  }
-}
-
 @keyframes scrap-reveal {
   from {
     opacity: 0;

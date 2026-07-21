@@ -104,8 +104,8 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
         </div>
       </section>
 
-      {index(research, "SELECTED RESEARCH")}
-      {index(writing, "WRITING")}
+      {index(research, "RESEARCH")}
+      {index(writing, "PERSONAL")}
     </div>
   )
 }
