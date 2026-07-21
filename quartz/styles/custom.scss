@@ -700,20 +700,26 @@ article.scrapbook {
     padding-top: 22px;
   }
 
-  .folio-friends {
+  // A labeled row of small external links (Friends, Websites I've designed…),
+  // shaped like a .folio-row: label left, mono links right.
+  .folio-linkrow {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 16px;
     padding: 11px 0;
+
+    & + .folio-linkrow {
+      border-top: 1px solid var(--folio-line-soft);
+    }
   }
 
-  .folio-friends-label {
+  .folio-linkrow-label {
     font-size: 18px;
     color: var(--dark);
   }
 
-  .folio-friends-links {
+  .folio-linkrow-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;

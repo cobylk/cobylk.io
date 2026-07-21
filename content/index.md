@@ -34,9 +34,9 @@ news:
 
 <div class="folio-other">
 <span class="scrapbook-fold-eyebrow mono">OTHER</span>
-<div class="folio-friends">
-<span class="folio-friends-label">Friends</span>
-<span class="folio-friends-links mono">
+<div class="folio-linkrow">
+<span class="folio-linkrow-label">Friends</span>
+<span class="folio-linkrow-links mono">
 <a href="https://davidcrispell.github.io/">David</a>
 <a href="https://lawliet.org/">Thomas</a>
 <a href="https://eviehu612.github.io/">Evie</a>
@@ -46,6 +46,14 @@ news:
 <a href="https://total-anayalation.github.io/">Anaya</a>
 <a href="https://anastasiakwei.github.io/">Anastasia</a>
 <a href="https://zoya.sh/">Zoya</a>
+</span>
+</div>
+<div class="folio-linkrow">
+<span class="folio-linkrow-label">Websites I've designed</span>
+<span class="folio-linkrow-links mono">
+<a href="https://coby.lk/">coby.lk</a>
+<a href="https://www.yaleaia.org/">yaleaia.org</a>
+<a href="https://yaleeffectivealtruism.com/">yaleeffectivealtruism.com</a>
 </span>
 </div>
 <details class="scrapbook-fold">
