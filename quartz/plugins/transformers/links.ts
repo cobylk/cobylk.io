@@ -57,7 +57,11 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
               ) {
                 let dest = node.properties.href as RelativeURL
                 const classes = (node.properties.className ?? []) as string[]
-                const isExternal = isAbsoluteUrl(dest)
+                // is-absolute-url v5 only matches scheme:// URLs, so schemes
+                // without an authority (mailto:, tel:) slip through and get
+                // rewritten as page-relative paths. Any scheme means external.
+                const hasScheme = /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(dest)
+                const isExternal = isAbsoluteUrl(dest) || hasScheme
                 classes.push(isExternal ? "external" : "internal")
 
                 if (isExternal && opts.externalLinkIcon) {
@@ -99,7 +103,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
                 }
 
                 // don't process external links or intra-document anchors
-                const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#"))
+                const isInternal = !(isExternal || dest.startsWith("#"))
                 if (isInternal) {
                   dest = node.properties.href = transformLink(
                     file.data.slug!,
