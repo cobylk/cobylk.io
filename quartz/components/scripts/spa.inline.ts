@@ -32,8 +32,53 @@ const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined 
   if ("routerIgnore" in a.dataset) return
   const { href } = a
   if (!isLocalUrl(href)) return
+  // Cloudflare-injected links (email obfuscation etc.) are same-origin but not
+  // pages; never route them.
+  if (new URL(href).pathname.startsWith("/cdn-cgi/")) return
   return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
 }
+
+// Cloudflare's Email Address Obfuscation rewrites mailto: links at the edge to
+// /cdn-cgi/l/email-protection#<hex> (or a data-cfemail attribute when the link
+// text is the address) and injects a decoder that only runs on full page loads.
+// After an SPA navigation the swapped-in HTML is still obfuscated, so decode it
+// ourselves on every nav. XOR cipher: first hex byte is the key.
+const CF_EMAIL_PATH = "/cdn-cgi/l/email-protection"
+function decodeCfEmail(hex: string): string {
+  const key = parseInt(hex.slice(0, 2), 16)
+  let out = ""
+  for (let i = 2; i < hex.length; i += 2) {
+    out += "%" + ("0" + (parseInt(hex.slice(i, i + 2), 16) ^ key).toString(16)).slice(-2)
+  }
+  return decodeURIComponent(out)
+}
+function decodeCfEmails() {
+  for (const el of document.querySelectorAll<HTMLElement>("[data-cfemail]")) {
+    const hex = el.getAttribute("data-cfemail")
+    if (!hex) continue
+    try {
+      const email = decodeCfEmail(hex)
+      el.textContent = email
+      if (el instanceof HTMLAnchorElement) el.href = `mailto:${email}`
+      el.removeAttribute("data-cfemail")
+      el.classList.remove("__cf_email__")
+    } catch {
+      /* leave as-is */
+    }
+  }
+  for (const a of document.querySelectorAll<HTMLAnchorElement>(
+    `a[href^="${CF_EMAIL_PATH}#"]`,
+  )) {
+    const hex = (a.getAttribute("href") ?? "").split("#")[1]
+    if (!hex) continue
+    try {
+      a.href = `mailto:${decodeCfEmail(hex)}`
+    } catch {
+      /* leave as-is */
+    }
+  }
+}
+document.addEventListener("nav", decodeCfEmails)
 
 function notifyNav(url: FullSlug) {
   const event: CustomEventMap["nav"] = new CustomEvent("nav", { detail: { url } })
