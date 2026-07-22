@@ -75,6 +75,7 @@ const DINING_HALLS = [
   "Silliman",
   "Timothy Dwight",
   "Trumbull",
+  "Other"
 ]
 
 // "Meet at …" spots around campus.
@@ -86,6 +87,7 @@ const CAMPUS_SPOTS = [
   "Sterling Memorial Library nave",
   "Schwarzman Center lobby",
   "Science Hill",
+  "Other"
 ]
 
 export const CONFIG: OwnerConfig = {
@@ -137,7 +139,7 @@ export const CONFIG: OwnerConfig = {
     },
     {
       id: "walk",
-      label: "Meet in-person",
+      label: "Walk/sit down/study",
       blurb: "(we can go for a walk or sit down somewhere)",
       durationMin: 30,
       bufferMin: 10,

@@ -51,6 +51,7 @@ const config: { ownerName: string; timeZone: string; bookingWindowDays: number; 
         "Silliman",
         "Timothy Dwight",
         "Trumbull",
+        "Other"
       ],
       video: false,
     },

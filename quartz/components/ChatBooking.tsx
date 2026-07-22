@@ -8,9 +8,17 @@ import bookingStyle from "./styles/booking.scss"
 // at /api/book/*. The Turnstile site key is public; replace the placeholder.
 const TURNSTILE_SITE_KEY = "0x4AAAAAADtkFplIhwu7id4v" // Cloudflare "always passes" test key
 
+// Flip to false when off campus: the in-person buttons grey out, stop working,
+// and a "Coby is currently off campus" note appears under them.
+const IN_PERSON_ENABLED = false
+
 const ChatBooking: QuartzComponent = () => {
   return (
-    <div class="chat-booking" data-turnstile-key={TURNSTILE_SITE_KEY}>
+    <div
+      class="chat-booking"
+      data-turnstile-key={TURNSTILE_SITE_KEY}
+      data-in-person={IN_PERSON_ENABLED ? "true" : "false"}
+    >
       <div class="chat-loading mono">Loading…</div>
     </div>
   )

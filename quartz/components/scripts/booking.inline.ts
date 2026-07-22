@@ -269,26 +269,46 @@ document.addEventListener("nav", () => {
 
   function renderType() {
     const wrap = h("div", { class: "chat-step" })
-    wrap.append(eyebrow("WHAT SORT OF MEETING?"))
-    const grid = h("div", { class: "chat-cards" })
-    for (const t of state.cfg!.types) {
+
+    // Virtual-first: video types get a full-width card; in-person types share
+    // one row underneath. data-in-person="false" (set in ChatBooking.tsx) greys
+    // out and disables the in-person row.
+    const inPersonEnabled = root.dataset.inPerson !== "false"
+    const makeCard = (t: PublicType, disabled: boolean) => {
       const card = h(
         "button",
-        { class: "chat-card", type: "button" },
+        { class: "chat-card" + (t.video ? " is-virtual" : ""), type: "button" },
         h("span", { class: "chat-card-title" }, t.label),
-        h("span", { class: "chat-card-blurb" }, t.blurb),
       )
-      card.addEventListener("click", () => {
-        state.type = t
-        state.location = ""
-        if (t.locations.length > 0) {
-          state.step = "location"
-          render()
-        } else {
-          enterCalendar()
-        }
-      })
-      grid.append(card)
+      if (disabled) {
+        card.setAttribute("disabled", "true")
+      } else {
+        card.addEventListener("click", () => {
+          state.type = t
+          state.location = ""
+          if (t.locations.length > 0) {
+            state.step = "location"
+            render()
+          } else {
+            enterCalendar()
+          }
+        })
+      }
+      return card
+    }
+
+    const grid = h("div", { class: "chat-cards" })
+    for (const t of state.cfg!.types.filter((t) => t.video)) grid.append(makeCard(t, false))
+
+    const inPerson = state.cfg!.types.filter((t) => !t.video)
+    if (inPerson.length) {
+      grid.append(h("div", { class: "chat-cards-label mono" }, "Meet on-campus at Yale"))
+      const row = h("div", { class: "chat-cards-row" })
+      for (const t of inPerson) row.append(makeCard(t, !inPersonEnabled))
+      grid.append(row)
+      if (!inPersonEnabled) {
+        grid.append(h("div", { class: "chat-offcampus mono" }, "[DISABLED] Coby is currently off campus"))
+      }
     }
     wrap.append(grid)
     return wrap
@@ -668,7 +688,7 @@ document.addEventListener("nav", () => {
     const form = h("form", { class: "chat-form" })
     const nameI = h("input", { class: "chat-input", type: "text", placeholder: "Your name", required: "true" })
     const emailI = h("input", { class: "chat-input", type: "email", placeholder: "you@email.com", required: "true" })
-    const noteI = h("textarea", { class: "chat-input", placeholder: "Anything I should know? (optional)", rows: "3" })
+    const noteI = h("textarea", { class: "chat-input", placeholder: "Anything I should know before we meet? (optional)", rows: "3" })
     const tsDiv = h("div", { class: "chat-turnstile", id: "chat-turnstile" })
     const submit = h("button", { class: "chat-submit", type: "submit" }, "Request this time")
     const errP = h("p", { class: "chat-error" })
