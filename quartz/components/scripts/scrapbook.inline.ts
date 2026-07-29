@@ -22,9 +22,12 @@ function bindFacades() {
     btn.dataset.bound = "true"
     btn.addEventListener("click", () => {
       const id = btn.dataset.videoId
-      if (!id) return
+      const list = btn.dataset.playlistId
+      if (!id && !list) return
       const iframe = document.createElement("iframe")
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`
+      iframe.src = list
+        ? `https://www.youtube-nocookie.com/embed/videoseries?list=${list}&autoplay=1`
+        : `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`
       iframe.title = btn.getAttribute("aria-label") ?? "YouTube video"
       iframe.allow = "autoplay; encrypted-media; picture-in-picture"
       iframe.allowFullscreen = true

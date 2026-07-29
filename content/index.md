@@ -48,6 +48,7 @@ news:
 <a href="https://anastasiakwei.github.io/">Anastasia</a>
 <a href="https://zoya.sh/">Zoya</a>
 <a href="https://aryais.com/">Arya</a>
+<a href="https://www.aryansharma.com/">Aryan</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
@@ -77,6 +78,10 @@ news:
 <span class="scrap-attr">Sciarrino, Melencolia I</span>
 </div>
 
+<div class="scrap scrap-link">
+<a href="https://www.lesswrong.com/s/WnTvZdXz2q9ySfr4o/p/SvKSwT6xYfYahH4XN">Universal Love, Said the Cactus Person</a>
+<span class="scrap-attr">Scott Alexander</span>
+</div>
 
 <figure class="scrap scrap-img">
 <img src="personal/scrapbook-art/vladimir-kush-cosmic-envoy.jpg" width="961" height="1200" alt="Cosmic Envoy" loading="lazy">
@@ -88,11 +93,21 @@ news:
 <figcaption>Ivan Pokidishev, <em>Golden Haze</em>, 2022</figcaption>
 </figure>
 
+<div class="scrap scrap-link">
+<a href="https://forum.effectivealtruism.org/posts/CfcvPBY9hdsenMHCr/integrity-for-consequentialists-1">Integrity for Consequentialists</a>
+<span class="scrap-attr">Paul Christiano</span>
+</div>
+
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="wjULTZEq4BY" aria-label="Play: Sciarrino, Ai limiti della notte">
 <img src="https://i.ytimg.com/vi/wjULTZEq4BY/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Sciarrino, Ai limiti della notte</span>
+</div>
+
+<div class="scrap scrap-link">
+<a href="https://turntrout.com/on-being-robust">On Being Robust</a>
+<span class="scrap-attr">Alex Turner</span>
 </div>
 
 <figure class="scrap scrap-img">
@@ -158,6 +173,11 @@ And held her in my arms.</p>
 <figure class="scrap scrap-img">
 <img src="personal/scrapbook-art/vladimir-kush-street-lantern.jpg" width="1200" height="811" alt="Street Lantern" loading="lazy">
 <figcaption>Vladimir Kush, <em>Street Lantern</em></figcaption>
+</figure>
+
+<figure class="scrap scrap-img">
+<img src="personal/scrapbook-art/rob-gonsalves-dancing-wind.webp" width="1000" height="666" alt="Dancing Wind" loading="lazy">
+<figcaption>Rob Gonsalves, <em>Dancing Wind</em></figcaption>
 </figure>
 
 <div class="scrap scrap-video">
@@ -278,6 +298,11 @@ Only to vanish as one approaches them?</p>
 <figcaption>Sascha Schneider, <em>Hypnosis</em>, 1904</figcaption>
 </figure>
 
+<figure class="scrap scrap-img">
+<img src="personal/scrapbook-art/rob-gonsalves-stardust.webp" width="601" height="1001" alt="Stardust" loading="lazy">
+<figcaption>Rob Gonsalves, <em>Stardust</em></figcaption>
+</figure>
+
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="SiliSEuBpIY" aria-label="Play: Ornstein, Piano Quintet">
 <img src="https://i.ytimg.com/vi/SiliSEuBpIY/hqdefault.jpg" alt="" loading="lazy">
@@ -297,6 +322,13 @@ Only to vanish as one approaches them?</p>
 <img src="https://i.ytimg.com/vi/mkWcA94EYSo/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Medtner, the piano sonatas</span>
+</div>
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-video-id="f0nlJXooIVc" aria-label="Play: Godowsky, Passacaglia (Siirala)">
+<img src="https://i.ytimg.com/vi/f0nlJXooIVc/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Godowsky, Passacaglia (Siirala)</span>
 </div>
 
 <div class="scrap scrap-poem">
@@ -345,6 +377,13 @@ my lips</pre>
 <img src="https://i.ytimg.com/vi/UANg77DkO8A/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Scriabin, Vers la flamme (Volodos)</span>
+</div>
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-playlist-id="OLAK5uy_nX72XLIl9Rp1BKq9NDGcoVdX72b13YhHg" aria-label="Play: Scriabin, the symphonies (Ashkenazy)">
+<img src="https://i.ytimg.com/vi/8Eygbf4V1KU/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Scriabin, the symphonies (Ashkenazy)</span>
 </div>
 
 <figure class="scrap scrap-img">
@@ -493,6 +532,13 @@ Sweetly
 <img src="https://i.ytimg.com/vi/gYj3nP6l6DA/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Lili Boulanger, Du fond de l’abîme</span>
+</div>
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-video-id="nz08VTgYprg" aria-label="Play: Michel Chion, Requiem">
+<img src="https://i.ytimg.com/vi/nz08VTgYprg/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Michel Chion, Requiem</span>
 </div>
 
 <div class="scrap scrap-video">
