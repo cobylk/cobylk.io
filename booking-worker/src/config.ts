@@ -115,7 +115,7 @@ export const CONFIG: OwnerConfig = {
       bufferMin: 5,
       minNoticeHours: 2,
       days: [0, 1, 2, 3, 4, 5, 6],
-      windows: [{ start: "09:00", end: "23:30" }],
+      windows: [{ start: "11:00", end: "20:00" }],
       slotStepMin: 30,
       locations: [],
       video: true,

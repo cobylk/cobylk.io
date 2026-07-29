@@ -36,16 +36,19 @@ news:
 <span class="scrapbook-fold-eyebrow mono">OTHER</span>
 <div class="folio-linkrow">
 <span class="folio-linkrow-label">Friends</span>
-<span class="folio-linkrow-links mono">
+<span class="folio-linkrow-links mono" data-shuffle>
 <a href="https://davidcrispell.github.io/">David</a>
 <a href="https://lawliet.org/">Thomas</a>
 <a href="https://eviehu612.github.io/">Evie</a>
 <a href="https://swan.one/">Stephanie</a>
 <a href="https://www.kaustubhais.com/">Kaustubh</a>
-<a href="https://anish.lakkapragada.com/">Anish</a>
+<a href="https://nolinkedin.com/" data-group="Anish">Anish #1</a>
+<a href="https://anishlk.com/" data-group="Anish">Anish #2</a>
 <a href="https://total-anayalation.github.io/">Anaya</a>
 <a href="https://anastasiakwei.github.io/">Anastasia</a>
 <a href="https://zoya.sh/">Zoya</a>
+<a href="https://aryais.com/">Arya</a>
+<button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
 <div class="folio-linkrow">

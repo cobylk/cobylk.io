@@ -11,6 +11,9 @@
 //    here into .scrapbook-col containers, greedily filling the shortest
 //    column. While the <details> fold is closed the board has no layout
 //    (zero width), so the split is deferred to the first open.
+//
+// 3. Friends shuffle: any [data-shuffle] link row is randomized on load, and
+//    its .folio-shuffle button reshuffles with a FLIP slide animation.
 
 function bindFacades() {
   const facades = document.querySelectorAll<HTMLButtonElement>("button.yt-facade")
@@ -73,6 +76,64 @@ function splitColumns() {
   }
 }
 
+function shuffleLinks(row: HTMLElement, animate: boolean) {
+  const links = Array.from(row.querySelectorAll<HTMLAnchorElement>("a"))
+  if (links.length < 2) return
+
+  // FLIP: record where each link sits, reorder the DOM, then transition each
+  // one from its old position to its new one.
+  const before = new Map<HTMLElement, DOMRect>()
+  if (animate) links.forEach((el) => before.set(el, el.getBoundingClientRect()))
+
+  for (let i = links.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[links[i], links[j]] = [links[j], links[i]]
+  }
+  const btn = row.querySelector(".folio-shuffle")
+  links.forEach((el) => row.insertBefore(el, btn))
+
+  // Namesakes (links sharing a data-group) are renumbered in shuffled order,
+  // so which one is #1 is decided by the shuffle. Done before the after-rects
+  // are measured, since new labels can shift the row's layout.
+  const tally = new Map<string, number>()
+  links.forEach((el) => {
+    const group = el.dataset.group
+    if (!group) return
+    const n = (tally.get(group) ?? 0) + 1
+    tally.set(group, n)
+    el.textContent = `${group} #${n}`
+  })
+
+  if (!animate) return
+  links.forEach((el) => {
+    const a = before.get(el)!
+    const b = el.getBoundingClientRect()
+    const dx = a.left - b.left
+    const dy = a.top - b.top
+    if (dx === 0 && dy === 0) return
+    el.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }],
+      { duration: 400, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+    )
+  })
+}
+
+function bindShuffle() {
+  document.querySelectorAll<HTMLElement>("[data-shuffle]").forEach((row) => {
+    if (row.dataset.bound === "true") return
+    row.dataset.bound = "true"
+    shuffleLinks(row, false)
+    const btn = row.querySelector<HTMLButtonElement>(".folio-shuffle")
+    if (!btn) return
+    btn.addEventListener("click", () => {
+      shuffleLinks(row, true)
+      btn.classList.remove("spun")
+      void btn.offsetWidth
+      btn.classList.add("spun")
+    })
+  })
+}
+
 function bindFold() {
   const fold = document.querySelector<HTMLDetailsElement>("details.scrapbook-fold")
   if (!fold || fold.dataset.bound === "true") return
@@ -86,6 +147,7 @@ function setupScrapbook() {
   splitColumns()
   bindFacades()
   bindFold()
+  bindShuffle()
 }
 
 let resizeTimer: ReturnType<typeof setTimeout>
