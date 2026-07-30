@@ -25,7 +25,7 @@ export default (() => {
     const url = new URL(`https://${cfg.baseUrl ?? "example.com"}`)
     const path = url.pathname as FullSlug
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
-    const iconPath = joinSegments(baseDir, "static/icon.png")
+    const staticPath = joinSegments(baseDir, "static")
 
     // Url of current page
     const socialUrl =
@@ -82,7 +82,13 @@ export default (() => {
           </>
         )}
 
-        <link rel="icon" href={iconPath} />
+        {/* The SVG adapts to light/dark on its own; the .ico pair covers
+            browsers that skip SVG favicons, and /favicon.ico (emitted from
+            favicon-light.ico) remains the path-of-last-resort fallback. */}
+        <link rel="icon" href={`${staticPath}/favicon.svg`} type="image/svg+xml" />
+        <link rel="icon" href={`${staticPath}/favicon-light.ico`} media="(prefers-color-scheme: light)" />
+        <link rel="icon" href={`${staticPath}/favicon-dark.ico`} media="(prefers-color-scheme: dark)" />
+        <link rel="apple-touch-icon" href={`${staticPath}/favicon-light.png`} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
 

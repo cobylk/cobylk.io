@@ -49,6 +49,8 @@ news:
 <a href="https://zoya.sh/">Zoya</a>
 <a href="https://aryais.com/">Arya</a>
 <a href="https://www.aryansharma.com/">Aryan</a>
+<a href="https://harshul.org/">Harshul</a>
+<a href="https://www.nisakeshwani.com/">Nisa</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
