@@ -51,6 +51,8 @@ news:
 <a href="https://www.aryansharma.com/">Aryan</a>
 <a href="https://harshul.org/">Harshul</a>
 <a href="https://www.nisakeshwani.com/">Nisa</a>
+<a href="https://goveronica.com/">Veronica</a>
+<a href="https://hazemh.com/">Hazem</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
