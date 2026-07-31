@@ -53,6 +53,7 @@ news:
 <a href="https://www.nisakeshwani.com/">Nisa</a>
 <a href="https://goveronica.com/">Veronica</a>
 <a href="https://hazemh.com/">Hazem</a>
+<a href="https://andrewbuko.com/">Andrew</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
