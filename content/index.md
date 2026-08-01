@@ -366,6 +366,11 @@ my lips</pre>
 </div>
 
 <figure class="scrap scrap-img">
+<img src="personal/scrapbook-art/hieronymus-bosch-ascent-of-the-blessed.jpg" width="960" height="2193" alt="Ascent of the Blessed" loading="lazy">
+<figcaption>Hieronymus Bosch, <em>Ascent of the Blessed</em>, c. 1505–15</figcaption>
+</figure>
+
+<figure class="scrap scrap-img">
 <img src="personal/scrapbook-art/goya-el-perro.jpg" width="707" height="1200" alt="El Perro" loading="lazy">
 <figcaption>Goya, <em>El Perro</em>, c. 1819–23</figcaption>
 </figure>
