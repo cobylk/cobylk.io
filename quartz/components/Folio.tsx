@@ -57,7 +57,7 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
   return (
     <div class="folio">
       <p class="folio-intro">
-        I'm Coby Kassner, a technically-oriented AI safety generalist. I am interested in automated safety {" "}<Footnote label="research" n={1} tip="E.g., agendas related to control, scalable oversight, 'capabilties' research that is differentially better for safety (like making AIs better at conceptual reasoning for acausal stuff + navigating the intelligence explosion)" />,
+        Hello, I'm Coby Kassner. I am interested in automated safety {" "}<Footnote label="research" n={1} tip="E.g., agendas related to control, scalable oversight, 'capabilties' research that is differentially better for safety (like making AIs better at conceptual reasoning for acausal stuff + navigating the intelligence explosion)" />,
         science of {" "}<Footnote label="generalization" n={2}  tip="It seems like understanding lots of Owain-Evans-y weird empirical phenomena could be pretty useful for ensuring that early superhuman AIs are robustly aligned."/>,
         {" "}
         <Footnote label="macrostrategy" n={3} tip="Generally, I'm a fan of the work Forethought does." />,
