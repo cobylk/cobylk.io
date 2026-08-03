@@ -54,6 +54,7 @@ news:
 <a href="https://goveronica.com/">Veronica</a>
 <a href="https://hazemh.com/">Hazem</a>
 <a href="https://andrewbuko.com/">Andrew</a>
+<a href="https://jaso1024.com/">Jason</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
@@ -133,6 +134,13 @@ In his talons.</p>
 </div>
 
 <div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-playlist-id="OLAK5uy_lgTd-tEa1tWZx3fdjpUYZCX7DSkIAX1YQ" aria-label="Play: Francis Dhomont, Forêt profonde">
+<img src="https://i.ytimg.com/vi/wHYg4SZCw_s/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Francis Dhomont, Forêt profonde</span>
+</div>
+
+<div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="Rx4CZ7WRRvc" aria-label="Play: Sciarrino, La perfezione di uno spirito sottile">
 <img src="https://i.ytimg.com/vi/Rx4CZ7WRRvc/hqdefault.jpg" alt="" loading="lazy">
 </button>
@@ -150,6 +158,11 @@ In his talons.</p>
 <img src="https://i.ytimg.com/vi/Fmw82oNB6Wg/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Yoshimatsu, Threnody to Toki</span>
+</div>
+
+<div class="scrap scrap-link">
+<a href="https://archive.org/details/obermann02sena_0/mode/2up">Obermann</a>
+<span class="scrap-attr">Étienne Pivert de Senancour</span>
 </div>
 
 <figure class="scrap scrap-img">
