@@ -63,7 +63,7 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
         <Footnote label="macrostrategy" n={3} tip="Generally, I'm a fan of the work Forethought does." />,
         existential risk,{" "}
         <Footnote
-          label="analytical philosophy"
+          label="philosophy"
           n={4}
           tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, digital minds, and all of the sorts of papers that Leonard Dung writes."
         />{" "}, and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
