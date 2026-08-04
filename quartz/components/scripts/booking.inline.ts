@@ -77,6 +77,29 @@ function weekdayOf(dateStr: string): number {
   const [y, m, d] = dateStr.split("-").map(Number)
   return new Date(Date.UTC(y, m - 1, d)).getUTCDay()
 }
+/** First-of-month YYYY-MM-01 for a YYYY-MM-DD date. */
+function monthStartStr(dateStr: string): string {
+  return dateStr.slice(0, 8) + "01"
+}
+/** YYYY-MM-01 n months after a YYYY-MM-01 month start. */
+function addMonthsStr(monthStart: string, n: number): string {
+  const [y, m] = monthStart.split("-").map(Number)
+  const dt = new Date(Date.UTC(y, m - 1 + n, 1, 12))
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "UTC" }).format(dt)
+}
+/** "August 2026" for a YYYY-MM-01 month start. */
+function monthLabel(monthStart: string): string {
+  const [y, m] = monthStart.split("-").map(Number)
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "UTC",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(Date.UTC(y, m - 1, 1)))
+}
+function daysInMonth(monthStart: string): number {
+  const [y, m] = monthStart.split("-").map(Number)
+  return new Date(Date.UTC(y, m, 0)).getUTCDate()
+}
 /** Today's YYYY-MM-DD in the owner timezone. */
 function ownerToday(tz: string): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date())
@@ -337,6 +360,9 @@ document.addEventListener("nav", () => {
   let labelShift = 0
   // First tap of a touch "tap start → tap end" selection.
   let tapAnchor: { date: string; min: number } | null = null
+  // Closes the month-picker popup if one is open (it holds document-level
+  // listeners, so it must be torn down before any re-render or SPA nav).
+  let closeMonthPicker: (() => void) | null = null
   function clampWeekStart(ds: string): string {
     const today = ownerToday(tz())
     return ds < today ? today : ds
@@ -410,7 +436,8 @@ document.addEventListener("nav", () => {
     const today = ownerToday(tz())
     const lastAllowed = addDaysStr(today, state.cfg!.bookingWindowDays - 1)
 
-    // Week navigation.
+    // Week navigation. The range label between the arrows is a button that
+    // opens a month-calendar popup for jumping anywhere in the booking window.
     const nav = h("div", { class: "chat-cal-nav" })
     const prev = h("button", { class: "chat-cal-navbtn mono", type: "button" }, "‹")
     const next = h("button", { class: "chat-cal-navbtn mono", type: "button" }, "›")
@@ -424,11 +451,102 @@ document.addEventListener("nav", () => {
       state.weekStart = addDaysStr(state.weekStart, state.visibleDays)
       fetchWeek()
     })
-    nav.append(
-      prev,
-      h("div", { class: "chat-cal-range mono" }, `${fmtRange(dates[0])} – ${fmtRange(dates[dates.length - 1])}`),
-      next,
+
+    const rangeBtn = h(
+      "button",
+      { class: "chat-cal-range mono", type: "button", "aria-haspopup": "true", "aria-expanded": "false" },
+      `${fmtRange(dates[0])} – ${fmtRange(dates[dates.length - 1])} ▾`,
     )
+    const picker = h("div", { class: "chat-cal-picker" })
+    picker.style.display = "none"
+
+    const firstMonth = monthStartStr(today)
+    const lastMonth = monthStartStr(lastAllowed)
+    let pickerMonth = monthStartStr(state.weekStart)
+
+    const buildPicker = () => {
+      picker.replaceChildren()
+      const head = h("div", { class: "chat-cal-picker-head" })
+      const pPrev = h("button", { class: "chat-cal-navbtn mono", type: "button" }, "‹")
+      const pNext = h("button", { class: "chat-cal-navbtn mono", type: "button" }, "›")
+      if (pickerMonth <= firstMonth) pPrev.setAttribute("disabled", "true")
+      if (pickerMonth >= lastMonth) pNext.setAttribute("disabled", "true")
+      // stopPropagation: buildPicker detaches the clicked button, and the
+      // document-level outside-click check would then read it as "outside".
+      pPrev.addEventListener("click", (e) => {
+        e.stopPropagation()
+        pickerMonth = addMonthsStr(pickerMonth, -1)
+        buildPicker()
+      })
+      pNext.addEventListener("click", (e) => {
+        e.stopPropagation()
+        pickerMonth = addMonthsStr(pickerMonth, 1)
+        buildPicker()
+      })
+      head.append(pPrev, h("div", { class: "chat-cal-picker-title mono" }, monthLabel(pickerMonth)), pNext)
+      picker.append(head)
+
+      const grid = h("div", { class: "chat-cal-picker-grid" })
+      for (const wd of ["S", "M", "T", "W", "T", "F", "S"]) {
+        grid.append(h("div", { class: "chat-cal-picker-wd mono" }, wd))
+      }
+      for (let i = 0; i < weekdayOf(pickerMonth); i++) grid.append(h("div"))
+      for (let d = 1; d <= daysInMonth(pickerMonth); d++) {
+        const ds = pickerMonth.slice(0, 8) + String(d).padStart(2, "0")
+        const dayBtn = h(
+          "button",
+          {
+            class:
+              "chat-cal-picker-day mono" +
+              (ds === today ? " is-today" : "") +
+              (ds === state.weekStart ? " is-active" : ""),
+            type: "button",
+          },
+          String(d),
+        )
+        if (ds < today || ds > lastAllowed) {
+          dayBtn.setAttribute("disabled", "true")
+        } else {
+          dayBtn.addEventListener("click", () => {
+            closeMonthPicker?.()
+            state.weekStart = clampWeekStart(ds)
+            fetchWeek()
+          })
+        }
+        grid.append(dayBtn)
+      }
+      picker.append(grid)
+    }
+
+    const onDocClick = (e: MouseEvent) => {
+      const tgt = e.target as Node
+      if (!picker.contains(tgt) && !rangeBtn.contains(tgt)) closeMonthPicker?.()
+    }
+    const onDocKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMonthPicker?.()
+    }
+    const closePicker = () => {
+      picker.style.display = "none"
+      rangeBtn.setAttribute("aria-expanded", "false")
+      document.removeEventListener("click", onDocClick)
+      document.removeEventListener("keydown", onDocKey)
+      closeMonthPicker = null
+    }
+    rangeBtn.addEventListener("click", () => {
+      if (closeMonthPicker) {
+        closeMonthPicker()
+        return
+      }
+      pickerMonth = monthStartStr(state.weekStart)
+      buildPicker()
+      picker.style.display = "block"
+      rangeBtn.setAttribute("aria-expanded", "true")
+      document.addEventListener("click", onDocClick)
+      document.addEventListener("keydown", onDocKey)
+      closeMonthPicker = closePicker
+    })
+
+    nav.append(prev, rangeBtn, next, picker)
     wrap.append(nav)
 
     // Column headers.
@@ -901,6 +1019,7 @@ document.addEventListener("nav", () => {
 
   function render() {
     if (!state.cfg) return
+    closeMonthPicker?.()
     let node: HTMLElement
     switch (state.step) {
       case "location":
@@ -929,6 +1048,7 @@ document.addEventListener("nav", () => {
   }
 
   window.addCleanup?.(() => {
+    closeMonthPicker?.()
     if (w.turnstile && turnstileWidgetId !== null) {
       try {
         w.turnstile.remove(turnstileWidgetId)

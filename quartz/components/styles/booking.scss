@@ -313,6 +313,8 @@ $axisW: 52px;
     justify-content: center;
     gap: 1rem;
     margin: 0.2rem 0 1rem;
+    // Anchor for the month-picker popup.
+    position: relative;
   }
   .chat-cal-navbtn {
     background: none;
@@ -334,11 +336,87 @@ $axisW: 52px;
     }
   }
   .chat-cal-range {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 2px;
     color: var(--gray);
     font-size: 0.78rem;
     letter-spacing: 0.06em;
     min-width: 9rem;
     text-align: center;
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+
+    &:hover,
+    &[aria-expanded="true"] {
+      border-color: var(--folio-line-strong);
+      color: var(--dark);
+    }
+  }
+
+  // --- month-picker popup ----------------------------------------------------
+  .chat-cal-picker {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    width: 17rem;
+    max-width: 92vw;
+    background: var(--light);
+    border: 1px solid var(--folio-line);
+    border-radius: 2px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    padding: 0.7rem 0.8rem 0.8rem;
+  }
+  .chat-cal-picker-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .chat-cal-picker-title {
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    color: var(--dark);
+  }
+  .chat-cal-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .chat-cal-picker-wd {
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--tertiary);
+    text-align: center;
+    padding: 0.2rem 0;
+  }
+  .chat-cal-picker-day {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    color: var(--dark);
+    font-size: 0.72rem;
+    padding: 0.35rem 0;
+    cursor: pointer;
+
+    &:not([disabled]):hover {
+      border-color: var(--folio-line-strong);
+      background: var(--highlight);
+    }
+    &[disabled] {
+      color: var(--tertiary);
+      opacity: 0.45;
+      cursor: default;
+    }
+    &.is-today {
+      font-weight: 600;
+    }
+    &.is-active {
+      border-color: var(--folio-line-strong);
+      background: var(--highlight);
+    }
   }
 
   .chat-cal-head {

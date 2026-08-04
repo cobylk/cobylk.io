@@ -21,7 +21,7 @@ interface MockType {
 const config: { ownerName: string; timeZone: string; bookingWindowDays: number; types: MockType[] } = {
   ownerName: "Coby",
   timeZone: "America/New_York",
-  bookingWindowDays: 21,
+  bookingWindowDays: 31,
   types: [
     {
       id: "meal",
