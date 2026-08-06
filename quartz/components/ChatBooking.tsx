@@ -5,11 +5,13 @@ import bookingStyle from "./styles/booking.scss"
 
 // The booking widget for /chat. The container is rendered server-side; the
 // flow itself is driven by booking.inline.ts, which talks to the booking Worker
-// at /api/book/*. The Turnstile site key is public; replace the placeholder.
-const TURNSTILE_SITE_KEY = "0x4AAAAAADtkFplIhwu7id4v" // Cloudflare "always passes" test key
+// at /api/book/*. The Turnstile site key is public by design (the secret lives
+// in the Worker).
+const TURNSTILE_SITE_KEY = "0x4AAAAAADtkFplIhwu7id4v" // production site key
 
-// Flip to false when off campus: the in-person buttons grey out, stop working,
-// and a "Coby is currently off campus" note appears under them.
+// Fallback for the off-campus switch, used only when the Worker predates the
+// `inPersonEnabled` config flag. The live switch is in booking-worker's
+// config.ts, which takes effect on worker deploy without a site rebuild.
 const IN_PERSON_ENABLED = false
 
 const ChatBooking: QuartzComponent = () => {

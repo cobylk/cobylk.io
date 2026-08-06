@@ -52,6 +52,12 @@ export interface OwnerConfig {
   notifyEmail: string
   /** how many days ahead bookings are allowed */
   bookingWindowDays: number
+  /**
+   * Flip to false when off campus: the in-person type cards grey out on /chat
+   * and a "currently off campus" note appears. Takes effect on worker deploy —
+   * no site rebuild needed.
+   */
+  inPersonEnabled: boolean
   types: EventType[]
 }
 
@@ -102,6 +108,7 @@ export const CONFIG: OwnerConfig = {
   // @yale.edu) to get an invite email on every booking. Leave "" to disable.
   notifyEmail: "coby.kassner@yale.edu",
   bookingWindowDays: 31,
+  inPersonEnabled: false,
   types: [
     {
       id: "virtual",
@@ -159,6 +166,7 @@ export function publicConfig() {
     ownerName: CONFIG.ownerName,
     timeZone: CONFIG.timeZone,
     bookingWindowDays: CONFIG.bookingWindowDays,
+    inPersonEnabled: CONFIG.inPersonEnabled,
     types: CONFIG.types.map((t) => ({
       id: t.id,
       label: t.label,

@@ -79,6 +79,12 @@ function dateInTz(instant: number, timeZone: string): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone }).format(new Date(instant))
 }
 
+/** YYYY-MM-DD n days after dateStr (plain calendar arithmetic). */
+function addDaysStr(dateStr: string, n: number): string {
+  const [y, m, d] = dateStr.split("-").map((s) => parseInt(s, 10))
+  return new Date(Date.UTC(y, m - 1, d + n, 12)).toISOString().slice(0, 10)
+}
+
 /** Human label like "13:30" (24-hour) for a slot start, in the owner timezone. */
 function timeLabel(instant: number, timeZone: string): string {
   return new Intl.DateTimeFormat("en-GB", {
@@ -101,29 +107,39 @@ async function handleAvailability(
   if (!type) return json({ error: "unknown type" }, 400, origin)
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return json({ error: "bad date" }, 400, origin)
 
+  // `days` batches a whole visible window into one freeBusy call. Absent, the
+  // response keeps the legacy single-day shape for older clients.
+  const daysRaw = url.searchParams.get("days")
+  const days = daysRaw === null ? 1 : parseInt(daysRaw, 10)
+  if (!Number.isInteger(days) || days < 1 || days > 7) {
+    return json({ error: "bad days" }, 400, origin)
+  }
+
   const [y, m, d] = date.split("-").map((s) => parseInt(s, 10))
-  const dayStart = zonedWallClockToUtc(y, m, d, "00:00", CONFIG.timeZone).toISOString()
-  const dayEnd = new Date(
-    zonedWallClockToUtc(y, m, d, "00:00", CONFIG.timeZone).getTime() + 24 * 3_600_000,
-  ).toISOString()
+  const rangeStart = zonedWallClockToUtc(y, m, d, "00:00", CONFIG.timeZone).toISOString()
+  const endDate = addDaysStr(date, days) // exclusive
+  const [ey, em, ed] = endDate.split("-").map((s) => parseInt(s, 10))
+  const rangeEnd = zonedWallClockToUtc(ey, em, ed, "00:00", CONFIG.timeZone).toISOString()
 
   const token = await getAccessToken(env)
-  const busy = await freeBusy(token, CONFIG.busyCalendarIds, dayStart, dayEnd)
-  const cells = generateSlots(date, cellType(type), busy, CONFIG.timeZone)
+  const busy = await freeBusy(token, CONFIG.busyCalendarIds, rangeStart, rangeEnd)
 
-  return json(
-    {
-      type: type.id,
-      date,
-      slots: cells.map((s) => ({
-        startISO: s.startISO,
-        endISO: s.endISO,
-        label: timeLabel(s.start, CONFIG.timeZone),
-      })),
-    },
-    200,
-    origin,
-  )
+  const slotsFor = (ds: string) =>
+    generateSlots(ds, cellType(type), busy, CONFIG.timeZone).map((s) => ({
+      startISO: s.startISO,
+      endISO: s.endISO,
+      label: timeLabel(s.start, CONFIG.timeZone),
+    }))
+
+  if (daysRaw === null) {
+    return json({ type: type.id, date, slots: slotsFor(date) }, 200, origin)
+  }
+  const dayMap: Record<string, ReturnType<typeof slotsFor>> = {}
+  for (let i = 0; i < days; i++) {
+    const ds = addDaysStr(date, i)
+    dayMap[ds] = slotsFor(ds)
+  }
+  return json({ type: type.id, date, days: dayMap }, 200, origin)
 }
 
 interface BookingBody {

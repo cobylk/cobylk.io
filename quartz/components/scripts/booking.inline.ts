@@ -21,6 +21,8 @@ interface PublicConfig {
   ownerName: string
   timeZone: string
   bookingWindowDays: number
+  /** absent on workers predating the flag; fall back to the SSR data attribute */
+  inPersonEnabled?: boolean
   types: PublicType[]
 }
 interface ApiSlot {
@@ -76,6 +78,12 @@ function addDaysStr(dateStr: string, n: number): string {
 function weekdayOf(dateStr: string): number {
   const [y, m, d] = dateStr.split("-").map(Number)
   return new Date(Date.UTC(y, m - 1, d)).getUTCDay()
+}
+/** Whole days from dateStr a to b (positive when b is later). */
+function dayDiff(a: string, b: string): number {
+  const [ya, ma, da] = a.split("-").map(Number)
+  const [yb, mb, db] = b.split("-").map(Number)
+  return Math.round((Date.UTC(yb, mb - 1, db) - Date.UTC(ya, ma - 1, da)) / 864e5)
 }
 /** First-of-month YYYY-MM-01 for a YYYY-MM-DD date. */
 function monthStartStr(dateStr: string): string {
@@ -344,9 +352,10 @@ document.addEventListener("nav", () => {
     const wrap = h("div", { class: "chat-step" })
 
     // Virtual-first: video types get a full-width card; in-person types share
-    // one row underneath. data-in-person="false" (set in ChatBooking.tsx) greys
-    // out and disables the in-person row.
-    const inPersonEnabled = root.dataset.inPerson !== "false"
+    // one row underneath. The worker config decides whether in-person is open
+    // (flippable without a site rebuild); the data attribute is the fallback
+    // for workers that don't serve the flag yet.
+    const inPersonEnabled = state.cfg!.inPersonEnabled ?? root.dataset.inPerson !== "false"
     const makeCard = (t: PublicType, disabled: boolean) => {
       const card = h(
         "button",
@@ -405,9 +414,11 @@ document.addEventListener("nav", () => {
   }
 
   const tz = () => state.cfg!.timeZone
-  // Minutes added to owner-tz labels for the current type. Grid positions stay
-  // in owner tz; this only shifts the displayed text (virtual → booker's zone).
-  let labelShift = 0
+  // Minutes added to owner-tz label minutes for a given date, set per render.
+  // Per-day rather than per-week: the display zone and owner zone may cross DST
+  // boundaries on different dates (Europe leaves DST a week before the US), so
+  // one shift for a whole visible window can be an hour off for some days.
+  let shiftForDay: (ds: string) => number = () => 0
   // First tap of a touch "tap start → tap end" selection.
   let tapAnchor: { date: string; min: number } | null = null
   // Closes the month-picker popup if one is open (it holds document-level
@@ -435,26 +446,49 @@ document.addEventListener("nav", () => {
     fetchWeek()
   }
 
+  async function fetchDay(ds: string) {
+    try {
+      const res = await fetch(api(`/availability?type=${state.type!.id}&date=${ds}`))
+      const data = await res.json()
+      state.daySlots[ds] = res.ok ? (data.slots as ApiSlot[]) : "error"
+    } catch {
+      state.daySlots[ds] = "error"
+    }
+  }
+
   async function fetchWeek() {
-    render() // show the grid shell immediately, columns fill in as fetches land
+    render() // show the grid shell immediately; columns fill in when the fetch lands
     const today = ownerToday(tz())
     const dates = visibleDates()
-    await Promise.all(
-      dates.map(async (ds) => {
-        if (state.daySlots[ds] !== undefined) return
-        if (ds < today || !state.type!.days.includes(weekdayOf(ds))) {
-          state.daySlots[ds] = []
-          return
+    for (const ds of dates) {
+      if (state.daySlots[ds] !== undefined) continue
+      if (ds < today || !state.type!.days.includes(weekdayOf(ds))) state.daySlots[ds] = []
+    }
+    const need = dates.filter((ds) => state.daySlots[ds] === undefined)
+    if (need.length) {
+      // One batched request covering the whole needed span — a single freeBusy
+      // call server-side instead of one per day.
+      const first = need[0]
+      const span = dayDiff(first, need[need.length - 1]) + 1
+      try {
+        const res = await fetch(
+          api(`/availability?type=${state.type!.id}&date=${first}&days=${span}`),
+        )
+        const data = await res.json()
+        if (res.ok && data.days) {
+          for (const ds of need) state.daySlots[ds] = (data.days[ds] ?? []) as ApiSlot[]
+        } else if (res.ok && Array.isArray(data.slots)) {
+          // A worker predating `days` ignores it and serves just the first day;
+          // keep that and fetch the rest individually.
+          state.daySlots[first] = data.slots as ApiSlot[]
+          await Promise.all(need.slice(1).map(fetchDay))
+        } else {
+          for (const ds of need) state.daySlots[ds] = "error"
         }
-        try {
-          const res = await fetch(api(`/availability?type=${state.type!.id}&date=${ds}`))
-          const data = await res.json()
-          state.daySlots[ds] = res.ok ? (data.slots as ApiSlot[]) : "error"
-        } catch {
-          state.daySlots[ds] = "error"
-        }
-      }),
-    )
+      } catch {
+        for (const ds of need) state.daySlots[ds] = "error"
+      }
+    }
     render()
   }
 
@@ -470,13 +504,12 @@ document.addEventListener("nav", () => {
     // owner-tz.
     const ownerTz = tz()
     const displayTz = t.video ? state.dispTz || BOOKER_TZ : ownerTz
-    labelShift =
-      displayTz === ownerTz
-        ? 0
-        : tzOffsetMin(state.weekStart, displayTz) - tzOffsetMin(state.weekStart, ownerTz)
+    shiftForDay = (ds: string) =>
+      displayTz === ownerTz ? 0 : tzOffsetMin(ds, displayTz) - tzOffsetMin(ds, ownerTz)
     // Re-express a carried-over selection's label in the current display zone.
     if (state.sel) {
-      state.sel.label = rangeLabel(state.sel.startMin + labelShift, state.sel.endMin + labelShift)
+      const sh = shiftForDay(state.sel.date)
+      state.sel.label = rangeLabel(state.sel.startMin + sh, state.sel.endMin + sh)
     }
 
     // One metadata row above the nav: slot-length picker left, timezone right.
@@ -672,10 +705,14 @@ document.addEventListener("nav", () => {
     const scroll = h("div", { class: "chat-cal-scroll" })
     const body = h("div", { class: "chat-cal-body" })
     body.style.height = `${totalH}px`
+    body.style.setProperty("--hour-px", `${60 * PX_PER_MIN}px`)
 
     const times = h("div", { class: "chat-cal-times" })
     for (let mnt = axisStart; mnt <= axisEnd; mnt += 60) {
-      const lab = h("div", { class: "chat-cal-time mono" }, hourLabel(mnt + labelShift))
+      // The axis is shared by all visible columns, so it uses the first day's
+      // shift; on a week straddling a DST change the day-specific labels
+      // (ghost, selection, footer) stay exact even if the axis drifts an hour.
+      const lab = h("div", { class: "chat-cal-time mono" }, hourLabel(mnt + shiftForDay(dates[0])))
       lab.style.top = `${(mnt - axisStart) * PX_PER_MIN}px`
       times.append(lab)
     }
@@ -690,6 +727,9 @@ document.addEventListener("nav", () => {
     const foot = h("div", { class: "chat-cal-foot" })
     const syncFooter = () => {
       foot.replaceChildren()
+      // has-sel makes the footer stick to the bottom on small screens, so the
+      // Continue button is reachable without scrolling past the tall grid.
+      foot.classList.toggle("has-sel", !!state.sel)
       if (state.sel) {
         const when = h(
           "div",
@@ -726,8 +766,18 @@ document.addEventListener("nav", () => {
         class:
           "chat-cal-col" + (off ? " is-off" : "") + (state.dur !== "other" ? " is-preset" : ""),
       })
-      col.style.setProperty("--hour-px", `${60 * PX_PER_MIN}px`)
       body.append(col)
+
+      // Current-time rule on today's column (position frozen at render time).
+      if (ds === today) {
+        const nowMin = tzMinutes(new Date().toISOString(), ownerTz)
+        if (nowMin >= axisStart && nowMin <= axisEnd) {
+          const nowLine = h("div", { class: "chat-cal-now" })
+          nowLine.style.top = `${(nowMin - axisStart) * PX_PER_MIN}px`
+          col.append(nowLine)
+        }
+      }
+
       if (off) continue
 
       const slots = state.daySlots[ds]
@@ -751,8 +801,23 @@ document.addEventListener("nav", () => {
         cell.style.height = `${cellPx}px`
         col.append(cell)
       }
-      if (slots === undefined || slots === "error") {
-        col.append(h("div", { class: "chat-cal-colmsg mono" }, slots === "error" ? "!" : "…"))
+      if (slots === undefined) {
+        col.append(h("div", { class: "chat-cal-colmsg mono" }, "…"))
+      } else if (slots === "error") {
+        // A failed day is clickable. One click clears every failed day in the
+        // visible window — the refetch is a single batched request anyway.
+        const retry = h(
+          "button",
+          { class: "chat-cal-colmsg chat-cal-retry mono", type: "button" },
+          "! retry",
+        )
+        retry.addEventListener("click", () => {
+          for (const d2 of visibleDates()) {
+            if (state.daySlots[d2] === "error") delete state.daySlots[d2]
+          }
+          fetchWeek()
+        })
+        col.append(retry)
       }
 
       // Selection overlay, redrawn each render and live-updated while dragging.
@@ -826,7 +891,7 @@ document.addEventListener("nav", () => {
         endMin: hi + CELL_MIN,
         startISO: cellMap.get(lo)!.startISO,
         endISO: cellMap.get(hi)!.endISO,
-        label: rangeLabel(lo + labelShift, hi + CELL_MIN + labelShift),
+        label: rangeLabel(lo + shiftForDay(ds), hi + CELL_MIN + shiftForDay(ds)),
       }
       onChange()
     }
@@ -853,7 +918,7 @@ document.addEventListener("nav", () => {
     const showGhost = (lo: number, d: number) => {
       ghost.style.top = `${(lo - axisStart) * PX_PER_MIN}px`
       ghost.style.height = `${d * PX_PER_MIN}px`
-      ghost.textContent = minLabel(lo + labelShift)
+      ghost.textContent = minLabel(lo + shiftForDay(ds))
       ghost.style.display = "flex"
     }
     const hideGhost = () => {

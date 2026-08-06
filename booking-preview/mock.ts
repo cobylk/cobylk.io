@@ -18,10 +18,17 @@ interface MockType {
   video: boolean
 }
 
-const config: { ownerName: string; timeZone: string; bookingWindowDays: number; types: MockType[] } = {
+const config: {
+  ownerName: string
+  timeZone: string
+  bookingWindowDays: number
+  inPersonEnabled: boolean
+  types: MockType[]
+} = {
   ownerName: "Coby",
   timeZone: "America/New_York",
   bookingWindowDays: 31,
+  inPersonEnabled: true,
   types: [
     {
       id: "meal",
@@ -104,9 +111,28 @@ function iso(date: string, h: number, m: number): string {
   return `${date}T${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:00-04:00`
 }
 
+function addDays(date: string, n: number): string {
+  const [y, m, d] = date.split("-").map(Number)
+  return new Date(Date.UTC(y, m - 1, d + n, 12)).toISOString().slice(0, 10)
+}
+
 function availability(url: URL) {
+  const daysRaw = url.searchParams.get("days")
   const typeId = url.searchParams.get("type") || ""
   const date = url.searchParams.get("date") || ""
+  if (daysRaw) {
+    const n = Math.max(1, Math.min(7, parseInt(daysRaw, 10) || 1))
+    const days: Record<string, unknown> = {}
+    for (let i = 0; i < n; i++) {
+      const ds = addDays(date, i)
+      days[ds] = dayAvailability(typeId, ds).slots
+    }
+    return { type: typeId, date, days }
+  }
+  return dayAvailability(typeId, date)
+}
+
+function dayAvailability(typeId: string, date: string) {
   const type = config.types.find((t) => t.id === typeId)
   if (!type || !date) return { type: typeId, date, slots: [] }
   const [y, m, d] = date.split("-").map(Number)

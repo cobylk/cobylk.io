@@ -470,6 +470,11 @@ $axisW: 52px;
   .chat-cal-head {
     display: flex;
     border-bottom: 1px solid var(--folio-line);
+    // Keep day names visible while scrolling the tall grid.
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: var(--light);
   }
   .chat-cal-corner {
     flex: 0 0 $axisW;
@@ -513,6 +518,40 @@ $axisW: 52px;
   .chat-cal-body {
     display: flex;
     position: relative;
+
+    // One continuous hatch layer spanning every day column (single origin, so
+    // the diagonals connect across column boundaries). Open cells mask it with
+    // the page background; blocked cells are transparent windows onto it.
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 $axisW;
+      background-color: color-mix(in srgb, var(--dark) 10%, var(--light));
+      background-image: repeating-linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--dark) 22%, transparent) 0,
+        color-mix(in srgb, var(--dark) 22%, transparent) 2px,
+        transparent 2px,
+        transparent 8px
+      );
+    }
+
+    // Hour lines spanning the full grid width in one stroke, drawn above the
+    // cells (z-index 1) but below the ghost/selection overlays (2/3).
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 $axisW;
+      pointer-events: none;
+      z-index: 1;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--folio-line-soft) 0,
+        var(--folio-line-soft) 1px,
+        transparent 1px,
+        transparent var(--hour-px)
+      );
+    }
   }
   .chat-cal-times {
     flex: 0 0 $axisW;
@@ -531,39 +570,15 @@ $axisW: 52px;
   .chat-cal-col {
     flex: 1 1 0;
     position: relative;
-    border-left: 1px solid var(--folio-line-soft);
-    // One continuous diagonal hatch spanning the whole column. Blocked cells are
-    // transparent windows onto it, so the pattern tiles seamlessly across the
-    // 30-min cell boundaries instead of restarting at each one. The tinted base
-    // plus strong stripes is what separates blocked time from open time.
-    background-color: color-mix(in srgb, var(--dark) 10%, var(--light));
-    background-image: repeating-linear-gradient(
-      45deg,
-      color-mix(in srgb, var(--dark) 22%, transparent) 0,
-      color-mix(in srgb, var(--dark) 22%, transparent) 2px,
-      transparent 2px,
-      transparent 8px
-    );
+    // Opaque separator (a flattened --folio-line-soft): a translucent border
+    // here would let the hatch behind it show through as diagonal dashes.
+    border-left: 1px solid color-mix(in srgb, var(--dark) 13%, var(--light));
     user-select: none;
 
-    // Faint hour lines, drawn on top of the cells (also continuous).
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image: repeating-linear-gradient(
-        to bottom,
-        var(--folio-line-soft) 0,
-        var(--folio-line-soft) 1px,
-        transparent 1px,
-        transparent var(--hour-px)
-      );
-    }
-
-    // A whole unavailable day is just the bare hatched column.
+    // A whole unavailable day dims the shared hatch behind it with a wash of
+    // the page background.
     &.is-off {
-      opacity: 0.5;
+      background-color: color-mix(in srgb, var(--light) 55%, transparent);
     }
   }
 
@@ -598,6 +613,42 @@ $axisW: 52px;
     right: 0;
     text-align: center;
     color: var(--tertiary);
+  }
+  .chat-cal-retry {
+    background: none;
+    border: none;
+    padding: 0.2rem 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    z-index: 2;
+
+    &:hover {
+      color: var(--dark);
+      text-decoration: underline;
+    }
+  }
+
+  // Current-time rule on today's column.
+  .chat-cal-now {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 1.5px solid var(--dark);
+    z-index: 1;
+    pointer-events: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--dark);
+    }
   }
 
   // Hover preview of a preset-length slot (mouse only); click commits it.
@@ -653,6 +704,19 @@ $axisW: 52px;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
+  }
+  // On small screens, pin the footer once a slot is picked so Continue is
+  // reachable without scrolling to the bottom of the tall grid.
+  @media (max-width: 560px) {
+    .chat-cal-foot.has-sel {
+      position: sticky;
+      bottom: 0;
+      z-index: 4;
+      background: var(--light);
+      border-top: 1px solid var(--folio-line-soft);
+      padding: 0.6rem 0 0.8rem;
+      margin-top: 0.4rem;
+    }
   }
 
   .chat-cal-when {
