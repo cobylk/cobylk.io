@@ -300,11 +300,59 @@ $axisW: 52px;
   }
 
   // --- calendar week grid ---------------------------------------------------
+  // Metadata row above the nav: timezone note + slot-length dropdown.
+  .chat-cal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin: -0.2rem 0 0.9rem;
+  }
   .chat-cal-tz {
     color: var(--tertiary);
     font-size: 0.7rem;
     letter-spacing: 0.06em;
-    margin: -0.2rem 0 1rem;
+  }
+  .chat-cal-ddwrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+
+    // Custom dropdown arrow (the select itself is appearance: none).
+    &::after {
+      content: "▾";
+      position: absolute;
+      right: 0.5rem;
+      color: var(--gray);
+      pointer-events: none;
+    }
+  }
+  .chat-cal-dd {
+    appearance: none;
+    background: none;
+    border: 1px solid var(--folio-line);
+    border-radius: 2px;
+    color: var(--dark);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 1.5rem 0.3rem 0.6rem;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--folio-line-strong);
+    }
+  }
+  // The timezone dropdown's IANA labels can get long; keep it from blowing out
+  // the header row.
+  .chat-cal-tzdd {
+    max-width: 15rem;
+    text-overflow: ellipsis;
   }
 
   .chat-cal-nav {
@@ -486,14 +534,15 @@ $axisW: 52px;
     border-left: 1px solid var(--folio-line-soft);
     // One continuous diagonal hatch spanning the whole column. Blocked cells are
     // transparent windows onto it, so the pattern tiles seamlessly across the
-    // 30-min cell boundaries instead of restarting at each one.
-    background-color: var(--light);
+    // 30-min cell boundaries instead of restarting at each one. The tinted base
+    // plus strong stripes is what separates blocked time from open time.
+    background-color: color-mix(in srgb, var(--dark) 10%, var(--light));
     background-image: repeating-linear-gradient(
       45deg,
-      var(--folio-line) 0,
-      var(--folio-line) 1px,
-      transparent 1px,
-      transparent 9px
+      color-mix(in srgb, var(--dark) 22%, transparent) 0,
+      color-mix(in srgb, var(--dark) 22%, transparent) 2px,
+      transparent 2px,
+      transparent 8px
     );
     user-select: none;
 
@@ -537,6 +586,11 @@ $axisW: 52px;
     }
   }
 
+  // Preset durations book with a single click; the crosshair is drag-only.
+  .chat-cal-col.is-preset .chat-cal-cell.open {
+    cursor: pointer;
+  }
+
   .chat-cal-colmsg {
     position: absolute;
     top: 8px;
@@ -544,6 +598,26 @@ $axisW: 52px;
     right: 0;
     text-align: center;
     color: var(--tertiary);
+  }
+
+  // Hover preview of a preset-length slot (mouse only); click commits it.
+  .chat-cal-ghost {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    align-items: flex-start;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: var(--highlight);
+    border: 1px dashed var(--gray);
+    color: var(--dark);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.72rem;
+    line-height: 1.1;
+    pointer-events: none;
+    z-index: 2;
   }
 
   // The dragged booking window.
@@ -557,7 +631,7 @@ $axisW: 52px;
     background: var(--gray);
     color: var(--light);
     border-radius: 3px;
-    padding: 2px 5px;
+    padding: 1px 5px;
     font-size: 0.72rem;
     line-height: 1.1;
     pointer-events: none;

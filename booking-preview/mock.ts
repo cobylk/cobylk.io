@@ -79,7 +79,7 @@ const config: { ownerName: string; timeZone: string; bookingWindowDays: number; 
       id: "virtual",
       label: "Meet virtually",
       blurb: "A video call over Google Meet.",
-      durationMin: 30,
+      durationMin: 15,
       minNoticeHours: 2,
       days: [0, 1, 2, 3, 4, 5, 6],
       windows: [{ start: "09:00", end: "21:00" }],

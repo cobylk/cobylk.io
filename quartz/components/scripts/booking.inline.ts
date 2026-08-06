@@ -62,7 +62,7 @@ function fmtDateChip(dateStr: string): string {
 
 // --- calendar-grid date helpers ---------------------------------------------
 // Vertical pixels per minute of the day; sets how tall the week grid is.
-const PX_PER_MIN = 0.5
+const PX_PER_MIN = 1
 // Booking granularity in minutes (must match the worker's CELL_MIN).
 const CELL_MIN = 15
 
@@ -130,15 +130,28 @@ function dayHeader(dateStr: string): { wd: string; day: string } {
   const wd = new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short" }).format(dt)
   return { wd, day: String(d) }
 }
+// Whether calendar labels use a 12-hour clock. The convention follows the
+// viewer's locale (what a time of day looks like *to them*), regardless of
+// which timezone the times are displayed in — the display zone is selectable,
+// and there is no API mapping an arbitrary zone to its clock convention.
+const use12h =
+  new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12 ?? false
+
 // Labels take a minute-of-day that may have been shifted by a timezone offset,
 // so wrap into [0, 1440) before formatting.
+const wrapMin = (min: number): number => ((Math.round(min) % 1440) + 1440) % 1440
+const pad2 = (n: number): string => String(n).padStart(2, "0")
+const hr12 = (t: number): number => Math.floor(t / 60) % 12 || 12
+const merOf = (t: number): string => (t < 720 ? "am" : "pm")
 function hourLabel(min: number): string {
-  const t = ((Math.floor(min) % 1440) + 1440) % 1440
-  return `${String(Math.floor(t / 60)).padStart(2, "0")}:00`
+  const t = wrapMin(min)
+  return use12h ? `${hr12(t)} ${merOf(t)}` : `${pad2(Math.floor(t / 60))}:00`
 }
 function minLabel(min: number): string {
-  const t = ((Math.round(min) % 1440) + 1440) % 1440
-  return `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`
+  const t = wrapMin(min)
+  return use12h
+    ? `${hr12(t)}:${pad2(t % 60)} ${merOf(t)}`
+    : `${pad2(Math.floor(t / 60))}:${pad2(t % 60)}`
 }
 
 // The booker's own timezone, and helpers to relabel owner-tz minutes into it.
@@ -149,6 +162,32 @@ function tzOffsetMin(dateStr: string, tz: string): number {
   const noonUtc = new Date(Date.UTC(y, m - 1, d, 12, 0)).toISOString()
   return tzMinutes(noonUtc, tz) - 720
 }
+// All selectable display timezones, labelled with their current GMT offset,
+// e.g. "America/New York (GMT-4)". Built once — ~400 zones each need an Intl
+// formatToParts call for the offset.
+let tzOptionsCache: { id: string; label: string }[] | null = null
+function getTzOptions(): { id: string; label: string }[] {
+  if (tzOptionsCache) return tzOptionsCache
+  const zones: string[] =
+    typeof Intl.supportedValuesOf === "function"
+      ? Intl.supportedValuesOf("timeZone")
+      : [...new Set([BOOKER_TZ, "America/New_York", "UTC"])]
+  const now = new Date()
+  tzOptionsCache = zones.map((id) => {
+    let off = ""
+    try {
+      off =
+        new Intl.DateTimeFormat("en-US", { timeZone: id, timeZoneName: "shortOffset" })
+          .formatToParts(now)
+          .find((p) => p.type === "timeZoneName")?.value ?? ""
+    } catch {
+      /* unformattable zone — label it bare */
+    }
+    return { id, label: `${id.replace(/_/g, " ")}${off ? ` (${off})` : ""}` }
+  })
+  return tzOptionsCache
+}
+
 /** Short zone name like "EST" / "PST" for display. */
 function tzShort(tz: string): string {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -157,8 +196,13 @@ function tzShort(tz: string): string {
   }).formatToParts(new Date())
   return parts.find((p) => p.type === "timeZoneName")?.value ?? tz
 }
-/** "12:00 – 13:00" for a [startMin, endMin) window (24-hour). */
+/** "12:00 – 13:00", or "1:30 – 2:00 pm" (shared meridiem) on a 12-hour clock. */
 function rangeLabel(startMin: number, endMin: number): string {
+  const s = wrapMin(startMin)
+  const e = wrapMin(endMin)
+  if (use12h && merOf(s) === merOf(e)) {
+    return `${hr12(s)}:${pad2(s % 60)} – ${hr12(e)}:${pad2(e % 60)} ${merOf(e)}`
+  }
   return `${minLabel(startMin)} – ${minLabel(endMin)}`
 }
 function fmtRange(dateStr: string): string {
@@ -231,6 +275,10 @@ document.addEventListener("nav", () => {
     weekStart: string
     visibleDays: number
     daySlots: Record<string, ApiSlot[] | "error">
+    // slot length in minutes, or "other" for free-form drag selection
+    dur: number | "other"
+    // display timezone for virtual meetings (in-person stays in the owner's)
+    dispTz: string
     error: string
     result: any
   } = {
@@ -243,6 +291,8 @@ document.addEventListener("nav", () => {
     weekStart: "",
     visibleDays: 4,
     daySlots: {},
+    dur: "other",
+    dispTz: "",
     error: "",
     result: null,
   }
@@ -379,6 +429,9 @@ document.addEventListener("nav", () => {
     tapAnchor = null
     state.weekStart = clampWeekStart(ownerToday(tz()))
     state.daySlots = {}
+    const d = state.type!.durationMin
+    state.dur = d === 15 || d === 30 || d === 60 ? d : "other"
+    state.dispTz = BOOKER_TZ
     fetchWeek()
   }
 
@@ -411,16 +464,66 @@ document.addEventListener("nav", () => {
     wrap.append(backBtn(t.locations.length > 0 ? "location" : "type"), eyebrow("PICK A TIME"))
     if (state.location) wrap.append(h("div", { class: "chat-sub" }, state.location))
 
-    // Virtual meetings are labelled in the booker's own timezone; in-person ones
-    // stay in the owner's zone (that's where the meeting physically is). Only the
-    // labels shift — cell positions remain owner-tz.
+    // Virtual meetings are labelled in a selectable timezone (defaulting to the
+    // booker's own); in-person ones stay in the owner's zone (that's where the
+    // meeting physically is). Only the labels shift — cell positions remain
+    // owner-tz.
     const ownerTz = tz()
-    const displayTz = t.video ? BOOKER_TZ : ownerTz
+    const displayTz = t.video ? state.dispTz || BOOKER_TZ : ownerTz
     labelShift =
       displayTz === ownerTz
         ? 0
         : tzOffsetMin(state.weekStart, displayTz) - tzOffsetMin(state.weekStart, ownerTz)
-    wrap.append(h("div", { class: "chat-cal-tz mono" }, `Times shown in ${tzShort(displayTz)}`))
+    // Re-express a carried-over selection's label in the current display zone.
+    if (state.sel) {
+      state.sel.label = rangeLabel(state.sel.startMin + labelShift, state.sel.endMin + labelShift)
+    }
+
+    // One metadata row above the nav: slot-length picker left, timezone right.
+    // Presets book on hover-preview + click; "other" is a drag.
+    const durSel = h("select", { class: "chat-cal-dd mono" })
+    const durOpts: Array<{ v: number | "other"; label: string }> = [
+      { v: 15, label: "15 min" },
+      { v: 30, label: "30 min" },
+      { v: 60, label: "1 hour" },
+      { v: "other", label: "other" },
+    ]
+    for (const { v, label } of durOpts) {
+      const o = h("option", { value: String(v) }, label)
+      if (state.dur === v) o.setAttribute("selected", "true")
+      durSel.append(o)
+    }
+    durSel.addEventListener("change", () => {
+      state.dur = durSel.value === "other" ? "other" : Number(durSel.value)
+      state.sel = null
+      tapAnchor = null
+      render()
+    })
+
+    let tzCtl: HTMLElement
+    if (t.video) {
+      const tzSel = h("select", { class: "chat-cal-dd mono chat-cal-tzdd" })
+      for (const { id, label } of getTzOptions()) {
+        const o = h("option", { value: id }, label)
+        if (id === displayTz) o.setAttribute("selected", "true")
+        tzSel.append(o)
+      }
+      tzSel.addEventListener("change", () => {
+        state.dispTz = tzSel.value
+        render()
+      })
+      tzCtl = h("label", { class: "chat-cal-ddwrap mono" }, "times in", tzSel)
+    } else {
+      tzCtl = h("div", { class: "chat-cal-tz mono" }, `Times shown in ${tzShort(displayTz)}`)
+    }
+    wrap.append(
+      h(
+        "div",
+        { class: "chat-cal-top" },
+        h("label", { class: "chat-cal-ddwrap mono" }, "length", durSel),
+        tzCtl,
+      ),
+    )
 
     // Axis bounds from the type's availability windows, rounded to whole hours.
     // Fall back to a full-day axis if an older Worker serves no windows yet.
@@ -600,13 +703,15 @@ document.addEventListener("nav", () => {
         foot.append(cont)
       } else {
         const coarse = window.matchMedia("(pointer: coarse)").matches
-        foot.append(
-          h(
-            "div",
-            { class: "chat-cal-hint mono" },
-            coarse ? "Tap a start time, then an end time" : "Drag across open time to pick a window",
-          ),
-        )
+        const hint =
+          state.dur === "other"
+            ? coarse
+              ? "Tap a start time, then an end time"
+              : "Drag across open time to pick a window"
+            : coarse
+              ? "Tap an open time to pick your slot"
+              : "Click an open time to pick your slot"
+        foot.append(h("div", { class: "chat-cal-hint mono" }, hint))
       }
     }
     const onSelChange = () => {
@@ -616,7 +721,10 @@ document.addEventListener("nav", () => {
 
     for (const ds of dates) {
       const off = ds < today || !t.days.includes(weekdayOf(ds))
-      const col = h("div", { class: "chat-cal-col" + (off ? " is-off" : "") })
+      const col = h("div", {
+        class:
+          "chat-cal-col" + (off ? " is-off" : "") + (state.dur !== "other" ? " is-preset" : ""),
+      })
       col.style.setProperty("--hour-px", `${60 * PX_PER_MIN}px`)
       body.append(col)
       if (off) continue
@@ -722,8 +830,47 @@ document.addEventListener("nav", () => {
       onChange()
     }
 
-    // --- touch/pen: tap start, tap end ---
+    // Start of a `d`-minute slot at (or clamped near) minute `m`, or null when
+    // the contiguous open run around `m` is too short to hold one. Clamping lets
+    // a hover near the end of a run still preview a slot that ends flush at it.
+    const fitAt = (m: number, d: number): number | null => {
+      if (!openMins.has(m)) return null
+      let rLo = m
+      let rHi = m
+      while (openMins.has(rLo - CELL_MIN)) rLo -= CELL_MIN
+      while (openMins.has(rHi + CELL_MIN)) rHi += CELL_MIN
+      const lastStart = rHi + CELL_MIN - d
+      if (lastStart < rLo) return null
+      return Math.min(m, lastStart)
+    }
+
+    // Hover preview for preset durations: a ghost slot pinned to the cell grid,
+    // showing where the booking would land; click commits it.
+    const ghost = h("div", { class: "chat-cal-ghost mono" })
+    ghost.style.display = "none"
+    col.append(ghost)
+    const showGhost = (lo: number, d: number) => {
+      ghost.style.top = `${(lo - axisStart) * PX_PER_MIN}px`
+      ghost.style.height = `${d * PX_PER_MIN}px`
+      ghost.textContent = minLabel(lo + labelShift)
+      ghost.style.display = "flex"
+    }
+    const hideGhost = () => {
+      ghost.style.display = "none"
+    }
+
+    const presetPick = (m: number) => {
+      const d = state.dur as number
+      const lo = fitAt(m, d)
+      if (lo !== null) setSel(lo, lo + d - CELL_MIN)
+    }
+
+    // --- touch/pen: tap start, tap end (preset: single tap books the slot) ---
     const handleTap = (m: number) => {
+      if (state.dur !== "other") {
+        presetPick(m)
+        return
+      }
       if (!openMins.has(m)) return
       if (tapAnchor && tapAnchor.date === ds && openMins.has(tapAnchor.min)) {
         if (m === tapAnchor.min) {
@@ -743,7 +890,7 @@ document.addEventListener("nav", () => {
       setSel(m, m)
     }
 
-    // --- mouse: drag ---
+    // --- mouse: drag ("other") or hover-preview + click (presets) ---
     let dragging = false
     let anchor = 0
     let downY = 0
@@ -753,9 +900,13 @@ document.addEventListener("nav", () => {
       const m = minAt(e.clientY)
       if (!openMins.has(m)) return
       e.preventDefault()
+      tapAnchor = null
+      if (state.dur !== "other") {
+        presetPick(m)
+        return
+      }
       dragging = true
       anchor = m
-      tapAnchor = null
       try {
         col.setPointerCapture(e.pointerId)
       } catch {
@@ -765,10 +916,18 @@ document.addEventListener("nav", () => {
       setSel(lo, hi)
     })
     col.addEventListener("pointermove", (e) => {
-      if (!dragging) return
-      const [lo, hi] = run(anchor, minAt(e.clientY))
-      setSel(lo, hi)
+      if (dragging) {
+        const [lo, hi] = run(anchor, minAt(e.clientY))
+        setSel(lo, hi)
+        return
+      }
+      if (state.dur !== "other" && e.pointerType === "mouse") {
+        const lo = fitAt(minAt(e.clientY), state.dur as number)
+        if (lo === null) hideGhost()
+        else showGhost(lo, state.dur as number)
+      }
     })
+    col.addEventListener("pointerleave", hideGhost)
     col.addEventListener("pointerup", (e) => {
       if (dragging) {
         dragging = false
@@ -947,11 +1106,11 @@ document.addEventListener("nav", () => {
       month: "short",
       day: "numeric",
     })
-    const timeFmt = new Intl.DateTimeFormat("en-GB", {
+    const timeFmt = new Intl.DateTimeFormat(use12h ? "en-US" : "en-GB", {
       timeZone: displayTz,
-      hour: "2-digit",
+      hour: use12h ? "numeric" : "2-digit",
       minute: "2-digit",
-      hourCycle: "h23",
+      hour12: use12h,
     })
     const start = new Date(info.startISO)
     const end = new Date(info.endISO)

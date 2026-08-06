@@ -97,11 +97,7 @@ export const CONFIG: OwnerConfig = {
   // Availability is the union of busy time across these calendars. They must be
   // readable by the token account (share them / subscribe with free-busy access);
   // any that aren't are silently skipped.
-  busyCalendarIds: [
-    "primary",
-    "coby.kassner@yale.edu",
-    "c_7db4afba902b789232000821ad7b4b94e7ab27ee274eb65e27c7804f4dead999@group.calendar.google.com",
-  ],
+  busyCalendarIds: ["primary", "coby.kassner@yale.edu"],
   // Set to an address on a DIFFERENT account than the calendar owner (e.g. your
   // @yale.edu) to get an invite email on every booking. Leave "" to disable.
   notifyEmail: "coby.kassner@yale.edu",
@@ -111,7 +107,7 @@ export const CONFIG: OwnerConfig = {
       id: "virtual",
       label: "Meet virtually",
       blurb: "(we can chat from anywhere in the world)",
-      durationMin: 30,
+      durationMin: 15,
       bufferMin: 5,
       minNoticeHours: 2,
       days: [0, 1, 2, 3, 4, 5, 6],
