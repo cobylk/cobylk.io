@@ -10,7 +10,7 @@ const TURNSTILE_SITE_KEY = "0x4AAAAAADtkFplIhwu7id4v" // Cloudflare "always pass
 
 // Flip to false when off campus: the in-person buttons grey out, stop working,
 // and a "Coby is currently off campus" note appears under them.
-const IN_PERSON_ENABLED = true
+const IN_PERSON_ENABLED = false
 
 const ChatBooking: QuartzComponent = () => {
   return (
