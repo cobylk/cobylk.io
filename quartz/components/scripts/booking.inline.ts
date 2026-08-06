@@ -691,16 +691,17 @@ document.addEventListener("nav", () => {
     const syncFooter = () => {
       foot.replaceChildren()
       if (state.sel) {
-        const cont = h(
-          "button",
-          { class: "chat-cal-continue", type: "button" },
-          `Continue — ${state.sel.label}`,
+        const when = h(
+          "div",
+          { class: "chat-cal-when mono" },
+          `${fmtDateChip(state.sel.date)} · ${state.sel.label}`,
         )
+        const cont = h("button", { class: "chat-cal-continue", type: "button" }, "Continue")
         cont.addEventListener("click", () => {
           state.step = "details"
           render()
         })
-        foot.append(cont)
+        foot.append(when, cont)
       } else {
         const coarse = window.matchMedia("(pointer: coarse)").matches
         const hint =
@@ -761,7 +762,7 @@ document.addEventListener("nav", () => {
           overlay.style.display = "flex"
           overlay.style.top = `${(state.sel.startMin - axisStart) * PX_PER_MIN}px`
           overlay.style.height = `${(state.sel.endMin - state.sel.startMin) * PX_PER_MIN}px`
-          overlay.textContent = state.sel.label
+          overlay.replaceChildren(h("span", { class: "chat-cal-sel-time" }, state.sel.label))
         } else {
           overlay.style.display = "none"
         }

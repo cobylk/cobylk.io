@@ -620,45 +620,64 @@ $axisW: 52px;
     z-index: 2;
   }
 
-  // The dragged booking window.
+  // The picked booking window: an outlined event card, not a filled pill.
   .chat-cal-sel {
     position: absolute;
     left: 2px;
     right: 2px;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
     overflow: hidden;
-    background: var(--gray);
-    color: var(--light);
+    box-sizing: border-box;
+    background: var(--light);
+    border: 1px solid var(--dark);
+    color: var(--dark);
     border-radius: 3px;
     padding: 1px 5px;
-    font-size: 0.72rem;
-    line-height: 1.1;
+    line-height: 1.2;
     pointer-events: none;
     z-index: 3;
   }
+  .chat-cal-sel-time {
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
 
   .chat-cal-foot {
-    min-height: 3.2rem;
+    min-height: 4.6rem;
+    margin-top: 0.9rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.55rem;
+  }
+
+  .chat-cal-when {
+    color: var(--gray);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
   }
 
   .chat-cal-continue {
     display: block;
-    margin: 0.9rem auto 0;
-    padding: 0.55rem 1.2rem;
-    background: var(--gray);
-    color: var(--light);
-    border: 1px solid var(--gray);
+    padding: 0.55rem 1.8rem;
+    background: none;
+    border: 1px solid var(--folio-line);
     border-radius: 2px;
+    color: var(--dark);
     font-family: var(--bodyFont);
     font-size: 0.95rem;
     cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease;
 
     &:hover {
-      opacity: 0.86;
+      border-color: var(--folio-line-strong);
+      background: var(--highlight);
     }
   }
 
@@ -667,7 +686,6 @@ $axisW: 52px;
     color: var(--tertiary);
     font-size: 0.72rem;
     letter-spacing: 0.08em;
-    margin-top: 0.7rem;
   }
 }
 
