@@ -685,8 +685,12 @@ document.addEventListener("nav", () => {
     nav.append(prev, rangeBtn, next, picker)
     wrap.append(nav)
 
-    // Column headers.
+    // Column headers. Sticky within the folio page scroller, offset below the
+    // fixed site header (which overlays the scrollport top and would otherwise
+    // cover the pinned day names). Measured because its height is content-driven.
     const head = h("div", { class: "chat-cal-head" })
+    const folioHeader = document.querySelector(".folio-header")
+    if (folioHeader) head.style.top = `${folioHeader.getBoundingClientRect().height}px`
     head.append(h("div", { class: "chat-cal-corner" }))
     for (const ds of dates) {
       const { wd, day } = dayHeader(ds)
