@@ -9,7 +9,7 @@ aliases:
   - personal/scrapbook
 news:
   - date: June 2026
-    text: "I'm now working on the Tracks Team at the UChicago Existential Risk Laboratory, creating Khan-Academy-shaped courses for AI safety."
+    text: "I'm now working on the Tracks Team at the UChicago Existential Risk Laboratory, creating interactive, mnemonic courses for AI safety."
   - date: February 2026
     text: "We've started a research project having to do with emergent misalignment."
   - date: January 2026
