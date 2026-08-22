@@ -47,7 +47,7 @@ news:
 <a href="https://total-anayalation.github.io/">Anaya</a>
 <a href="https://anastasiakwei.github.io/">Anastasia</a>
 <a href="https://zoya.sh/">Zoya</a>
-<a href="https://aryais.com/">Arya</a>
+<a href="https://www.linkedin.com/in/arya-p-ai/">Arya</a>
 <a href="https://www.aryansharma.com/">Aryan</a>
 <a href="https://harshul.org/">Harshul</a>
 <a href="https://www.nisakeshwani.com/">Nisa</a>
@@ -55,6 +55,9 @@ news:
 <a href="https://hazemh.com/">Hazem</a>
 <a href="https://andrewbuko.com/">Andrew</a>
 <a href="https://jaso1024.com/">Jason</a>
+<a href="https://julian.dance/" data-group="Julian">Julian #1</a>
+<a href="https://www.linkedin.com/in/julian-huang-2108a422a/" data-group="Julian">Julian #2</a>
+<a href="https://zephaniahdev.com/">Zephy</a>
 <button class="folio-shuffle" type="button" aria-label="Shuffle friends">⇄</button>
 </span>
 </div>
@@ -82,6 +85,12 @@ news:
 <img src="https://i.ytimg.com/vi/Q1jBjhEvruw/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Sciarrino, Melencolia I</span>
+</div>
+
+<div class="scrap scrap-note">
+<p>You are so young, so much before all beginning, and I would like to beg you, dear Sir, as well as I can, to have patience with everything unresolved in your heart and to try to love the questions themselves as if they were locked rooms or books written in a very foreign language. Don’t search for the answers, which could not be given to you now, because you would not be able to live them. And the point is, to live everything. Live the questions now. Perhaps then, someday far in the future, you will gradually, without even noticing it, live your way into the answer.</p>
+<p>Perhaps you do carry within you the possibility of creating and forming, as an especially blessed and pure way of living; train yourself for that—but take whatever comes, with great trust, and as long as it comes out of your will, out of some need of your innermost self, then take it upon yourself.</p>
+<span class="scrap-attr">Rilke, Letters to a Young Poet</span>
 </div>
 
 <div class="scrap scrap-link">
@@ -203,6 +212,13 @@ And held her in my arms.</p>
 <img src="https://i.ytimg.com/vi/cLZg_vjgIYY/hqdefault.jpg" alt="" loading="lazy">
 </button>
 <span class="scrap-attr">Takemitsu, And Then I Knew ’Twas Wind</span>
+</div>
+
+<div class="scrap scrap-video">
+<button type="button" class="yt-facade" data-video-id="vOgXY10X7hQ" aria-label="Play: Sciarrino, Quaderno di strada">
+<img src="https://i.ytimg.com/vi/vOgXY10X7hQ/hqdefault.jpg" alt="" loading="lazy">
+</button>
+<span class="scrap-attr">Sciarrino, Quaderno di strada</span>
 </div>
 
 <figure class="scrap scrap-img">
@@ -408,6 +424,11 @@ my lips</pre>
 </button>
 <span class="scrap-attr">Scriabin, the symphonies (Ashkenazy)</span>
 </div>
+
+<figure class="scrap scrap-img">
+<img src="personal/scrapbook-art/kliment-nikolayevich-redko-midnight-sun.jpg" width="905" height="1200" alt="Midnight Sun (Northern Lights)" loading="lazy">
+<figcaption>Kliment Redko, <em>Midnight Sun (Northern Lights)</em>, 1925</figcaption>
+</figure>
 
 <figure class="scrap scrap-img">
 <img src="personal/scrapbook-art/church-rainy-season-in-the-tropics.jpg" width="1200" height="796" alt="Rainy Season in the Tropics" loading="lazy">

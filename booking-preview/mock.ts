@@ -27,7 +27,7 @@ const config: {
 } = {
   ownerName: "Coby",
   timeZone: "America/New_York",
-  bookingWindowDays: 31,
+  bookingWindowDays: 92,
   inPersonEnabled: true,
   types: [
     {

@@ -107,7 +107,7 @@ export const CONFIG: OwnerConfig = {
   // Set to an address on a DIFFERENT account than the calendar owner (e.g. your
   // @yale.edu) to get an invite email on every booking. Leave "" to disable.
   notifyEmail: "coby.kassner@yale.edu",
-  bookingWindowDays: 31,
+  bookingWindowDays: 92,
   inPersonEnabled: false,
   types: [
     {
