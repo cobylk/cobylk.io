@@ -87,12 +87,6 @@ news:
 <span class="scrap-attr">Sciarrino, Melencolia I</span>
 </div>
 
-<div class="scrap scrap-note">
-<p>You are so young, so much before all beginning, and I would like to beg you, dear Sir, as well as I can, to have patience with everything unresolved in your heart and to try to love the questions themselves as if they were locked rooms or books written in a very foreign language. Don’t search for the answers, which could not be given to you now, because you would not be able to live them. And the point is, to live everything. Live the questions now. Perhaps then, someday far in the future, you will gradually, without even noticing it, live your way into the answer.</p>
-<p>Perhaps you do carry within you the possibility of creating and forming, as an especially blessed and pure way of living; train yourself for that—but take whatever comes, with great trust, and as long as it comes out of your will, out of some need of your innermost self, then take it upon yourself.</p>
-<span class="scrap-attr">Rilke, Letters to a Young Poet</span>
-</div>
-
 <div class="scrap scrap-link">
 <a href="https://www.lesswrong.com/s/WnTvZdXz2q9ySfr4o/p/SvKSwT6xYfYahH4XN">Universal Love, Said the Cactus Person</a>
 <span class="scrap-attr">Scott Alexander</span>
@@ -434,6 +428,12 @@ my lips</pre>
 <img src="personal/scrapbook-art/church-rainy-season-in-the-tropics.jpg" width="1200" height="796" alt="Rainy Season in the Tropics" loading="lazy">
 <figcaption>Frederic Edwin Church, <em>Rainy Season in the Tropics</em>, 1866</figcaption>
 </figure>
+
+<div class="scrap scrap-note">
+<p>You are so young, so much before all beginning, and I would like to beg you, dear Sir, as well as I can, to have patience with everything unresolved in your heart and to try to love the questions themselves as if they were locked rooms or books written in a very foreign language. Don’t search for the answers, which could not be given to you now, because you would not be able to live them. And the point is, to live everything. Live the questions now. Perhaps then, someday far in the future, you will gradually, without even noticing it, live your way into the answer.</p>
+<p>Perhaps you do carry within you the possibility of creating and forming, as an especially blessed and pure way of living; train yourself for that—but take whatever comes, with great trust, and as long as it comes out of your will, out of some need of your innermost self, then take it upon yourself.</p>
+<span class="scrap-attr">Rilke, Letters to a Young Poet</span>
+</div>
 
 <div class="scrap scrap-video">
 <button type="button" class="yt-facade" data-video-id="I8aN6lPxogA" aria-label="Play: Prokofiev, Violin Concerto no. 1 (Hahn)">
