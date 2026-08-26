@@ -9,3 +9,7 @@ private/
 .replit
 replit.nix
 .claude/
+mockups/
+SCR-*.png
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json

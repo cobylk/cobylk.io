@@ -1,18 +1,14 @@
-# Quartz v4
+# coby.lk
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+Source for [coby.lk](https://coby.lk), the personal site of Coby Kassner. It is built on [Quartz](https://quartz.jzhao.xyz/), a static-site generator that turns a folder of Markdown notes into a website; this repository is a fork of [jackyzha0/quartz](https://github.com/jackyzha0/quartz) with custom components, styles, and content layered on top.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
-Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility and ease-of-use.
+Site content lives in `content/` and is authored as an Obsidian vault. The Quartz source itself lives in `quartz/`, with site-specific components such as the folio under `quartz/components/`. The `booking-worker/` directory contains a separate Cloudflare Worker that backs the booking page (see its own README), and `booking-preview/` is a local harness for developing against it with mocked data.
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+To run the site locally:
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+```sh
+npm ci
+npx quartz build --serve
+```
 
-## Sponsors
-
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+This serves the site at `http://localhost:8080` and rebuilds on changes.
