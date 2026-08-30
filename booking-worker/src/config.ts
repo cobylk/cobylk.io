@@ -108,7 +108,7 @@ export const CONFIG: OwnerConfig = {
   // @yale.edu) to get an invite email on every booking. Leave "" to disable.
   notifyEmail: "coby.kassner@yale.edu",
   bookingWindowDays: 92,
-  inPersonEnabled: false,
+  inPersonEnabled: true,
   types: [
     {
       id: "virtual",

@@ -1108,11 +1108,11 @@ document.addEventListener("nav", () => {
     const wrap = h("div", { class: "chat-step chat-done" })
     wrap.append(
       h("div", { class: "chat-eyebrow mono" }, "REQUESTED"),
-      h("h2", { class: "chat-done-title" }, "You're on the calendar."),
+      h("h4", { class: "chat-done-title" }, "Time successfully booked"),
       h(
         "p",
         { class: "chat-done-body" },
-        `I'll see you ${when}${r.place ? ` — ${r.place}` : ""}. ` +
+        `I'll see you ${when}${r.place ? `, ${r.place}` : ""}. ` +
           `A calendar invite is on its way to your inbox.`,
       ),
     )

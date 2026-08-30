@@ -12,7 +12,7 @@ const TURNSTILE_SITE_KEY = "0x4AAAAAADtkFplIhwu7id4v" // production site key
 // Fallback for the off-campus switch, used only when the Worker predates the
 // `inPersonEnabled` config flag. The live switch is in booking-worker's
 // config.ts, which takes effect on worker deploy without a site rebuild.
-const IN_PERSON_ENABLED = false
+const IN_PERSON_ENABLED = true
 
 const ChatBooking: QuartzComponent = () => {
   return (
