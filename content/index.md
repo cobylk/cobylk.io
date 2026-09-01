@@ -8,6 +8,8 @@ cssclasses:
 aliases:
   - personal/scrapbook
 news:
+  - date: August 2026
+    text: "I'm now the president of Yale AI Alignment (YAIA)."
   - date: June 2026
     text: "I'm now working on the Tracks Team at the UChicago Existential Risk Laboratory, creating interactive, mnemonic courses for AI safety."
   - date: February 2026
