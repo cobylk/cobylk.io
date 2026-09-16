@@ -57,23 +57,20 @@ const Folio: QuartzComponent = ({ fileData, allFiles, cfg }: QuartzComponentProp
   return (
     <div class="folio">
       <p class="folio-intro">
-        Hello, I'm Coby Kassner. I am interested in automated safety {" "}<Footnote label="research" n={1} tip="E.g., agendas related to control, scalable oversight, 'capabilties' research that is differentially better for safety (like making AIs better at conceptual reasoning for acausal stuff + navigating the intelligence explosion)" />,
-        science of {" "}<Footnote label="generalization" n={2}  tip="It seems like understanding lots of Owain-Evans-y weird empirical phenomena could be pretty useful for ensuring that early superhuman AIs are robustly aligned."/>,
-        {" "}
-        <Footnote label="macrostrategy" n={3} tip="Generally, I'm a fan of the work Forethought does." />,
-        existential risk,{" "}
+        Hello, I'm Coby Kassner. I am interested in AI strategy and futurism, some technical AI safety{" "}
+        <Footnote label="research" n={3} tip="I'm excited about work that I think is useful and leveraged in short-timelines worlds, like third-party auditing/red-teaming, control, *some* differential capability advancement work, automated safety research, etc. I'm somewhat less excited about many prosaic-alignment-shaped agendas." />,{" "}
         <Footnote
           label="philosophy"
           n={4}
           tip="I'm most interested in population ethics, cluelessness, reasoning under moral uncertainty, digital minds, and all of the sorts of papers that Leonard Dung writes."
-        />{" "}, and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
+        />, and effective altruism / AI safety fieldbuilding. In my free time, I love composing and
         performing{" "}
         <Footnote
           label="music"
           n={5}
           tip="I play the piano, alto saxophone, and have dreams of learning the accordion or bandoneon."
         />
-        , dancing Argentine tango, and mountaineering. I'm currently{" "}
+        , dancing Argentine tango, and hiking. I'm currently{" "}
         <Footnote label="studying" n={6} tip="B.S. Statistics and Data Science, Class of 2029" /> at
         Yale, where I help organize the effective altruism and AI alignment groups.
       </p>
